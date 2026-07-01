@@ -79,25 +79,63 @@ function Landing() {
 
 /* ---------- Header ---------- */
 
-function LangSwitch() {
+function LangSwitch({ onDark = false }: { onDark?: boolean }) {
   const { lang, setLang } = useI18n();
-  const opt = (l: Lang) => (
-    <button
-      key={l}
-      onClick={() => setLang(l)}
-      className={`px-2 py-1 text-xs font-semibold tracking-wider transition ${
-        lang === l ? "text-accent" : "text-muted-foreground hover:text-foreground"
+  const opt = (l: Lang) => {
+    const active = lang === l;
+    return (
+      <button
+        key={l}
+        onClick={() => setLang(l)}
+        className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] transition ${
+          active
+            ? "bg-accent text-accent-foreground shadow-soft"
+            : onDark
+              ? "text-white/70 hover:text-white"
+              : "text-foreground/60 hover:text-foreground"
+        }`}
+      >
+        {l}
+      </button>
+    );
+  };
+  return (
+    <div
+      className={`flex items-center gap-1 rounded-full border p-1 backdrop-blur ${
+        onDark ? "border-white/25 bg-white/5" : "border-border/60 bg-background/60"
       }`}
     >
-      {l.toUpperCase()}
-    </button>
-  );
-  return (
-    <div className="flex items-center gap-1 rounded-full border border-border/60 bg-background/60 px-1 py-0.5 backdrop-blur">
       {opt("el")}
-      <span className="text-border">/</span>
       {opt("en")}
     </div>
+  );
+}
+
+function BrandLogo({ onDark }: { onDark: boolean }) {
+  if (onDark) {
+    return (
+      <div className="flex items-baseline gap-1 leading-none">
+        <span
+          className="font-serif text-2xl md:text-[28px] tracking-wide text-white"
+          style={{ fontVariant: "small-caps" }}
+        >
+          Ekaterini
+        </span>
+        <span className="rounded-sm border border-accent/70 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.25em] text-accent">
+          VIP
+        </span>
+        <span className="font-serif text-2xl md:text-[28px] italic text-white/90">
+          Villa
+        </span>
+      </div>
+    );
+  }
+  return (
+    <img
+      src={logoUrl}
+      alt="Ekaterini VIP Villa"
+      className="h-10 w-auto md:h-12"
+    />
   );
 }
 
@@ -105,6 +143,7 @@ function Header() {
   const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>("home");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -113,56 +152,79 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navItems = NAV_IDS.filter((id) => id !== "home").map((id) => ({
-    id,
-    label: t.nav[id],
-  }));
+  useEffect(() => {
+    const sections = NAV_IDS.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => !!el,
+    );
+    if (sections.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+    sections.forEach((s) => io.observe(s));
+    return () => io.disconnect();
+  }, []);
+
+  const onDark = !scrolled;
+  const allNav = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border/60 py-3"
+          ? "bg-background/90 backdrop-blur-md border-b border-border/60 py-3"
           : "bg-transparent py-5"
       }`}
     >
       <div className="container-villa flex items-center justify-between gap-6">
-        <a href="#home" className="flex items-center gap-2">
-          <img
-            src={logoUrl}
-            alt="Ekaterini VIP Villa"
-            className={`h-9 w-auto transition-all duration-300 md:h-11 ${
-              scrolled ? "" : "brightness-0 invert"
-            }`}
-          />
+        <a href="#home" className="flex items-center gap-2 shrink-0">
+          <BrandLogo onDark={onDark} />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          {navItems.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className={`text-sm font-medium transition-colors ${
-                scrolled ? "text-foreground/80 hover:text-accent" : "text-white/85 hover:text-white"
-              }`}
-            >
-              {n.label}
-            </a>
-          ))}
+        <nav className="hidden lg:flex items-center gap-7">
+          {allNav.map((n) => {
+            const isActive = active === n.id;
+            return (
+              <a
+                key={n.id}
+                href={`#${n.id}`}
+                className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
+                  onDark
+                    ? isActive
+                      ? "text-white"
+                      : "text-white/75 hover:text-white"
+                    : isActive
+                      ? "text-foreground"
+                      : "text-foreground/70 hover:text-accent"
+                }`}
+              >
+                {n.label}
+                {isActive && (
+                  <span className="absolute left-1/2 -bottom-0.5 h-[2px] w-6 -translate-x-1/2 rounded-full bg-accent" />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-3">
-          <LangSwitch />
+          <LangSwitch onDark={onDark} />
           <a
             href="#booking"
-            className="hidden md:inline-flex items-center rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground shadow-soft transition hover:brightness-110"
+            className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
           >
             {t.nav.book}
+            <ArrowRight className="h-4 w-4" />
           </a>
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className={`lg:hidden rounded-full p-2 ${scrolled ? "text-foreground" : "text-white"}`}
+            className={`lg:hidden rounded-full p-2 ${onDark ? "text-white" : "text-foreground"}`}
           >
             <Menu className="h-6 w-6" />
           </button>
@@ -172,17 +234,13 @@ function Header() {
       {open && (
         <div className="lg:hidden fixed inset-0 z-50 bg-background">
           <div className="container-villa flex items-center justify-between py-5">
-            <img
-              src={logoUrl}
-              alt="Ekaterini VIP Villa"
-              className="h-8 w-auto"
-            />
+            <img src={logoUrl} alt="Ekaterini VIP Villa" className="h-9 w-auto" />
             <button onClick={() => setOpen(false)} aria-label="Close menu">
               <X className="h-6 w-6" />
             </button>
           </div>
           <nav className="container-villa flex flex-col gap-1 pt-6">
-            {navItems.map((n) => (
+            {allNav.filter((n) => n.id !== "home").map((n) => (
               <a
                 key={n.id}
                 href={`#${n.id}`}
@@ -195,9 +253,10 @@ function Header() {
             <a
               href="#booking"
               onClick={() => setOpen(false)}
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
+              <ArrowRight className="h-4 w-4" />
             </a>
           </nav>
         </div>
@@ -211,7 +270,7 @@ function Header() {
 function Hero() {
   const { t } = useI18n();
   return (
-    <section id="home" className="relative min-h-[100svh] w-full overflow-hidden">
+    <section id="home" className="relative min-h-[100svh] w-full overflow-hidden bg-black">
       <img
         src={heroImg}
         alt="Ekaterini VIP Villa στην Κρήτη"
@@ -219,57 +278,86 @@ function Hero() {
         height={1280}
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-black/60" />
+      {/* Cinematic overlays: darker on left, breathable on right; bottom fade to seat highlights bar */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
+      <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/80 to-transparent" />
 
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-20 pt-32 md:justify-center md:pt-24">
-        <div className="max-w-3xl text-white">
-          <span className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.25em] text-accent">
-            <span className="h-px w-8 bg-accent" />
+      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-52 pt-32 md:justify-center md:pb-56 md:pt-24">
+        <div className="max-w-2xl text-white">
+          <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">
+            <span className="h-px w-10 bg-accent" />
             {t.hero.eyebrow}
           </span>
-          <h1 className="mt-5 font-serif text-4xl leading-[1.05] sm:text-5xl md:text-7xl">
-            {t.hero.title}
+
+          <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
+            Ekaterini <span className="text-accent">VIP</span> Villa
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
+          <p className="mt-5 font-serif text-2xl leading-snug text-white/90 md:text-3xl">
+            {t.hero.title}
+          </p>
+
+          <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/75 md:text-base">
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-9 flex flex-wrap gap-4">
             <a
               href="#booking"
-              className="inline-flex items-center rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-accent-foreground shadow-soft transition hover:brightness-110"
+              className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
               {t.hero.cta1}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
             <a
               href="#villa"
-              className="inline-flex items-center rounded-full border border-white/40 bg-white/5 px-7 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
             >
               {t.hero.cta2}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
           </div>
+        </div>
+      </div>
 
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
-            {t.hero.highlights.map((h) => (
-              <li key={h} className="inline-flex items-center gap-2">
-                <Check className="h-4 w-4 text-accent" />
-                {h}
-              </li>
-            ))}
-          </ul>
+      {/* Premium dark-glass highlights bar */}
+      <div className="absolute inset-x-0 bottom-8 z-10 md:bottom-14">
+        <div className="container-villa">
+          <div className="rounded-2xl border border-white/15 bg-black/45 shadow-2xl backdrop-blur-md">
+            <ul className="grid grid-cols-2 divide-y divide-white/10 md:grid-cols-5 md:divide-x md:divide-y-0">
+              {t.hero.highlights.map((h, i) => {
+                const Icon = HERO_HIGHLIGHT_ICONS[i] ?? HERO_HIGHLIGHT_ICONS[0];
+                return (
+                  <li
+                    key={h}
+                    className="flex items-center gap-3 px-4 py-4 md:px-5 md:py-5"
+                  >
+                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent/60 bg-black/40 text-accent">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <span className="text-[13px] font-medium leading-snug text-white/90 md:text-sm">
+                      {h}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
 
       <a
         href="#highlights"
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 text-white/70 hover:text-white md:block"
+        className="absolute bottom-1 left-1/2 hidden -translate-x-1/2 items-center justify-center text-white/70 hover:text-white md:flex"
         aria-label="Scroll"
       >
-        <ChevronDown className="h-6 w-6 animate-bounce" />
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30">
+          <ChevronDown className="h-4 w-4 animate-bounce" />
+        </span>
       </a>
     </section>
   );
 }
+
 
 /* ---------- Section header ---------- */
 
