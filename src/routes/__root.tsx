@@ -58,7 +58,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Ekaterini VIP Villa στην Πλάκα Αποκορώνου, Χανιά. Ιδιωτική πισίνα, 3 υπνοδωμάτια έως 7 άτομα, BBQ, κήπος και δωρεάν πάρκινγκ.",
       },
-      { property: "og:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά" },
+      { property: "og:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
       {
         property: "og:description",
         content:
@@ -66,6 +66,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
+      { name: "description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
+      { property: "og:description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
+      { name: "twitter:description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
