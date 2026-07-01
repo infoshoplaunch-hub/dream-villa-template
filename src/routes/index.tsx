@@ -34,7 +34,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
-import heroImg from "@/assets/hero.jpg";
+import heroAsset from "@/assets/villa-hero.jpg.asset.json";
+const heroImg = heroAsset.url;
 import poolImg from "@/assets/pool.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
 import livingImg from "@/assets/living.jpg";
