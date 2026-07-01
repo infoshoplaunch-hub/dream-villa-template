@@ -3,17 +3,17 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from "
 export type Lang = "el" | "en";
 
 export type Dict = {
-  nav: Record<string, string>;
-  hero: { eyebrow: string; title: string; subtitle: string; cta1: string; cta2: string; highlights: string[] };
-  highlights: { eyebrow: string; title: string; items: { t: string; d: string }[] };
-  villa: { eyebrow: string; title: string; p1: string; p2: string; stats: { v: string; l: string }[] };
-  amenities: { eyebrow: string; title: string; groups: { h: string; items: string[] }[] };
-  gallery: { eyebrow: string; title: string; subtitle: string; tags: string[] };
-  location: { eyebrow: string; title: string; text: string; address: string; points: string[] };
-  booking: Record<string, string>;
-  faq: { eyebrow: string; title: string; items: { q: string; a: string }[] };
-  contact: Record<string, string>;
-  footer: Record<string, string>;
+  nav: Readonly<Record<string, string>>;
+  hero: { eyebrow: string; title: string; subtitle: string; cta1: string; cta2: string; highlights: readonly string[] };
+  highlights: { eyebrow: string; title: string; items: readonly { t: string; d: string }[] };
+  villa: { eyebrow: string; title: string; p1: string; p2: string; stats: readonly { v: string; l: string }[] };
+  amenities: { eyebrow: string; title: string; groups: readonly { h: string; items: readonly string[] }[] };
+  gallery: { eyebrow: string; title: string; subtitle: string; tags: readonly string[] };
+  location: { eyebrow: string; title: string; text: string; address: string; points: readonly string[] };
+  booking: Readonly<Record<string, string>>;
+  faq: { eyebrow: string; title: string; items: readonly { q: string; a: string }[] };
+  contact: Readonly<Record<string, string>>;
+  footer: Readonly<Record<string, string>>;
 };
 
 export const translations = {
