@@ -1,23 +1,28 @@
-## Plan: Εγκατάσταση της Cera GR ως γραμματοσειρά του site
+## Στόχος
+Αντικατάσταση του κειμένου "Ekaterini VIP" στο header με το ανεβασμένο λογότυπο, με αφαίρεση του λευκού φόντου για να ταιριάζει με το transparent header.
 
-Ανέβασες δύο αρχεία της Cera GR (Medium TTF + Bold WOFF). Θα τα χρησιμοποιήσω για ολόκληρο το site, αντικαθιστώντας τα σημερινά Cormorant Garamond / Manrope.
+## Βήματα υλοποίησης
 
-### Βήματα
+### 1. Επεξεργασία λογοτύπου
+- Χρήση `imagegen--edit_image` στο ανεβασμένο `user-uploads://Logo_Ekaterinivipvilla.png`
+- Αφαίρεση λευκού φόντου (transparent background)
+- Αποθήκευση ως PNG transparent σε `src/assets/logo.png`
 
-1. **Ανέβασμα των fonts στο CDN** μέσω `lovable-assets`:
-   - `Cera_GR_Medium.ttf` → `src/assets/cera-gr-medium.ttf.asset.json`
-   - `Cera-GR-Bold.woff` → `src/assets/cera-gr-bold.woff.asset.json`
+### 2. Δημιουργία CDN asset
+- `lovable-assets create --file src/assets/logo.png > src/assets/logo.png.asset.json`
+- Διαγραφή του τοπικού `src/assets/logo.png` (διατηρείται μόνο το `.asset.json` pointer)
 
-2. **Δήλωση @font-face στο `src/styles.css`** στην κορυφή, πριν από κάθε άλλο rule (family: `"Cera GR"`, weights 500 & 700, `font-display: swap`), με τα CDN URLs των assets.
+### 3. Τροποποίηση Header component (`src/routes/index.tsx`)
+- Αντικατάσταση του text block "Ekaterini VIP" (γραμμές 127–133) με `<img>` που φορτώνει το λογότυπο από το asset URL
+- Ρύθμιση ύψους λογοτύπου περίπου 40–48px για desktop και 32–36px για mobile
+- Διατήρηση του link behavior (`<a href="#home">`)
+- Εφαρμογή `brightness-0 invert` ή αντίστοιχου filter όταν το header είναι πάνω από την hero εικόνα (scrolled = false, text λευκό), ώστε το λογότυπο να φαίνεται και σε σκούρο background
+- Όταν scrolled = true, το λογότυπο εμφανίζεται με κανονικά χρώματα (το header έχει light background)
+- Αντίστοιχη αντικατάσταση στο mobile menu (γραμμές 171–173)
 
-3. **Ενημέρωση των theme tokens** στο `src/styles.css`:
-   - `--font-display` και `--font-body` → `"Cera GR", system-ui, sans-serif`
-   - Headings 700, body 500
+### 4. Προσαρμογή στυλ
+- Επειδή το λογότυπο έχει χρυσά/μαύρα στοιχεία, σε λευκό text state (πάνω από hero) μπορεί να χρειαστεί CSS filter (invert/brightness) ή να χρησιμοποιηθεί μια λευκή εκδοχή. Θα ελέγξουμε πρακτικά αν το κανονικό λογότυπο διαβάζεται επαρκώς πάνω από τη σκούρα hero — αν όχι, θα εφαρμοστεί filter.
 
-4. **Καθαρισμός**:
-   - Αφαίρεση των Google Fonts `<link>` (Cormorant/Manrope) από το `src/routes/__root.tsx`
-   - Αφαίρεση αναφορών `font-serif` / Cormorant στα components ώστε όλο το site να χρησιμοποιεί ενιαία την Cera GR
-
-### Σημείωση
-
-Έχουμε μόνο Medium (500) και Bold (700). Ενδιάμεσα βάρη θα γίνουν synthesize από τον browser. Αν αργότερα θες πιο πιστό rendering, ανέβασε και Regular/Book/Light.
+### 5. Επαλήθευση
+- Build check (`bun run build`) για TypeScript / bundling errors
+- Preview check για σωστή εμφάνιση σε desktop και mobile, scrolled και non-scrolled state

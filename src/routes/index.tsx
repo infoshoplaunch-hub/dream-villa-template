@@ -36,6 +36,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
+import logoAsset from "@/assets/logo.png.asset.json";
+const logoUrl = logoAsset.url;
 import poolImg from "@/assets/pool.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
 import livingImg from "@/assets/living.jpg";
@@ -124,13 +126,13 @@ function Header() {
     >
       <div className="container-villa flex items-center justify-between gap-6">
         <a href="#home" className="flex items-center gap-2">
-          <span
-            className={`font-serif text-xl md:text-2xl font-semibold tracking-tight transition-colors ${
-              scrolled ? "text-foreground" : "text-white"
+          <img
+            src={logoUrl}
+            alt="Ekaterini VIP Villa"
+            className={`h-9 w-auto transition-all duration-300 md:h-11 ${
+              scrolled ? "" : "brightness-0 invert"
             }`}
-          >
-            Ekaterini <span className="text-accent">VIP</span>
-          </span>
+          />
         </a>
 
         <nav className="hidden lg:flex items-center gap-8">
@@ -168,9 +170,11 @@ function Header() {
       {open && (
         <div className="lg:hidden fixed inset-0 z-50 bg-background">
           <div className="container-villa flex items-center justify-between py-5">
-            <span className="font-serif text-xl">
-              Ekaterini <span className="text-accent">VIP</span>
-            </span>
+            <img
+              src={logoUrl}
+              alt="Ekaterini VIP Villa"
+              className="h-8 w-auto"
+            />
             <button onClick={() => setOpen(false)} aria-label="Close menu">
               <X className="h-6 w-6" />
             </button>
