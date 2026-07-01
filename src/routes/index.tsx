@@ -17,7 +17,9 @@ import {
   ChevronDown,
   Check,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
+import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
 
 import { useI18n, type Lang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
