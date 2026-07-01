@@ -2,6 +2,22 @@
 @source "../src";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Cera GR";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/__l5e/assets-v1/13351aac-65db-49e5-94fc-47ceb936c2b5/cera-gr-medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Cera GR";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/__l5e/assets-v1/87bcecb3-486c-432c-b2e2-eed47ec1f281/cera-gr-bold.woff") format("woff");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -35,8 +51,8 @@
   --color-olive: var(--olive);
   --color-sea: var(--sea);
 
-  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-sans: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cera GR", system-ui, sans-serif;
+  --font-sans: "Cera GR", system-ui, sans-serif;
 
   --shadow-soft: 0 10px 40px -12px color-mix(in oklab, var(--primary) 20%, transparent);
   --shadow-card: 0 6px 24px -8px color-mix(in oklab, var(--foreground) 12%, transparent);
