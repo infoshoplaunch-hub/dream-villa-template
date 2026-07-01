@@ -2,7 +2,19 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from "
 
 export type Lang = "el" | "en";
 
-type Dict = typeof translations.el;
+export type Dict = {
+  nav: Record<string, string>;
+  hero: { eyebrow: string; title: string; subtitle: string; cta1: string; cta2: string; highlights: string[] };
+  highlights: { eyebrow: string; title: string; items: { t: string; d: string }[] };
+  villa: { eyebrow: string; title: string; p1: string; p2: string; stats: { v: string; l: string }[] };
+  amenities: { eyebrow: string; title: string; groups: { h: string; items: string[] }[] };
+  gallery: { eyebrow: string; title: string; subtitle: string; tags: string[] };
+  location: { eyebrow: string; title: string; text: string; address: string; points: string[] };
+  booking: Record<string, string>;
+  faq: { eyebrow: string; title: string; items: { q: string; a: string }[] };
+  contact: Record<string, string>;
+  footer: Record<string, string>;
+};
 
 export const translations = {
   el: {
