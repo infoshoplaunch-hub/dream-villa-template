@@ -2,13 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Users,
-  BedDouble,
-  Waves,
-  Wifi,
-  Car,
-  Heart,
-  Palmtree,
-  Flame,
   MapPin,
   Phone,
   Mail,
@@ -16,7 +9,6 @@ import {
   X,
   ChevronDown,
   Check,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
