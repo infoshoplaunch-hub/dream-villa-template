@@ -1,6 +1,4 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { el as dfEl, enUS as dfEn } from "date-fns/locale";
@@ -22,16 +20,28 @@ import {
 } from "@/lib/booking";
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 
-const searchSchema = z.object({
-  checkin: fallback(z.string(), "").default(""),
-  checkout: fallback(z.string(), "").default(""),
-  adults: fallback(z.number().int().min(1).max(MAX_GUESTS), 2).default(2),
-  children: fallback(z.number().int().min(0).max(MAX_GUESTS), 0).default(0),
-  infants: fallback(z.number().int().min(0).max(5), 0).default(0),
-});
+type BookingSearch = {
+  checkin: string;
+  checkout: string;
+  adults: number;
+  children: number;
+  infants: number;
+};
+
+function clampInt(v: unknown, min: number, max: number, fallback: number): number {
+  const n = typeof v === "number" ? v : Number(v);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.floor(n)));
+}
 
 export const Route = createFileRoute("/booking")({
-  validateSearch: zodValidator(searchSchema),
+  validateSearch: (raw: Record<string, unknown>): BookingSearch => ({
+    checkin: typeof raw.checkin === "string" ? raw.checkin : "",
+    checkout: typeof raw.checkout === "string" ? raw.checkout : "",
+    adults: clampInt(raw.adults, 1, MAX_GUESTS, 2),
+    children: clampInt(raw.children, 0, MAX_GUESTS, 0),
+    infants: clampInt(raw.infants, 0, 5, 0),
+  }),
   head: () => ({
     meta: [
       { title: "Booking — Ekaterini VIP Villa" },
