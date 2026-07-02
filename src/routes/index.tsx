@@ -777,7 +777,116 @@ function Gallery() {
   );
 }
 
+/* ---------- Reviews ---------- */
+
+const REVIEWS = [
+  {
+    text: "Υπέροχη βίλα, πολύ άνετοι χώροι και εξαιρετική πισίνα. Ιδανική επιλογή για οικογένεια.",
+    source: "Επισκέπτης Booking.com",
+    platform: "booking",
+  },
+  {
+    text: "Η τοποθεσία ήταν ήρεμη και η διαμονή μας πολύ ξεκούραστη. Όλα ήταν άψογα.",
+    source: "Επισκέπτης Airbnb",
+    platform: "airbnb",
+  },
+  {
+    text: "Πολύ καλή επικοινωνία και όμορφος εξωτερικός χώρος. Σίγουρα θα το επιλέξουμε ξανά.",
+    source: "Επισκέπτης Google",
+    platform: "google",
+  },
+  {
+    text: "Καθαριότητα, άνεση και ιδιωτικότητα. Η καλύτερη επιλογή για ήρεμες διακοπές στα Χανιά.",
+    source: "Επισκέπτης Booking.com",
+    platform: "booking",
+  },
+] as const;
+
+function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google" }) {
+  const base = "flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-sm";
+  if (platform === "booking")
+    return <div className={`${base} bg-[#003580] text-white`}>B.</div>;
+  if (platform === "airbnb")
+    return (
+      <div className={`${base} bg-white text-[#FF5A5F] ring-1 ring-border`}>
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+          <path d="M12 2c-1.5 0-2.7.9-3.4 2.2C6.4 8.4 3 15.1 3 17.5A4.5 4.5 0 0 0 10.5 21c.6-.6 1.1-1.3 1.5-2 .4.7.9 1.4 1.5 2A4.5 4.5 0 0 0 21 17.5c0-2.4-3.4-9.1-5.6-13.3C14.7 2.9 13.5 2 12 2Zm0 2c.6 0 1.1.4 1.5 1.1 2.1 4 5.5 10.5 5.5 12.4a2.5 2.5 0 0 1-4.4 1.6c-.7-.8-1.3-1.7-1.8-2.6-.3-.6-1.3-.6-1.6 0-.5.9-1.1 1.8-1.8 2.6A2.5 2.5 0 0 1 5 17.5c0-1.9 3.4-8.4 5.5-12.4C10.9 4.4 11.4 4 12 4Z" />
+        </svg>
+      </div>
+    );
+  return (
+    <div className={`${base} bg-white ring-1 ring-border`}>
+      <svg viewBox="0 0 24 24" className="h-5 w-5">
+        <path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6c-.2 1.3-1 2.4-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5Z"/>
+        <path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22Z"/>
+        <path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 9.8l3.5-3.3Z"/>
+        <path fill="#EA4335" d="M12 5.9c1.5 0 2.9.5 3.9 1.5l3-3A10 10 0 0 0 2.7 7.1L6.2 9.8C7 7.3 9.3 5.9 12 5.9Z"/>
+      </svg>
+    </div>
+  );
+}
+
+function Reviews() {
+  return (
+    <section id="reviews" className="section-y bg-[hsl(35_35%_96%)]">
+      <div className="container-villa">
+        <div className="flex items-center justify-center gap-3">
+          <span className="h-px w-8 bg-primary" />
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            Εμπειρίες Επισκεπτών
+          </span>
+          <span className="h-px w-8 bg-primary" />
+        </div>
+        <h2 className="mt-6 text-center font-serif text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          Τι λένε οι <span className="text-primary">επισκέπτες</span> μας
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
+          Η φιλοξενία και η άνεση της Ekaterini VIP Villa δημιουργούν εμπειρίες που μένουν αξέχαστες.
+        </p>
+
+        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {REVIEWS.map((r, i) => (
+            <article
+              key={i}
+              className="group flex flex-col rounded-2xl bg-white p-7 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] ring-1 ring-black/[0.03] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.15)]"
+            >
+              <svg viewBox="0 0 24 24" className="h-10 w-10 text-primary/70" fill="currentColor" aria-hidden="true">
+                <path d="M7 7h4v4H8c0 2 1 3 3 3v3c-4 0-6-2-6-6V7Zm9 0h4v4h-3c0 2 1 3 3 3v3c-4 0-6-2-6-6V7Z"/>
+              </svg>
+              <div className="mt-5 flex gap-1 text-primary" aria-label="5 stars">
+                {Array.from({ length: 5 }).map((_, s) => (
+                  <svg key={s} viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">
+                    <path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.3 2.7 1-5.9L1.5 7.7l5.9-.8L10 1.5Z"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="mt-5 flex-1 text-[15px] leading-relaxed text-foreground/85">
+                {r.text}
+              </p>
+              <div className="mt-6 border-t border-border/60 pt-5 flex items-center gap-3">
+                <PlatformBadge platform={r.platform} />
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-foreground truncate">{r.source}</div>
+                  <div className="text-xs text-muted-foreground">Επαληθευμένη κριτική</div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 flex items-center justify-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-primary" />
+          <span className="h-2 w-2 rounded-full bg-border" />
+          <span className="h-2 w-2 rounded-full bg-border" />
+          <span className="h-2 w-2 rounded-full bg-border" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Location ---------- */
+
 
 function LocationSection() {
   const { t } = useI18n();
