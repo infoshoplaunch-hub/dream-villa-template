@@ -907,46 +907,6 @@ function FAQ() {
   );
 }
 
-/* ---------- Contact ---------- */
-
-function Contact() {
-  const { t } = useI18n();
-  const items = [
-    { icon: Users, label: t.contact.manager, value: "Mrs Aggeliki Gogolaki" },
-    { icon: MapPin, label: t.contact.address, value: "Plaka Apokoronos, 73008 Chania, Crete" },
-    { icon: Phone, label: t.contact.phone, value: "+30 6940 133 837", href: "tel:+306940133837" },
-    { icon: Phone, label: t.contact.phone, value: "+30 6948 014 277", href: "tel:+306948014277" },
-    { icon: Mail, label: t.contact.email, value: "info@katerinavipvilla.gr", href: "mailto:info@katerinavipvilla.gr" },
-  ];
-  return (
-    <section id="contact" className="section-y">
-      <div className="container-villa">
-        <SectionHead eyebrow={t.contact.eyebrow} title={t.contact.title} subtitle={t.contact.text} />
-        <div className="mt-12 grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-          {items.map((it, i) => {
-            const Icon = it.icon;
-            const inner = (
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-card transition hover:-translate-y-1">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
-                  {it.label}
-                </div>
-                <div className="mt-1 font-medium text-foreground">{it.value}</div>
-              </div>
-            );
-            return it.href ? (
-              <a key={i} href={it.href}>{inner}</a>
-            ) : (
-              <div key={i}>{inner}</div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- Footer ---------- */
 
