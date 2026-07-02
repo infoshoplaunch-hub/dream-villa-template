@@ -55,7 +55,6 @@ function Landing() {
       <Header />
       <main>
         <Hero />
-        <Highlights />
         <VillaSection />
         <Amenities />
         <Gallery />
