@@ -21,8 +21,8 @@ export const translations = {
     nav: {
       home: "Αρχική",
       villa: "Η Βίλα",
+      rooms: "Οι Χώροι",
       amenities: "Παροχές",
-      gallery: "Gallery",
       location: "Τοποθεσία",
       booking: "Κράτηση",
       contact: "Επικοινωνία",
@@ -229,8 +229,8 @@ export const translations = {
     nav: {
       home: "Home",
       villa: "The Villa",
+      rooms: "Spaces",
       amenities: "Amenities",
-      gallery: "Gallery",
       location: "Location",
       booking: "Booking",
       contact: "Contact",
