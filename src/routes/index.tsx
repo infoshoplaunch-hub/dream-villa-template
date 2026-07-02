@@ -55,7 +55,6 @@ function Landing() {
         <Amenities />
         <Reviews />
         <LocationSection />
-        <Booking />
         <FAQ />
         <Contact />
       </main>
