@@ -12,12 +12,6 @@ import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
 
 import { useI18n, type Lang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Toaster } from "@/components/ui/sonner";
 
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
