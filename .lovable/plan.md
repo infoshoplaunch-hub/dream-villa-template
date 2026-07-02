@@ -1,12 +1,10 @@
-## Plan: Swap header logo
+Plan: Hero subtitle single-line fix
 
-The new upload (`Ανώνυμο_σχέδιο.png`) contains everything in one image: sun + "EKATERINI VIP" (white) + "Villa" (gold) + "Luxury Relax Center". This replaces the previous partial logo and removes the need for any extra "Ekaterini VIP" text next to it.
+The hero subtitle "Ζήστε την απόλυτη εμπειρία διαμονής στην Κρήτη" currently breaks to two lines on some viewports. The user chose option 1: widen the container.
 
-### Steps
-1. Upload `user-uploads://Ανώνυμο_σχέδιο.png` to the CDN via `lovable-assets` and remove its black background (transparent PNG) using `imagegen--edit_image` so it sits cleanly on both the hero and the white scrolled header.
-2. Save the transparent result as `src/assets/logo-villa.png` + `.asset.json` pointer (replacing the current logo-villa asset).
-3. In `src/routes/index.tsx`, keep the existing `BrandLogo` component pointing at the same `logo-villa.png.asset.json` — only the underlying asset changes. Adjust the height classes if needed so the taller logo lockup stays balanced in the header (approx `h-12 md:h-16` on hero, `h-10 md:h-12` when scrolled).
-4. Verify with a production build and a Playwright screenshot of the header in both hero (transparent) and scrolled (white) states.
+**Change:**
+- In `src/routes/index.tsx`, remove or increase the `max-w-2xl` constraint on the hero text container (`<div className="max-w-2xl text-white">`) so the subtitle can breathe on one line across common desktop widths.
+- Keep the existing responsive typography sizes (`text-2xl md:text-3xl`) unchanged.
+- Ensure text still remains left-aligned and readable against the dark cinematic overlay.
 
-### Out of scope
-No other section, copy, or styling changes.
+**Estimated impact:** One line edit in `src/routes/index.tsx`. No other files touched.

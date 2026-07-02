@@ -267,7 +267,7 @@ function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/80 to-transparent" />
 
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-52 pt-32 md:justify-center md:pb-56 md:pt-24">
-        <div className="max-w-2xl text-white">
+        <div className="max-w-4xl text-white">
 
           <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
             Ekaterini <span className="text-accent">VIP</span> Villa
