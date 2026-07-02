@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Users,
   MapPin,
@@ -11,8 +12,10 @@ import {
   Check,
   ArrowRight,
 } from "lucide-react";
+import { DayPicker, type DateRange } from "react-day-picker";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
 
+import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
