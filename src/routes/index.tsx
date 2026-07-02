@@ -400,52 +400,101 @@ function Highlights() {
 /* ---------- Villa ---------- */
 
 function VillaSection() {
-  const { t } = useI18n();
+  const bullets = [
+    "Ιδανική για οικογένειες και παρέες",
+    "Ιδιωτική πισίνα και εξωτερικοί χώροι",
+    "Κοντά στη θάλασσα και στα Χανιά",
+    "Άμεση επικοινωνία με τη διαχείριση",
+  ];
+
   return (
-    <section id="villa" className="section-y">
-      <div className="container-villa grid gap-14 md:grid-cols-2 md:items-center">
-        <div className="relative">
-          <img
-            src={exteriorImg}
-            alt="Villa exterior"
-            width={1280}
-            height={960}
-            loading="lazy"
-            className="relative z-10 aspect-[4/5] w-full rounded-3xl object-cover shadow-soft"
-          />
-          <div className="absolute -bottom-6 -right-6 hidden h-40 w-40 rounded-3xl bg-accent/20 md:block" />
-          <img
-            src={poolImg}
-            alt="Villa pool"
-            width={1280}
-            height={960}
-            loading="lazy"
-            className="absolute -bottom-10 -left-6 z-20 hidden aspect-square w-48 rounded-2xl object-cover shadow-card md:block"
-          />
+    <section id="villa" className="section-y bg-[oklch(0.97_0.012_80)]">
+      <div className="container-villa">
+        {/* Eyebrow label */}
+        <div className="flex items-center justify-center gap-4">
+          <span className="h-px w-10 bg-accent" />
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
+            Η Βίλα
+          </span>
+          <span className="h-px w-10 bg-accent" />
         </div>
 
-        <div>
-          <SectionHead eyebrow={t.villa.eyebrow} title={t.villa.title} center={false} />
-          <p className="mt-6 leading-relaxed text-foreground/80">{t.villa.p1}</p>
-          <p className="mt-4 leading-relaxed text-muted-foreground">{t.villa.p2}</p>
-
-          <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-8">
-            {t.villa.stats.map((s) => (
-              <div key={s.l}>
-                <div className="font-serif text-3xl text-accent md:text-4xl">{s.v}</div>
-                <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
-                  {s.l}
-                </div>
-              </div>
-            ))}
+        {/* Block 1 — image left / text right */}
+        <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
+          <div className="relative">
+            <img
+              src={heroImg}
+              alt="Ekaterini VIP Villa exterior with pool"
+              width={1600}
+              height={1067}
+              loading="lazy"
+              className="aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]"
+            />
           </div>
+          <div>
+            <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
+              Ιδιωτικότητα, άνεση και{" "}
+              <span className="text-accent">αυθεντική κρητική φιλοξενία</span>
+            </h2>
+            <p className="mt-6 leading-relaxed text-foreground/80">
+              Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης,
+              και προσφέρει έναν ιδανικό συνδυασμό άνεσης, ιδιωτικότητας και χαλάρωσης.
+            </p>
+            <p className="mt-4 leading-relaxed text-foreground/80">
+              Με 3 υπνοδωμάτια, ιδιωτική πισίνα, πλήρως εξοπλισμένη κουζίνα, BBQ, κήπο και
+              δωρεάν ιδιωτικό πάρκινγκ, η βίλα είναι ιδανική για οικογένειες και παρέες
+              έως 7 ατόμων.
+            </p>
+            <a
+              href="#amenities"
+              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+            >
+              Μάθετε Περισσότερα
+            </a>
+          </div>
+        </div>
 
-          <a
-            href="#booking"
-            className="mt-8 inline-flex items-center rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:brightness-110"
-          >
-            {t.nav.book}
-          </a>
+        {/* Block 2 — text left / image right */}
+        <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-2 md:items-center md:gap-16">
+          <div className="order-2 md:order-1">
+            <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
+              Γιατί να επιλέξετε την Ekaterini{" "}
+              <span className="text-accent">VIP</span> Villa;
+            </h2>
+            <p className="mt-6 leading-relaxed text-foreground/80">
+              Εδώ δεν κάνετε απλώς μια διαμονή. Έχετε τον δικό σας ιδιωτικό χώρο στην Κρήτη,
+              με πισίνα, εξωτερικούς χώρους και άνεση για να απολαύσετε τις διακοπές σας
+              χωρίς πίεση και χωρίς περιορισμούς.
+            </p>
+
+            <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
+              {bullets.map((b) => (
+                <li key={b} className="flex items-center gap-4 py-4">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent text-accent">
+                    <Check className="h-4 w-4" strokeWidth={2.5} />
+                  </span>
+                  <span className="text-foreground/85">{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="#gallery"
+              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+            >
+              Δείτε τη Βίλα
+            </a>
+          </div>
+          <div className="order-1 md:order-2">
+            <img
+              src={heroImg}
+              alt="Ekaterini VIP Villa veranda and pool at sunset"
+              width={1600}
+              height={1067}
+              loading="lazy"
+              className="aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]"
+            />
+          </div>
         </div>
       </div>
     </section>
