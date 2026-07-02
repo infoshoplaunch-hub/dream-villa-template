@@ -284,10 +284,6 @@ function Hero() {
 
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-52 pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-2xl text-white">
-          <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">
-            <span className="h-px w-10 bg-accent" />
-            {t.hero.eyebrow}
-          </span>
 
           <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
             Ekaterini <span className="text-accent">VIP</span> Villa
