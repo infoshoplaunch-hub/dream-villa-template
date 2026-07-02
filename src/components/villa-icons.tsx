@@ -38,18 +38,59 @@ function Arch({ y = 12 }: { y?: number }) {
 
 export function GuestsIcon(props: IconProps) {
   return (
-    <svg {...baseProps} {...props}>
-      <Arch />
-      {/* group of figures */}
-      <g transform="translate(0,4)">
-        <circle cx="24" cy="26" r="3" />
-        <circle cx="40" cy="26" r="3" />
-        <circle cx="32" cy="22" r="3.2" />
-        <path d="M18 40c0-4 3-7 6-7s6 3 6 7" />
-        <path d="M34 40c0-4 3-7 6-7s6 3 6 7" />
-        <path d="M26 40c0-4.5 3-8 6-8s6 3.5 6 8" />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" {...props}>
+      <g fill="none">
+        <path fill="url(#guestsDgDlbbOE)" d="M16.75 8h-2.5C13.56 8 13 8.56 13 9.25v4.25a2.5 2.5 0 0 0 5 0V9.25C18 8.56 17.44 8 16.75 8" />
+        <path fill="url(#guests3joIyeuT)" fillOpacity=".5" d="M16.75 8h-2.5C13.56 8 13 8.56 13 9.25v4.25a2.5 2.5 0 0 0 5 0V9.25C18 8.56 17.44 8 16.75 8" />
+        <path fill="red" fillOpacity=".2" d="M5.75 8h-2.5C2.56 8 2 8.56 2 9.25v4.25a2.5 2.5 0 0 0 5 0V9.25C7 8.56 6.44 8 5.75 8" />
+        <path fill="url(#guestsS5bxybNu)" d="M5.75 8h-2.5C2.56 8 2 8.56 2 9.25v4.25a2.5 2.5 0 0 0 5 0V9.25C7 8.56 6.44 8 5.75 8" />
+        <path fill="url(#guestsPMQZobgv)" fillOpacity=".5" d="M5.75 8h-2.5C2.56 8 2 8.56 2 9.25v4.25a2.5 2.5 0 0 0 5 0V9.25C7 8.56 6.44 8 5.75 8" />
+        <path fill="url(#guestsfDGJVc8A)" d="M6 9.25C6 8.56 6.56 8 7.25 8h5.5c.69 0 1.25.56 1.25 1.25V14a4 4 0 0 1-8 0z" />
+        <path fill="url(#guestsit9mverY)" d="M6 9.25C6 8.56 6.56 8 7.25 8h5.5c.69 0 1.25.56 1.25 1.25V14a4 4 0 0 1-8 0z" />
+        <path fill="url(#guestsG3GWrZ8i)" d="M17.5 5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m-2 2a2 2 0 1 0 0-4a2 2 0 0 0 0 4" />
+        <path fill="url(#guestsG3GWrZ8i)" d="M17.5 5a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
+        <path fill="url(#guests2UnaAcfE)" d="M6.5 5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m-2 2a2 2 0 1 0 0-4a2 2 0 0 0 0 4" />
+        <path fill="url(#guests2UnaAcfE)" d="M6.5 5a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
+        <path fill="url(#gueststLiXNnrC)" d="M12.5 4.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" />
+        <defs>
+          <linearGradient id="guestsDgDlbbOE" x1="14.189" x2="18.721" y1="9.063" y2="13.586" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#7a41dc" />
+            <stop offset="1" stopColor="#5b2ab5" />
+          </linearGradient>
+          <linearGradient id="guestsS5bxybNu" x1="3.189" x2="7.721" y1="9.063" y2="13.586" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#9c6cfe" />
+            <stop offset="1" stopColor="#7a41dc" />
+          </linearGradient>
+          <linearGradient id="guestsfDGJVc8A" x1="7.902" x2="13.402" y1="9.329" y2="16.354" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#bd96ff" />
+            <stop offset="1" stopColor="#9c6cfe" />
+          </linearGradient>
+          <linearGradient id="guestsit9mverY" x1="10" x2="18.372" y1="6.81" y2="19.324" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#885edb" stopOpacity="0" />
+            <stop offset="1" stopColor="#e362f8" />
+          </linearGradient>
+          <linearGradient id="guestsG3GWrZ8i" x1="14.451" x2="16.49" y1="3.532" y2="6.787" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#7a41dc" />
+            <stop offset="1" stopColor="#5b2ab5" />
+          </linearGradient>
+          <linearGradient id="guests2UnaAcfE" x1="3.451" x2="5.49" y1="3.532" y2="6.787" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#9c6cfe" />
+            <stop offset="1" stopColor="#7a41dc" />
+          </linearGradient>
+          <linearGradient id="gueststLiXNnrC" x1="8.689" x2="11.237" y1="2.665" y2="6.734" gradientUnits="userSpaceOnUse">
+            <stop offset=".125" stopColor="#bd96ff" />
+            <stop offset="1" stopColor="#9c6cfe" />
+          </linearGradient>
+          <radialGradient id="guests3joIyeuT" cx="0" cy="0" r="1" gradientTransform="matrix(4.02372 0 0 10.9215 12.214 11.813)" gradientUnits="userSpaceOnUse">
+            <stop offset=".433" stopColor="#3b148a" />
+            <stop offset="1" stopColor="#3b148a" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="guestsPMQZobgv" cx="0" cy="0" r="1" gradientTransform="matrix(-4.45292 0 0 -12.0865 8.62 11.813)" gradientUnits="userSpaceOnUse">
+            <stop offset=".433" stopColor="#3b148a" />
+            <stop offset="1" stopColor="#3b148a" stopOpacity="0" />
+          </radialGradient>
+        </defs>
       </g>
-      <Laurel />
     </svg>
   );
 }
