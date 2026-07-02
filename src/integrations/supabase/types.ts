@@ -61,13 +61,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_booked_ranges: {
-        Args: never
-        Returns: {
-          check_in: string
-          check_out: string
-        }[]
-      }
+      [_ in never]: never
     }
     Enums: {
       booking_status: "pending" | "confirmed" | "cancelled"
