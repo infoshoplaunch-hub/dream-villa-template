@@ -116,7 +116,7 @@ function LangSwitch({ onDark = false }: { onDark?: boolean }) {
 function BrandLogo({ onDark }: { onDark: boolean }) {
   return (
     <img
-      src={logoUrl}
+      src={onDark ? logoUrl : logoDarkUrl}
       alt="Ekaterini VIP Villa — Luxury Relax Center"
       className={`w-auto transition-all ${onDark ? "h-14 md:h-20" : "h-11 md:h-14"}`}
     />
