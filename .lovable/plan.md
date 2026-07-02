@@ -1,41 +1,42 @@
-## Section 3 — «Οι Χώροι της Βίλας»
+## Footer Redesign — match mockup style
 
-Τοποθέτηση: αμέσως μετά το About (Section 2), πριν από τις Παροχές. Δεν αλλάζει τίποτε άλλο στη σελίδα.
+Αλλάζουμε ΜΟΝΟ το `Footer` component στο `src/routes/index.tsx` (γραμμές 913–963). Καμία άλλη αλλαγή στη σελίδα.
 
-### Δομή
-- Warm off-white background (ίδιο cream tone με τα υπόλοιπα light sections).
-- Centered eyebrow «ΟΙ ΧΩΡΟΙ ΜΑΣ» με μικρές πορτοκαλί γραμμές αριστερά/δεξιά.
-- Main title: «Ανακαλύψτε τους **χώρους** της βίλας» — η λέξη «χώρους» με orange accent.
-- 3 large cards σε 1 row (desktop), 2-col ή stacked σε tablet, 1-col σε mobile.
+### Νέο layout (desktop)
 
-### Κάθε card
-- Πραγματική φωτογραφία top, rounded-top corners, `aspect-[4/3]` crop.
-- Λευκό content area κάτω, soft shadow, rounded-2xl.
-- Circular soft-orange badge με custom line SVG icon (αριστερά).
-- Title (dark charcoal, bold) + short description (muted).
-- Hover: subtle lift (`-translate-y-1`), image zoom (`scale-105`), εντονότερο shadow, πιο έντονο orange badge.
+```
+[ BRAND + tagline + email ]   [ Πλοήγηση ]   [ Παροχές ]   [ Επικοινωνία ]
+```
 
-### Icons (νέα custom line SVGs στο `src/components/villa-icons.tsx`)
-- `PoolLineIcon` — waves + διάγραμμα πισίνας
-- `BedroomLineIcon` — minimal bed outline
-- `OutdoorLineIcon` — δέντρο/ομπρέλα + πιάτα (outdoor dining)
-Όλα stroke-based, `currentColor`, ώστε να πάρουν orange accent.
+- Grid 4 στηλών σε desktop (`md:grid-cols-4`), 2 σε tablet, 1 σε mobile.
+- Πρώτη στήλη πιο πλατιά (π.χ. `md:col-span-1` με μεγαλύτερο max-width στο tagline) — όπως στο mockup το brand block είναι το πιο "βαρύ".
 
-### Φωτογραφίες
-Θα ανεβάσεις 3 πραγματικές φωτογραφίες (pool, bedroom, outdoor). Μόλις τις ανεβάσεις, θα δημιουργήσω 3 asset pointers:
-- `src/assets/villa-pool.jpg.asset.json`
-- `src/assets/villa-bedroom.jpg.asset.json`
-- `src/assets/villa-outdoor.jpg.asset.json`
+### Visual style (από το mockup)
 
-Καμία AI/stock εικόνα.
+- **Background**: ανοιχτό (light) αντί για το τρέχον navy. Θα χρησιμοποιήσω `bg-[hsl(35_35%_96%)]` (ίδιο ivory με το Reviews section) για συνέπεια, με top border `border-border`.
+- **Brand**: "Ekaterini <span accent>VIP</span> Villa" σε `font-serif`, σκούρο navy (`text-foreground`), με orange accent στο "VIP" (ήδη υπάρχει).
+- **Tagline**: `text-muted-foreground`, μικρότερο, max-w περιορισμένο.
+- **Email κάτω από tagline** ως link (`info@katerinavipvilla.gr`) — όπως στο mockup που έχει email κάτω από το tagline.
+- **Language switcher**: παραμένει κάτω από το email στην πρώτη στήλη.
+- **Column headings**: `Πλοήγηση`, `Παροχές`, `Επικοινωνία` σε bold, σκούρο, μεγαλύτερο (`text-base font-semibold text-foreground`) — όχι uppercase micro-caps όπως τώρα, για να ταιριάζει με το "Quick Links" heading style του mockup.
+- **Links / items**: `text-muted-foreground`, hover → `text-accent` (orange).
+
+### Στήλες περιεχομένου
+
+1. **Brand** — logo text + tagline + email + LangSwitch.
+2. **Πλοήγηση** — Η Βίλα, Οι Χώροι, Παροχές, Κριτικές, Τοποθεσία (από `NAV_IDS`).
+3. **Παροχές** — quick list: Πισίνα, Wi-Fi, Parking, BBQ, Κήπος (static, 4–5 items, μεταφρασμένα μέσω `t.footer` — θα προσθέσω νέο key `amenitiesList` σε `src/lib/i18n.tsx`).
+4. **Επικοινωνία** — Plaka Apokoronos Chania, +30 6940 133 837, +30 6948 014 277.
+   (Το email μεταφέρεται στην πρώτη στήλη κάτω από το tagline όπως στο mockup, άρα δεν επαναλαμβάνεται εδώ.)
+
+### Bottom bar
+
+- Λεπτή γραμμή (`border-t border-border`) με copyright αριστερά σε `text-muted-foreground`. Ίδια δομή, νέα χρώματα για light bg.
 
 ### i18n
-Νέο block `t.rooms` σε `src/lib/i18n.tsx` (GR/EN) με eyebrow, title (με highlight span), και 3 card titles + descriptions.
 
-### Αρχεία που αλλάζουν
-- `src/routes/index.tsx` — νέο `RoomsSection` component + insertion μετά το VillaSection.
-- `src/lib/i18n.tsx` — νέο rooms namespace.
-- `src/components/villa-icons.tsx` — 3 νέα line icons.
-- `src/assets/*.asset.json` — 3 νέα pointers για τις πραγματικές φωτογραφίες.
+Προσθήκη στο `t.footer` (EL + EN):
+- `amenitiesCol: "Παροχές" / "Amenities"`
+- `amenitiesList: ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]` (και EN αντίστοιχα)
 
-Hero, About, Amenities, Gallery, Location, FAQ, Contact, Footer — αμετάβλητα.
+Χωρίς άλλες αλλαγές. Build αναμένεται να περάσει.
