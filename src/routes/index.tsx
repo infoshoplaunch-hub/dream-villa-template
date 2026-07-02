@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Users,
   MapPin,
@@ -11,8 +12,10 @@ import {
   Check,
   ArrowRight,
 } from "lucide-react";
+import { DayPicker, type DateRange } from "react-day-picker";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
 
+import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -898,24 +901,147 @@ function LocationSection() {
 
 function Booking() {
   const { t } = useI18n();
+  const [range, setRange] = useState<{ from?: Date; to?: Date }>({});
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [bookedRanges, setBookedRanges] = useState<
+    { from: Date; to: Date }[]
+  >([]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const loadBooked = useCallback(async () => {
+    const { data, error } = await supabase.rpc("get_booked_ranges");
+    if (error) {
+      console.error("Failed to load booked ranges", error);
+      return;
+    }
+    const parsed = (data ?? []).map((r: { check_in: string; check_out: string }) => ({
+      from: new Date(r.check_in + "T00:00:00"),
+      to: new Date(r.check_out + "T00:00:00"),
+    }));
+    setBookedRanges(parsed);
+  }, []);
+
+  useEffect(() => {
+    loadBooked();
+  }, [loadBooked]);
+
+  // Disable past dates + nights inside booked ranges (check_out day is bookable as new arrival)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const disabledMatchers = [
+    { before: today },
+    ...bookedRanges.map((r) => {
+      const lastNight = new Date(r.to);
+      lastNight.setDate(lastNight.getDate() - 1);
+      return { from: r.from, to: lastNight };
+    }),
+  ];
+
+  const nights =
+    range.from && range.to
+      ? Math.round(
+          (range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24),
+        )
+      : 0;
+
+  const rangeOverlapsBooked = () => {
+    if (!range.from || !range.to) return false;
+    return bookedRanges.some(
+      (r) => range.from! < r.to && range.to! > r.from,
+    );
+  };
+
+  const totalGuests = adults + children;
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+
+    if (!range.from || !range.to) {
+      setError(t.booking.errDates);
+      return;
+    }
+    if (!name.trim() || !email.trim() || !phone.trim()) {
+      setError(t.booking.errRequired);
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError(t.booking.errEmail);
+      return;
+    }
+    if (adults < 1) {
+      setError(t.booking.errRequired);
+      return;
+    }
+    if (totalGuests > 7) {
+      setError(t.booking.errMaxGuests);
+      return;
+    }
+    if (rangeOverlapsBooked()) {
+      setError(t.booking.errOverlap);
+      return;
+    }
+
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      (e.target as HTMLFormElement).reset();
-      toast.success(t.booking.success);
-    }, 700);
+    const toIso = (d: Date) => {
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const { error: insertError } = await supabase.from("bookings").insert({
+      guest_name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      check_in: toIso(range.from),
+      check_out: toIso(range.to),
+      adults,
+      children,
+      message: message.trim() || null,
+      status: "pending",
+    });
+
+    setSubmitting(false);
+
+    if (insertError) {
+      console.error("Booking insert failed", insertError);
+      // Postgres check constraint or race with a concurrent booking
+      if (
+        insertError.message?.toLowerCase().includes("check") ||
+        insertError.code === "23514"
+      ) {
+        setError(t.booking.errOverlap);
+      } else {
+        setError(t.booking.errGeneric);
+      }
+      return;
+    }
+
+    toast.success(t.booking.success);
+    setRange({});
+    setAdults(2);
+    setChildren(0);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setMessage("");
+    loadBooked();
   };
 
   return (
     <section id="booking" className="section-y">
       <div className="container-villa">
         <div className="grid gap-10 rounded-3xl bg-primary p-8 text-primary-foreground shadow-soft md:grid-cols-5 md:p-14">
+          {/* Left column */}
           <div className="md:col-span-2">
-            <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent">
               <span className="h-px w-8 bg-accent" />
               {t.booking.eyebrow}
             </span>
@@ -947,31 +1073,96 @@ function Booking() {
             </div>
           </div>
 
+          {/* Right column — booking card */}
           <form
             onSubmit={onSubmit}
             className="md:col-span-3 rounded-2xl bg-card p-6 text-foreground shadow-card md:p-8"
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t.booking.name} name="name" required />
-              <Field label={t.booking.email} name="email" type="email" required />
-              <Field label={t.booking.phone} name="phone" type="tel" />
-              <Field label={t.booking.guests} name="guests" type="number" min={1} max={7} defaultValue={2} />
-              <Field label={t.booking.checkin} name="checkin" type="date" required />
-              <Field label={t.booking.checkout} name="checkout" type="date" required />
+            <h3 className="font-serif text-2xl md:text-3xl">{t.booking.cardTitle}</h3>
+
+            {/* Calendar */}
+            <div className="mt-5 rounded-xl border border-border bg-background/60 p-2">
+              <DayPicker
+                mode="range"
+                selected={range as DateRange}
+                onSelect={(r?: DateRange) => setRange(r ?? {})}
+                disabled={disabledMatchers}
+                numberOfMonths={typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1}
+                showOutsideDays
+                className="pointer-events-auto p-2 [--rdp-accent-color:var(--accent)] [--rdp-accent-background-color:oklch(var(--accent)/0.15)]"
+                classNames={{
+                  day_disabled: "text-muted-foreground/40 line-through",
+                }}
+              />
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-3 pb-1 pt-3 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block h-3 w-3 rounded-sm bg-muted-foreground/25" />
+                  {t.booking.unavailableLegend}
+                </span>
+                {range.from && range.to ? (
+                  <span className="text-foreground">
+                    {t.booking.selectedRange}: {range.from.toLocaleDateString("el-GR")} → {range.to.toLocaleDateString("el-GR")} ({nights} {t.booking.nights})
+                  </span>
+                ) : (
+                  <span>{t.booking.pickDates}</span>
+                )}
+              </div>
             </div>
+
+            {/* Guests */}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <NumberField
+                label={t.booking.adults}
+                value={adults}
+                min={1}
+                max={7}
+                onChange={setAdults}
+              />
+              <NumberField
+                label={t.booking.children}
+                value={children}
+                min={0}
+                max={6}
+                onChange={setChildren}
+              />
+            </div>
+
+            {/* Personal info */}
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <TextField label={t.booking.name} value={name} onChange={setName} required />
+              <TextField label={t.booking.email} value={email} onChange={setEmail} type="email" required />
+              <TextField label={t.booking.phone} value={phone} onChange={setPhone} type="tel" required />
+            </div>
+
             <div className="mt-4">
               <Label htmlFor="message" className="text-xs uppercase tracking-widest text-muted-foreground">
                 {t.booking.message}
               </Label>
-              <Textarea id="message" name="message" rows={4} className="mt-2" />
+              <Textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={3}
+                className="mt-2"
+              />
             </div>
+
+            {error && (
+              <div className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
+
             <Button
               type="submit"
               disabled={submitting}
               className="mt-6 h-12 w-full rounded-full bg-accent text-accent-foreground hover:brightness-110"
             >
-              {submitting ? "..." : t.booking.submit}
+              {submitting ? t.booking.submitting : t.booking.submit}
             </Button>
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              {t.booking.microcopy}
+            </p>
           </form>
         </div>
       </div>
@@ -979,22 +1170,86 @@ function Booking() {
   );
 }
 
-function Field({
+function TextField({
   label,
-  name,
+  value,
+  onChange,
   type = "text",
-  ...rest
+  required,
 }: {
   label: string;
-  name: string;
+  value: string;
+  onChange: (v: string) => void;
   type?: string;
-} & React.InputHTMLAttributes<HTMLInputElement>) {
+  required?: boolean;
+}) {
+  const id = React.useId();
   return (
     <div>
-      <Label htmlFor={name} className="text-xs uppercase tracking-widest text-muted-foreground">
+      <Label htmlFor={id} className="text-xs uppercase tracking-widest text-muted-foreground">
         {label}
       </Label>
-      <Input id={name} name={name} type={type} className="mt-2" {...rest} />
+      <Input
+        id={id}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        className="mt-2"
+      />
+    </div>
+  );
+}
+
+function NumberField({
+  label,
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div>
+      <Label className="text-xs uppercase tracking-widest text-muted-foreground">
+        {label}
+      </Label>
+      <div className="mt-2 flex items-center rounded-md border border-input bg-background">
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(min, value - 1))}
+          className="h-10 w-10 shrink-0 text-lg text-muted-foreground hover:text-foreground disabled:opacity-40"
+          disabled={value <= min}
+          aria-label="minus"
+        >
+          −
+        </button>
+        <input
+          type="number"
+          value={value}
+          min={min}
+          max={max}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            if (!Number.isNaN(n)) onChange(Math.min(max, Math.max(min, n)));
+          }}
+          className="h-10 w-full border-x border-input bg-transparent text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        />
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(max, value + 1))}
+          className="h-10 w-10 shrink-0 text-lg text-muted-foreground hover:text-foreground disabled:opacity-40"
+          disabled={value >= max}
+          aria-label="plus"
+        >
+          +
+        </button>
+      </div>
     </div>
   );
 }
