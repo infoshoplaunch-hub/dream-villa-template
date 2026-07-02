@@ -885,24 +885,143 @@ function LocationSection() {
   );
 }
 
-/* ---------- FAQ ---------- */
+/* ---------- Booking ---------- */
 
-function FAQ() {
+function BookingSection() {
   const { t } = useI18n();
+  const perks = [
+    "Άμεση απάντηση σε αίτημα κράτησης",
+    "Ευέλικτες ημερομηνίες check-in / check-out",
+    "Χωρίς κρυφές χρεώσεις",
+    "Προσωπική εξυπηρέτηση στα Ελληνικά & Αγγλικά",
+  ];
   return (
-    <section className="section-y bg-secondary/40">
-      <div className="container-villa max-w-3xl">
-        <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.title} />
-        <Accordion type="single" collapsible className="mt-10 rounded-2xl border border-border bg-card px-2">
-          {t.faq.items.map((it, i) => (
-            <AccordionItem key={i} value={`i${i}`} className="border-border">
-              <AccordionTrigger className="px-4 text-left font-serif text-lg hover:no-underline">
-                {it.q}
-              </AccordionTrigger>
-              <AccordionContent className="px-4 text-muted-foreground">{it.a}</AccordionContent>
-            </AccordionItem>
+    <section id="booking" className="section-y bg-[oklch(0.22_0.02_260)] text-white">
+      <div className="container-villa">
+        <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
+          <div>
+            <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent">
+              <span className="h-px w-8 bg-accent" />
+              {t.booking.eyebrow}
+              <span className="h-px w-8 bg-accent" />
+            </span>
+            <h2 className="mt-5 font-serif text-3xl leading-tight md:text-5xl">
+              Ζητήστε τη δική σας <span className="text-accent">διαμονή</span>
+            </h2>
+            <p className="mt-6 max-w-xl leading-relaxed text-white/75">
+              Στείλτε μας τις ημερομηνίες που σας ενδιαφέρουν και τον αριθμό των επισκεπτών.
+              Θα σας απαντήσουμε σύντομα με διαθεσιμότητα και προσφορά.
+            </p>
+
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+              {perks.map((p) => (
+                <li key={p} className="flex items-start gap-2.5 text-sm text-white/85">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                    <Check className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="leading-snug">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-3xl border border-white/15 bg-white/[0.04] p-8 shadow-2xl backdrop-blur md:p-10">
+            <div className="font-serif text-2xl md:text-3xl">Έτοιμοι να κλείσετε;</div>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
+            </p>
+            <div className="mt-8 space-y-3">
+              <a
+                href="mailto:info@katerinavipvilla.gr?subject=Αίτημα Κράτησης - Ekaterini VIP Villa"
+                className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
+              >
+                Αίτημα Κράτησης
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="tel:+306940133837"
+                className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                Κλήση: +30 6940 133 837
+              </a>
+            </div>
+            <div className="mt-6 text-center text-xs text-white/60">
+              Απαντάμε στα Ελληνικά και στα Αγγλικά
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Contact ---------- */
+
+function ContactSection() {
+  const { t } = useI18n();
+  const items = [
+    {
+      label: "Email",
+      value: "info@katerinavipvilla.gr",
+      href: "mailto:info@katerinavipvilla.gr",
+    },
+    {
+      label: "Τηλέφωνο",
+      value: "+30 6940 133 837",
+      href: "tel:+306940133837",
+    },
+    {
+      label: "Τηλέφωνο",
+      value: "+30 6948 014 277",
+      href: "tel:+306948014277",
+    },
+    {
+      label: "Διεύθυνση",
+      value: "Plaka Apokoronos, 73008 Chania, Crete",
+      href: "https://www.google.com/maps/search/?api=1&query=Plaka+Apokoronos+Chania+Crete",
+    },
+  ];
+  return (
+    <section id="contact" className="section-y bg-[oklch(0.97_0.012_80)]">
+      <div className="container-villa">
+        <div className="flex items-center justify-center gap-4">
+          <span className="h-px w-10 bg-accent" />
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
+            {t.contact.eyebrow}
+          </span>
+          <span className="h-px w-10 bg-accent" />
+        </div>
+
+        <h2 className="mx-auto mt-6 max-w-3xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+          Ας <span className="text-accent">μιλήσουμε</span>
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-center leading-relaxed text-foreground/70">
+          {t.contact.text}
+        </p>
+
+        <div className="mx-auto mt-14 grid max-w-4xl gap-5 sm:grid-cols-2">
+          {items.map((it, i) => (
+            <a
+              key={i}
+              href={it.href}
+              target={it.href.startsWith("http") ? "_blank" : undefined}
+              rel={it.href.startsWith("http") ? "noreferrer" : undefined}
+              className="group flex items-center gap-5 rounded-2xl border border-border/60 bg-background p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-20px_rgba(15,23,42,0.35)]"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+                <MapPin className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                  {it.label}
+                </div>
+                <div className="mt-1 font-medium text-foreground group-hover:text-accent">
+                  {it.value}
+                </div>
+              </div>
+            </a>
           ))}
-        </Accordion>
+        </div>
       </div>
     </section>
   );
