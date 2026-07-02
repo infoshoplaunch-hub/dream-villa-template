@@ -38,7 +38,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
-import logoAsset from "@/assets/logo.png.asset.json";
+import logoAsset from "@/assets/logo-villa.png.asset.json";
 const logoUrl = logoAsset.url;
 import poolImg from "@/assets/pool.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
@@ -112,29 +112,11 @@ function LangSwitch({ onDark = false }: { onDark?: boolean }) {
 }
 
 function BrandLogo({ onDark }: { onDark: boolean }) {
-  if (onDark) {
-    return (
-      <div className="flex items-baseline gap-1 leading-none">
-        <span
-          className="font-serif text-2xl md:text-[28px] tracking-wide text-white"
-          style={{ fontVariant: "small-caps" }}
-        >
-          Ekaterini
-        </span>
-        <span className="rounded-sm border border-accent/70 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.25em] text-accent">
-          VIP
-        </span>
-        <span className="font-serif text-2xl md:text-[28px] italic text-white/90">
-          Villa
-        </span>
-      </div>
-    );
-  }
   return (
     <img
       src={logoUrl}
-      alt="Ekaterini VIP Villa"
-      className="h-10 w-auto md:h-12"
+      alt="Ekaterini VIP Villa — Luxury Relax Center"
+      className={`w-auto transition-all ${onDark ? "h-14 md:h-20" : "h-11 md:h-14"}`}
     />
   );
 }
