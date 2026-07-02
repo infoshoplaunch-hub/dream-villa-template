@@ -322,14 +322,14 @@ export const translations = {
     },
     location: {
       eyebrow: "Location",
-      title: "In the heart of Apokoronas",
-      text: "Ekaterini VIP Villa is located in Plaka Apokoronos, in Chania, Crete, in a beautiful setting ideal for peaceful holidays near the sea. The area combines relaxation, easy access to beaches and nearby points of interest.",
+      title: "In Plaka Apokoronos, close to the sea",
+      text: "Ekaterini VIP Villa is located in Plaka Apokoronos, in a calm and picturesque area of Chania. The location combines the privacy you want on holiday with easy access to the sea, local tavernas and the most beautiful spots of Apokoronas.",
       address: "Plaka Apokoronos, 73008 Chania, Crete, Greece",
       points: [
-        "Close to Apokoronas beaches",
-        "Family friendly area",
-        "Easy access to landmarks",
-        "Quiet surroundings",
+        "Close to beaches and local tavernas",
+        "Quiet area, ideal for families",
+        "Easy access to Chania and Apokoronas",
+        "Perfect base for day trips",
       ],
     },
     booking: {
