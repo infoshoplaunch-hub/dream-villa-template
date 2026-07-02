@@ -391,6 +391,7 @@ export const translations = {
       rights: "All rights reserved.",
       explore: "Explore",
       contactCol: "Contact",
+      amenitiesCol: "Amenities",
     },
   },
 } as const;
