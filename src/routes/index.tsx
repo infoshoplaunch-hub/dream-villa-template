@@ -347,37 +347,6 @@ function SectionHead({
   );
 }
 
-/* ---------- Highlights ---------- */
-
-const HIGHLIGHT_ICONS = [Users, BedDouble, Waves, Wifi, Car, Heart, Palmtree, Flame];
-
-function Highlights() {
-  const { t } = useI18n();
-  return (
-    <section id="highlights" className="section-y bg-secondary/40">
-      <div className="container-villa">
-        <SectionHead eyebrow={t.highlights.eyebrow} title={t.highlights.title} />
-        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {t.highlights.items.map((it, i) => {
-            const Icon = HIGHLIGHT_ICONS[i] ?? Sparkles;
-            return (
-              <div
-                key={it.t}
-                className="group rounded-2xl border border-border/60 bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 font-serif text-lg text-foreground">{it.t}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{it.d}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- Villa ---------- */
 
