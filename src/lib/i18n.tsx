@@ -221,7 +221,9 @@ export const translations = {
       rights: "Με επιφύλαξη κάθε νόμιμου δικαιώματος.",
       explore: "Πλοήγηση",
       contactCol: "Επικοινωνία",
+      amenitiesCol: "Παροχές",
     },
+
   },
   en: {
     nav: {
