@@ -182,7 +182,7 @@ function Header() {
         <div className="flex items-center gap-3">
           <LangSwitch onDark={onDark} />
           <a
-            href="#contact"
+            href="mailto:info@katerinavipvilla.gr"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
           >
             {t.nav.book}
@@ -218,7 +218,7 @@ function Header() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="mailto:info@katerinavipvilla.gr"
               onClick={() => setOpen(false)}
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
@@ -265,7 +265,7 @@ function Hero() {
 
           <div className="mt-9 flex flex-wrap gap-4">
             <a
-              href="#contact"
+              href="mailto:info@katerinavipvilla.gr"
               className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
               {t.hero.cta1}
@@ -1009,7 +1009,7 @@ function StickyBookCTA() {
   const { t } = useI18n();
   return (
     <a
-      href="#contact"
+      href="mailto:info@katerinavipvilla.gr"
       className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-soft md:hidden"
     >
       {t.nav.book}
