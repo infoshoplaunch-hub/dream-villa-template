@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const NAV_IDS = ["home", "villa", "amenities", "location", "booking", "contact"] as const;
+const NAV_IDS = ["home", "villa", "amenities", "location", "contact"] as const;
 
 function Landing() {
   return (
