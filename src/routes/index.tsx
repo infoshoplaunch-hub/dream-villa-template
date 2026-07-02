@@ -911,29 +911,43 @@ function FAQ() {
 /* ---------- Footer ---------- */
 
 function Footer() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const year = new Date().getFullYear();
   const links = NAV_IDS.filter((i) => i !== "home").map((id) => ({ id, l: t.nav[id] }));
+  const amenitiesList =
+    lang === "el"
+      ? ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]
+      : ["Pool", "Wi-Fi", "Parking", "BBQ", "Garden"];
   return (
-    <footer className="border-t border-border bg-primary text-primary-foreground">
+    <footer className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
       <div className="container-villa py-16">
         <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
+          {/* Brand */}
+          <div>
             <div className="font-serif text-2xl">
               Ekaterini <span className="text-accent">VIP</span> Villa
             </div>
-            <p className="mt-3 max-w-sm text-sm text-primary-foreground/70">{t.footer.tagline}</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {t.footer.tagline}
+            </p>
+            <a
+              href="mailto:info@katerinavipvilla.gr"
+              className="mt-4 inline-block text-sm text-muted-foreground hover:text-accent"
+            >
+              info@katerinavipvilla.gr
+            </a>
             <div className="mt-6"><LangSwitch /></div>
           </div>
 
+          {/* Navigation */}
           <div>
-            <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
+            <div className="text-base font-semibold text-foreground">
               {t.footer.explore}
             </div>
-            <ul className="mt-4 space-y-2 text-sm">
+            <ul className="mt-5 space-y-3 text-sm">
               {links.map((l) => (
                 <li key={l.id}>
-                  <a href={`#${l.id}`} className="text-primary-foreground/80 hover:text-accent">
+                  <a href={`#${l.id}`} className="text-muted-foreground hover:text-accent">
                     {l.l}
                   </a>
                 </li>
@@ -941,26 +955,39 @@ function Footer() {
             </ul>
           </div>
 
+          {/* Amenities */}
           <div>
-            <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
+            <div className="text-base font-semibold text-foreground">
+              {t.footer.amenitiesCol}
+            </div>
+            <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+              {amenitiesList.map((a) => (
+                <li key={a}>{a}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <div className="text-base font-semibold text-foreground">
               {t.footer.contactCol}
             </div>
-            <ul className="mt-4 space-y-2 text-sm text-primary-foreground/80">
+            <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
               <li>Plaka Apokoronos, Chania</li>
               <li><a className="hover:text-accent" href="tel:+306940133837">+30 6940 133 837</a></li>
               <li><a className="hover:text-accent" href="tel:+306948014277">+30 6948 014 277</a></li>
-              <li><a className="hover:text-accent" href="mailto:info@katerinavipvilla.gr">info@katerinavipvilla.gr</a></li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-primary-foreground/10 pt-6 text-xs text-primary-foreground/60">
+        <div className="mt-12 border-t border-border pt-6 text-xs text-muted-foreground">
           © {year} Ekaterini VIP Villa. {t.footer.rights}
         </div>
       </div>
     </footer>
   );
 }
+
 
 /* ---------- Sticky mobile CTA ---------- */
 
