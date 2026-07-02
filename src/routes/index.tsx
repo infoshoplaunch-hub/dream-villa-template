@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import {
-  Users,
   MapPin,
-  Phone,
-  Mail,
   Menu,
   X,
   Check,
