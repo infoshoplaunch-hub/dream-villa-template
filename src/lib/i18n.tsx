@@ -11,6 +11,8 @@ export type Dict = {
   gallery: { eyebrow: string; title: string; subtitle: string; tags: readonly string[] };
   location: { eyebrow: string; title: string; text: string; address: string; points: readonly string[] };
   booking: Readonly<Record<string, string>>;
+  bar: Readonly<Record<string, string>>;
+  bookingPage: Readonly<Record<string, string>>;
   faq: { eyebrow: string; title: string; items: readonly { q: string; a: string }[] };
   contact: Readonly<Record<string, string>>;
   footer: Readonly<Record<string, string>>;
