@@ -39,7 +39,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const NAV_IDS = ["home", "villa", "amenities", "location"] as const;
+const NAV_IDS = ["home", "villa", "rooms", "amenities", "location", "booking", "contact"] as const;
 
 function Landing() {
   return (
@@ -52,7 +52,8 @@ function Landing() {
         <Amenities />
         <Reviews />
         <LocationSection />
-        <FAQ />
+        <BookingSection />
+        <ContactSection />
       </main>
       <Footer />
       <StickyBookCTA />
