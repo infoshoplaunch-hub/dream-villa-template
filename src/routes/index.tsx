@@ -58,7 +58,6 @@ function Landing() {
         <VillaSection />
         <RoomsSection />
         <Amenities />
-        <Gallery />
         <Reviews />
         <LocationSection />
         <Booking />
