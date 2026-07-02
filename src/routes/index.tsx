@@ -2,13 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Users,
-  BedDouble,
-  Waves,
-  Wifi,
-  Car,
-  Heart,
-  Palmtree,
-  Flame,
   MapPin,
   Phone,
   Mail,
@@ -16,7 +9,6 @@ import {
   X,
   ChevronDown,
   Check,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
@@ -63,7 +55,6 @@ function Landing() {
       <Header />
       <main>
         <Hero />
-        <Highlights />
         <VillaSection />
         <Amenities />
         <Gallery />
@@ -325,15 +316,6 @@ function Hero() {
         </div>
       </div>
 
-      <a
-        href="#highlights"
-        className="absolute bottom-1 left-1/2 hidden -translate-x-1/2 items-center justify-center text-white/70 hover:text-white md:flex"
-        aria-label="Scroll"
-      >
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30">
-          <ChevronDown className="h-4 w-4 animate-bounce" />
-        </span>
-      </a>
     </section>
   );
 }
@@ -365,37 +347,6 @@ function SectionHead({
   );
 }
 
-/* ---------- Highlights ---------- */
-
-const HIGHLIGHT_ICONS = [Users, BedDouble, Waves, Wifi, Car, Heart, Palmtree, Flame];
-
-function Highlights() {
-  const { t } = useI18n();
-  return (
-    <section id="highlights" className="section-y bg-secondary/40">
-      <div className="container-villa">
-        <SectionHead eyebrow={t.highlights.eyebrow} title={t.highlights.title} />
-        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {t.highlights.items.map((it, i) => {
-            const Icon = HIGHLIGHT_ICONS[i] ?? Sparkles;
-            return (
-              <div
-                key={it.t}
-                className="group rounded-2xl border border-border/60 bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 font-serif text-lg text-foreground">{it.t}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{it.d}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- Villa ---------- */
 
