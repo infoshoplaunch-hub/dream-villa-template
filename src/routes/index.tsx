@@ -24,7 +24,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const NAV_IDS = ["home", "villa", "amenities", "gallery", "location", "booking", "contact"] as const;
+const NAV_IDS = ["home", "villa", "amenities", "location", "booking", "contact"] as const;
 
 function Landing() {
   return (
