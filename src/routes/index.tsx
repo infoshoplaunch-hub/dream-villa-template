@@ -24,7 +24,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const NAV_IDS = ["home", "villa", "amenities", "gallery", "location", "booking", "contact"] as const;
+const NAV_IDS = ["home", "villa", "amenities", "location", "booking", "contact"] as const;
 
 function Landing() {
   return (
@@ -58,7 +58,6 @@ function Landing() {
         <VillaSection />
         <RoomsSection />
         <Amenities />
-        <Gallery />
         <Reviews />
         <LocationSection />
         <Booking />
@@ -706,76 +705,6 @@ function Amenities() {
   );
 }
 
-/* ---------- Gallery ---------- */
-
-const GALLERY = [
-  { src: heroImg, tag: 0 },
-  { src: poolImg, tag: 1 },
-  { src: bedroomImg, tag: 2 },
-  { src: livingImg, tag: 3 },
-  { src: kitchenImg, tag: 4 },
-  { src: bathroomImg, tag: 5 },
-  { src: viewImg, tag: 6 },
-  { src: verandaImg, tag: 0 },
-  { src: exteriorImg, tag: 0 },
-];
-
-function Gallery() {
-  const { t } = useI18n();
-  const [open, setOpen] = useState<string | null>(null);
-  return (
-    <section id="gallery" className="section-y">
-      <div className="container-villa">
-        <SectionHead eyebrow={t.gallery.eyebrow} title={t.gallery.title} subtitle={t.gallery.subtitle} />
-
-        <div className="mt-10 flex flex-wrap justify-center gap-2">
-          {t.gallery.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-          {GALLERY.map((g, i) => {
-            const span =
-              i === 0 ? "md:col-span-2 md:row-span-2 aspect-square" : "aspect-[4/5]";
-            return (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setOpen(g.src)}
-                className={`group relative overflow-hidden rounded-2xl ${span}`}
-              >
-                <img
-                  src={g.src}
-                  alt={t.gallery.tags[g.tag] ?? "Villa"}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent opacity-0 transition group-hover:opacity-100" />
-                <span className="absolute bottom-3 left-3 rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-foreground opacity-0 backdrop-blur transition group-hover:opacity-100">
-                  {t.gallery.tags[g.tag]}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <Dialog open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
-          <DialogContent className="max-w-5xl border-none bg-black/95 p-0">
-            {open && (
-              <img src={open} alt="Villa" className="mx-auto max-h-[85vh] w-auto object-contain" />
-            )}
-          </DialogContent>
-        </Dialog>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- Reviews ---------- */
 
