@@ -936,7 +936,7 @@ function Footer() {
             >
               info@katerinavipvilla.gr
             </a>
-            <div className="mt-6"><LangSwitch /></div>
+            
           </div>
 
           {/* Navigation */}
