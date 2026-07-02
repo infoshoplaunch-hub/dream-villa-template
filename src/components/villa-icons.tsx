@@ -159,24 +159,8 @@ export function WifiIcon(props: IconProps) {
 
 export function ParkingIcon(props: IconProps) {
   return (
-    <svg {...baseProps} {...props}>
-      <Arch y={10} />
-      {/* cypress trees */}
-      <g opacity="0.85">
-        <path d="M14 46 c0-6 1.5-14 3-16 c1.5 2 3 10 3 16 z" />
-        <line x1="17" y1="46" x2="17" y2="50" />
-        <path d="M44 46 c0-6 1.5-14 3-16 c1.5 2 3 10 3 16 z" />
-        <line x1="47" y1="46" x2="47" y2="50" />
-      </g>
-      {/* car */}
-      <g transform="translate(0,2)">
-        <path d="M23 38 l2-4 h14 l2 4" />
-        <path d="M22 38 h20 v6 h-2 a2.5 2.5 0 0 1-5 0 h-6 a2.5 2.5 0 0 1-5 0 h-2 z" />
-        <circle cx="27" cy="44" r="1.6" />
-        <circle cx="37" cy="44" r="1.6" />
-        <line x1="26" y1="41" x2="30" y2="41" opacity="0.7" />
-        <line x1="34" y1="41" x2="38" y2="41" opacity="0.7" />
-      </g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+      <path fill="currentColor" d="M13.2 11H10V7h3.2a2 2 0 0 1 2 2a2 2 0 0 1-2 2M13 3H6v18h4v-6h3a6 6 0 0 0 6-6c0-3.32-2.69-6-6-6" />
     </svg>
   );
 }
