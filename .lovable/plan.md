@@ -1,55 +1,41 @@
-## Στόχος
-Νέα floating booking bar στο στυλ του mockup — Sticky κάτω από το header, με range date picker, guest popover (Ενήλικες/Παιδιά/Βρέφη) και κουμπί «Κράτηση» που ανοίγει νέα καρτέλα με τη συνέχεια της κράτησης.
+## Section 3 — «Οι Χώροι της Βίλας»
 
-## Τι θα φτιαχτεί
+Τοποθέτηση: αμέσως μετά το About (Section 2), πριν από τις Παροχές. Δεν αλλάζει τίποτε άλλο στη σελίδα.
 
-### 1. Νέο component `BookingBar` (sticky κάτω από το header)
-Εμφανίζεται σε όλο το site, κάθεται ακριβώς κάτω από το header (top-[header-height], `sticky`, `z-40`). Στο mobile: collapses σε ένα compact κουμπί «Κράτηση».
+### Δομή
+- Warm off-white background (ίδιο cream tone με τα υπόλοιπα light sections).
+- Centered eyebrow «ΟΙ ΧΩΡΟΙ ΜΑΣ» με μικρές πορτοκαλί γραμμές αριστερά/δεξιά.
+- Main title: «Ανακαλύψτε τους **χώρους** της βίλας» — η λέξη «χώρους» με orange accent.
+- 3 large cards σε 1 row (desktop), 2-col ή stacked σε tablet, 1-col σε mobile.
 
-Layout (desktop): λευκή pill-shaped bar με 4 sections χωρισμένα με vertical dividers:
-- **Άφιξη** — μικρό eyebrow «Άφιξη», μεγάλο text «Επιλέξτε ημερομηνία / dd MMM yyyy» + calendar icon → ανοίγει popover με range picker (μήνας 1)
-- **Αναχώρηση** — ίδιο, ανοίγει το ίδιο range picker εστιάζοντας στη 2η ημερομηνία
-- **Επισκέπτες** — «2 επισκέπτες» → ανοίγει popover με 3 counters:
-  - Ενήλικες 13+ ετών (min 1)
-  - Παιδιά 2–12 ετών (min 0)
-  - Βρέφη κάτω των 2 (min 0, δωρεάν — δεν προσμετρώνται)
-  - Περιορισμός: `adults + children ≤ 7`, με disabled + / inline hint όταν φτάσει το όριο
-- **CTA «Κράτηση»** — orange pill button, disabled μέχρι να επιλεγούν και οι δύο ημερομηνίες
+### Κάθε card
+- Πραγματική φωτογραφία top, rounded-top corners, `aspect-[4/3]` crop.
+- Λευκό content area κάτω, soft shadow, rounded-2xl.
+- Circular soft-orange badge με custom line SVG icon (αριστερά).
+- Title (dark charcoal, bold) + short description (muted).
+- Hover: subtle lift (`-translate-y-1`), image zoom (`scale-105`), εντονότερο shadow, πιο έντονο orange badge.
 
-### 2. Νέα σελίδα κράτησης `/booking`
-Το CTA κάνει `window.open('/booking?checkin=…&checkout=…&adults=…&children=…&infants=…', '_blank')` (νέα καρτέλα, όπως ζήτησες).
+### Icons (νέα custom line SVGs στο `src/components/villa-icons.tsx`)
+- `PoolLineIcon` — waves + διάγραμμα πισίνας
+- `BedroomLineIcon` — minimal bed outline
+- `OutdoorLineIcon` — δέντρο/ομπρέλα + πιάτα (outdoor dining)
+Όλα stroke-based, `currentColor`, ώστε να πάρουν orange accent.
 
-Η σελίδα:
-- Header/footer του site
-- Αριστερά: **Σύνοψη κράτησης** (ημερομηνίες, νύχτες, επισκέπτες, φωτογραφία βίλας, μικρό «περίληψη») — τα values διαβάζονται από search params μέσω `validateSearch`
-- Δεξιά: **Φόρμα στοιχείων** (Ονοματεπώνυμο, Email, Τηλέφωνο, Μήνυμα) + κουμπί «Αποστολή Αιτήματος Κράτησης»
-- Υποβολή: κάνει insert στον `bookings` πίνακα (υπάρχει ήδη). Σε επιτυχία: success screen με μήνυμα επιβεβαίωσης και «Επιστροφή στην αρχική».
-- Server-side re-validation availability μέσω `get_booked_ranges` πριν το insert (αποφυγή race conditions).
+### Φωτογραφίες
+Θα ανεβάσεις 3 πραγματικές φωτογραφίες (pool, bedroom, outdoor). Μόλις τις ανεβάσεις, θα δημιουργήσω 3 asset pointers:
+- `src/assets/villa-pool.jpg.asset.json`
+- `src/assets/villa-bedroom.jpg.asset.json`
+- `src/assets/villa-outdoor.jpg.asset.json`
 
-### 3. Availability logic (κοινή)
-Το `BookingBar` κάνει fetch το `get_booked_ranges` RPC στο mount και disable-άρει τις κρατημένες ημέρες στο calendar (όπως κάνει ήδη η υπάρχουσα φόρμα).
+Καμία AI/stock εικόνα.
 
-### 4. Καθαρισμός υπάρχοντος `#booking` section
-Το τρέχον μεγάλο navy Booking section παραμένει ως δεύτερο entry point (κάτω μέρος σελίδας), αλλά χωρίς αλλαγές — απλώς εξακολουθεί να δουλεύει. (Πες μου αν προτιμάς να αφαιρεθεί εντελώς αφού πλέον υπάρχει η bar + η dedicated σελίδα.)
+### i18n
+Νέο block `t.rooms` σε `src/lib/i18n.tsx` (GR/EN) με eyebrow, title (με highlight span), και 3 card titles + descriptions.
 
-## Τεχνική υλοποίηση
+### Αρχεία που αλλάζουν
+- `src/routes/index.tsx` — νέο `RoomsSection` component + insertion μετά το VillaSection.
+- `src/lib/i18n.tsx` — νέο rooms namespace.
+- `src/components/villa-icons.tsx` — 3 νέα line icons.
+- `src/assets/*.asset.json` — 3 νέα pointers για τις πραγματικές φωτογραφίες.
 
-**Files:**
-- `src/components/booking-bar.tsx` — νέο, sticky bar με 2 Popovers (calendar + guests)
-- `src/routes/booking.tsx` — νέα route με `validateSearch` (zod) για τα query params
-- `src/routes/__root.tsx` — προσθήκη `<BookingBar />` κάτω από το `<Header />`
-- `src/lib/i18n.tsx` — νέα keys: `bar.arrival`, `bar.departure`, `bar.guests`, `bar.book`, `bar.pickDate`, `bar.adults13`, `bar.children212`, `bar.infants2`, `bar.freeInfant`, `bar.maxGuestsHint`, καθώς και όλα τα strings της `/booking` σελίδας
-- `src/lib/booking.ts` — μικρό shared helper: `fetchBookedRanges()`, `isRangeAvailable()`, zod schema για τη φόρμα (`z.object({ guest_name, email, phone, message? })` με length limits & email validation)
-
-**State/params:** query params με το shape `{ checkin: string(YYYY-MM-DD), checkout: string, adults: number, children: number, infants: number }`. Το `/booking` route κάνει redirect πίσω στην αρχική αν λείπουν/είναι invalid.
-
-**UI primitives:** shadcn `Popover`, `Calendar` (mode="range"), `Button`, `Input`, `Textarea`, custom stepper (ίδιο pattern με το `NumberField` που ήδη υπάρχει).
-
-**Design tokens:** χρήση των υπαρχόντων `--accent` (orange CTA), `--card` (λευκή bar με soft shadow `shadow-soft`), `--muted-foreground` για eyebrows. Καμία hardcoded τιμή.
-
-**Security:** client-side zod validation + server-side check overlap πριν insert. Δεν χρησιμοποιούμε `dangerouslySetInnerHTML`. Email/phone με length limits (255/50).
-
-## Τι ΔΕΝ αλλάζει
-- Hero, About, Rooms, Amenities, Reviews, Location, FAQ — όλα ανέπαφα
-- Ο πίνακας `bookings` και το RPC — υπάρχουν ήδη, χρησιμοποιούνται ως έχουν
-- Υπάρχον `#booking` section — παραμένει (πες αν το θες remove)
+Hero, About, Amenities, Gallery, Location, FAQ, Contact, Footer — αμετάβλητα.

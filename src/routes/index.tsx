@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
-import { BookingBar } from "@/components/booking-bar";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type Lang } from "@/lib/i18n";
@@ -57,7 +56,6 @@ function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <BookingBar />
       <main>
         <Hero />
         <VillaSection />
