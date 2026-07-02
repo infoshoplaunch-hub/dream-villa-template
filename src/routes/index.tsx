@@ -819,48 +819,74 @@ function Reviews() {
 
 function LocationSection() {
   const { t } = useI18n();
+  const mapsUrl =
+    "https://www.google.com/maps/search/?api=1&query=Plaka+Apokoronos+Chania+Crete";
   return (
-    <section id="location" className="section-y bg-secondary/40">
-      <div className="container-villa grid gap-10 md:grid-cols-2 md:items-center">
+    <section id="location" className="section-y bg-[oklch(0.97_0.012_80)]">
+      <div className="container-villa grid gap-12 lg:grid-cols-[45fr_55fr] lg:items-center">
+        {/* Left column */}
         <div>
-          <SectionHead eyebrow={t.location.eyebrow} title={t.location.title} center={false} />
-          <p className="mt-6 leading-relaxed text-foreground/80">{t.location.text}</p>
+          <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent">
+            <span className="h-px w-8 bg-accent" />
+            {t.location.eyebrow}
+            <span className="h-px w-8 bg-accent" />
+          </span>
+          <h2 className="mt-5 font-serif text-3xl leading-[1.15] text-foreground md:text-5xl">
+            {t.location.title}
+          </h2>
+          <p className="mt-6 max-w-xl leading-relaxed text-foreground/75">
+            {t.location.text}
+          </p>
 
-          <div className="mt-8 rounded-2xl border border-border bg-card p-6">
-            <div className="flex items-start gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="font-medium">{t.location.address}</div>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Plaka+Apokoronos+Chania+Crete"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 inline-block text-sm text-accent hover:underline"
-                >
-                  Google Maps →
-                </a>
-              </div>
+          {/* Location card */}
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="group mt-8 flex items-center gap-5 rounded-2xl border border-border/60 bg-card p-5 shadow-[0_10px_30px_-18px_oklch(0.2_0.02_260/0.25)] transition hover:shadow-[0_18px_40px_-18px_oklch(0.2_0.02_260/0.3)]"
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+              <MapPin className="h-5 w-5" />
             </div>
-          </div>
+            <div className="min-w-0">
+              <div className="font-medium text-foreground">{t.location.address}</div>
+              <span className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-accent transition group-hover:gap-2">
+                Άνοιγμα στο Google Maps
+                <span aria-hidden>→</span>
+              </span>
+            </div>
+          </a>
 
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+          {/* Benefits */}
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {t.location.points.map((p) => (
-              <li key={p} className="flex items-center gap-2 text-sm text-foreground/80">
-                <Check className="h-4 w-4 text-accent" />
-                {p}
+              <li key={p} className="flex items-start gap-2.5 text-sm text-foreground/80">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+                <span className="leading-snug">{p}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-border shadow-card">
+        {/* Right column — Map */}
+        <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-[0_24px_60px_-24px_oklch(0.2_0.02_260/0.3)]">
+          {/* Floating label */}
+          <div className="pointer-events-none absolute left-4 top-4 z-10 flex items-center gap-2 rounded-full bg-card/95 px-4 py-2 shadow-[0_8px_24px_-10px_oklch(0.2_0.02_260/0.35)] backdrop-blur">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-accent">
+              <MapPin className="h-3.5 w-3.5" />
+            </span>
+            <span className="text-xs font-medium text-foreground">
+              Ekaterini VIP Villa — Πλάκα Αποκορώνου
+            </span>
+          </div>
           <iframe
-            title="Map"
-            src="https://www.google.com/maps?q=Plaka+Apokoronos+Chania+Crete&output=embed"
-            className="h-[420px] w-full md:h-[520px]"
+            title="Ekaterini VIP Villa location"
+            src="https://www.google.com/maps?q=Plaka+Apokoronos+Chania+Crete&z=12&output=embed"
+            className="h-[440px] w-full lg:h-[560px]"
             loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
       </div>

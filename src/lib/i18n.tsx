@@ -136,14 +136,14 @@ export const translations = {
     },
     location: {
       eyebrow: "Τοποθεσία",
-      title: "Στην καρδιά του Αποκόρωνα",
-      text: "Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης, σε μια όμορφη τοποθεσία ιδανική για ήρεμες διακοπές κοντά στη θάλασσα. Η περιοχή συνδυάζει χαλάρωση, εύκολη πρόσβαση σε παραλίες και κοντινά σημεία ενδιαφέροντος.",
+      title: "Στην Πλάκα Αποκορώνου, κοντά στη θάλασσα",
+      text: "Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, σε μια ήρεμη και γραφική περιοχή των Χανίων. Η τοποθεσία συνδυάζει την ιδιωτικότητα που θέλετε στις διακοπές σας, με εύκολη πρόσβαση στη θάλασσα, σε τοπικές ταβέρνες και στα πιο όμορφα σημεία του Αποκόρωνα.",
       address: "Plaka Apokoronos, 73008 Chania, Crete, Greece",
       points: [
-        "Κοντά σε παραλίες Αποκόρωνα",
-        "Οικογενειακή περιοχή",
-        "Εύκολη πρόσβαση σε αξιοθέατα",
-        "Ήσυχο περιβάλλον",
+        "Κοντά σε παραλίες και τοπικές ταβέρνες",
+        "Ήρεμη περιοχή, ιδανική για οικογένειες",
+        "Εύκολη πρόσβαση στα Χανιά και στον Αποκόρωνα",
+        "Ιδανική βάση για ημερήσιες εξορμήσεις",
       ],
     },
     booking: {
@@ -322,14 +322,14 @@ export const translations = {
     },
     location: {
       eyebrow: "Location",
-      title: "In the heart of Apokoronas",
-      text: "Ekaterini VIP Villa is located in Plaka Apokoronos, in Chania, Crete, in a beautiful setting ideal for peaceful holidays near the sea. The area combines relaxation, easy access to beaches and nearby points of interest.",
+      title: "In Plaka Apokoronos, close to the sea",
+      text: "Ekaterini VIP Villa is located in Plaka Apokoronos, in a calm and picturesque area of Chania. The location combines the privacy you want on holiday with easy access to the sea, local tavernas and the most beautiful spots of Apokoronas.",
       address: "Plaka Apokoronos, 73008 Chania, Crete, Greece",
       points: [
-        "Close to Apokoronas beaches",
-        "Family friendly area",
-        "Easy access to landmarks",
-        "Quiet surroundings",
+        "Close to beaches and local tavernas",
+        "Quiet area, ideal for families",
+        "Easy access to Chania and Apokoronas",
+        "Perfect base for day trips",
       ],
     },
     booking: {
