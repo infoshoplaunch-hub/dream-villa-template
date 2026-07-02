@@ -1085,7 +1085,7 @@ function Booking() {
               <DayPicker
                 mode="range"
                 selected={range as DateRange}
-                onSelect={(r) => setRange((r as { from?: Date; to?: Date }) ?? {})}
+                onSelect={(r?: DateRange) => setRange(r ?? {})}
                 disabled={disabledMatchers}
                 numberOfMonths={typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1}
                 showOutsideDays
