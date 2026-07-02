@@ -316,15 +316,6 @@ function Hero() {
         </div>
       </div>
 
-      <a
-        href="#highlights"
-        className="absolute bottom-1 left-1/2 hidden -translate-x-1/2 items-center justify-center text-white/70 hover:text-white md:flex"
-        aria-label="Scroll"
-      >
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30">
-          <ChevronDown className="h-4 w-4 animate-bounce" />
-        </span>
-      </a>
     </section>
   );
 }
