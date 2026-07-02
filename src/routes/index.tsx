@@ -39,6 +39,7 @@ import { Toaster } from "@/components/ui/sonner";
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
 import logoAsset from "@/assets/logo-villa.png.asset.json";
+import logoDarkAsset from "@/assets/logo-villa-dark.png.asset.json";
 const logoUrl = logoAsset.url;
 import poolImg from "@/assets/pool.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
