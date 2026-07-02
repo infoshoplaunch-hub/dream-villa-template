@@ -41,6 +41,7 @@ const heroImg = heroAsset.url;
 import logoAsset from "@/assets/logo-villa.png.asset.json";
 import logoDarkAsset from "@/assets/logo-villa-dark.png.asset.json";
 const logoUrl = logoAsset.url;
+const logoDarkUrl = logoDarkAsset.url;
 import poolImg from "@/assets/pool.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
 import livingImg from "@/assets/living.jpg";
