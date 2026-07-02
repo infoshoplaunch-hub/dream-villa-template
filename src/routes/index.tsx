@@ -914,13 +914,13 @@ function Booking() {
     { from: Date; to: Date }[]
   >([]);
 
-  const loadBooked = React.useCallback(async () => {
+  const loadBooked = useCallback(async () => {
     const { data, error } = await supabase.rpc("get_booked_ranges");
     if (error) {
       console.error("Failed to load booked ranges", error);
       return;
     }
-    const parsed = (data ?? []).map((r) => ({
+    const parsed = (data ?? []).map((r: { check_in: string; check_out: string }) => ({
       from: new Date(r.check_in + "T00:00:00"),
       to: new Date(r.check_out + "T00:00:00"),
     }));
