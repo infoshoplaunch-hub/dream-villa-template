@@ -229,8 +229,8 @@ export const translations = {
     nav: {
       home: "Home",
       villa: "The Villa",
+      rooms: "Spaces",
       amenities: "Amenities",
-      gallery: "Gallery",
       location: "Location",
       booking: "Booking",
       contact: "Contact",
