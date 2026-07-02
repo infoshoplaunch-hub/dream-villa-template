@@ -453,6 +453,111 @@ function VillaSection() {
   );
 }
 
+/* ---------- Rooms ---------- */
+
+const ROOMS = [
+  {
+    title: "Χώρος Πισίνας",
+    desc: "Ιδιωτική πισίνα με θέα, ιδανική για στιγμές χαλάρωσης από το πρωί μέχρι το βράδυ.",
+    img: poolImg,
+    alt: "Ιδιωτική πισίνα Ekaterini VIP Villa",
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+        <path d="M4 22c2 0 2-1.5 4-1.5S10 22 12 22s2-1.5 4-1.5S18 22 20 22s2-1.5 4-1.5S26 22 28 22" />
+        <path d="M4 27c2 0 2-1.5 4-1.5S10 27 12 27s2-1.5 4-1.5S18 27 20 27s2-1.5 4-1.5S26 27 28 27" />
+        <path d="M10 18V8a3 3 0 0 1 6 0" />
+        <path d="M22 18V8a3 3 0 0 0-6 0" />
+        <path d="M10 13h12" />
+      </svg>
+    ),
+  },
+  {
+    title: "Υπνοδωμάτια",
+    desc: "3 άνετα υπνοδωμάτια για ξεκούραστη διαμονή με οικογένεια ή παρέα.",
+    img: bedroomImg,
+    alt: "Υπνοδωμάτιο Ekaterini VIP Villa",
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+        <path d="M4 22V10" />
+        <path d="M28 22v-6a4 4 0 0 0-4-4H4" />
+        <path d="M4 18h24" />
+        <path d="M4 22h24" />
+        <path d="M9 12v-2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      </svg>
+    ),
+  },
+  {
+    title: "Εξωτερικοί Χώροι",
+    desc: "BBQ, βεράντα, κήπος και χώροι για φαγητό ή χαλάρωση κάτω από τον κρητικό ουρανό.",
+    img: verandaImg,
+    alt: "Εξωτερικοί χώροι και BBQ Ekaterini VIP Villa",
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+        <path d="M16 4v4" />
+        <path d="M4 14C4 9 9 6 16 6s12 3 12 8Z" />
+        <path d="M16 14v14" />
+        <path d="M11 28h10" />
+        <path d="M8 20h4" />
+        <path d="M20 20h4" />
+      </svg>
+    ),
+  },
+] as const;
+
+function RoomsSection() {
+  return (
+    <section id="rooms" className="section-y bg-[oklch(0.97_0.012_80)]">
+      <div className="container-villa">
+        {/* Eyebrow */}
+        <div className="flex items-center justify-center gap-4">
+          <span className="h-px w-10 bg-accent" />
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
+            Οι Χώροι Μας
+          </span>
+          <span className="h-px w-10 bg-accent" />
+        </div>
+
+        {/* Title */}
+        <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+          Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
+        </h2>
+
+        {/* Cards */}
+        <div className="mt-14 grid gap-8 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+          {ROOMS.map((room) => (
+            <article
+              key={room.title}
+              className="group flex flex-col overflow-hidden rounded-3xl bg-background shadow-[0_20px_50px_-30px_rgba(15,23,42,0.35)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_35px_70px_-25px_rgba(15,23,42,0.4)]"
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={room.img}
+                  alt={room.alt}
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                />
+              </div>
+              <div className="flex flex-1 items-start gap-5 p-7 md:p-8">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/20">
+                  {room.icon}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="font-serif text-2xl leading-tight text-foreground">
+                    {room.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                    {room.desc}
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Amenities ---------- */
 
 function Amenities() {
