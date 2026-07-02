@@ -8,27 +8,19 @@ import {
   Mail,
   Menu,
   X,
-  ChevronDown,
   Check,
   ArrowRight,
 } from "lucide-react";
-import { DayPicker, type DateRange } from "react-day-picker";
 import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
 
-import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
