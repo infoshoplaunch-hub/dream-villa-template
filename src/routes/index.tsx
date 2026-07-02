@@ -53,7 +53,6 @@ function Landing() {
         <Reviews />
         <LocationSection />
         <FAQ />
-        <Contact />
       </main>
       <Footer />
       <StickyBookCTA />
