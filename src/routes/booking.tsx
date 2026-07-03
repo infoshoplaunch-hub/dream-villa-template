@@ -157,14 +157,14 @@ function BookingPage() {
 
                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
                   <Field label="ΟΝΟΜΑ *" value={form.firstName} onChange={onChange("firstName")} icon={<User className="h-4 w-4" />} />
-                  <Field label="ΕΠΩΝΥΜΟ *" value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
+                  <Field label="ΕΠΙΘΕΤΟ *" value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
                   <Field label="EMAIL *" type="email" value={form.email} onChange={onChange("email")} icon={<Mail className="h-4 w-4" />} />
                   <Field label="ΤΗΛΕΦΩΝΟ *" type="tel" value={form.phone} onChange={onChange("phone")} icon={<Phone className="h-4 w-4" />} />
                 </div>
 
                 <div className="mt-5">
                   <label className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/55">
-                    ΜΗΝΥΜΑ / ΕΙΔΙΚΑ ΑΙΤΗΜΑΤΑ
+                    ΜΗΝΥΜΑ&nbsp;
                   </label>
                   <div className="relative mt-2">
                     <span className="pointer-events-none absolute left-4 top-3.5 text-foreground/40">
