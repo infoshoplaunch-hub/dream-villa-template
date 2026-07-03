@@ -255,7 +255,7 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/80 to-transparent" />
 
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-28 pt-32 md:justify-center md:pb-36 md:pt-24">
+      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-16 pt-32 md:justify-center md:pb-24 md:pt-24">
         <div className="max-w-4xl text-white">
 
           <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
