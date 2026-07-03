@@ -48,7 +48,7 @@ function Landing() {
       <Header />
       <main>
         <Hero />
-        <div className="relative z-20 -mt-12 md:-mt-20">
+        <div className="relative z-20 -mt-[52px] md:-mt-[64px]">
           <div className="container-villa">
             <BookingBar />
           </div>
