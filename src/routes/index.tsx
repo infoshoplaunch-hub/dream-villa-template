@@ -1,18 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import * as React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MapPin,
   Menu,
   X,
   Check,
   ArrowRight,
+  Calendar as CalendarIcon,
+  Users as UsersIcon,
+  Minus,
+  Plus,
 } from "lucide-react";
-import { HERO_HIGHLIGHT_ICONS } from "@/components/villa-icons";
+import { format } from "date-fns";
+import { el } from "date-fns/locale";
+import { toast } from "sonner";
 
 import { useI18n, type Lang } from "@/lib/i18n";
-import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
