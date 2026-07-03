@@ -540,7 +540,7 @@ function VillaSection() {
   ];
 
   return (
-    <section id="villa" className="pt-32 pb-20 md:pt-44 md:pb-28 bg-[oklch(0.97_0.012_80)]">
+    <section id="villa" className="pt-24 pb-20 md:pt-32 md:pb-28 bg-[oklch(0.97_0.012_80)]">
       <div className="container-villa">
         {/* Eyebrow label */}
         <div className="flex items-center justify-center gap-4">
