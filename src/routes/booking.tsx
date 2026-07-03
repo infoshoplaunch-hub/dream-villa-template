@@ -192,25 +192,6 @@ function BookingPage() {
                 </p>
               </form>
 
-              {/* Info card */}
-              <div className="mt-6 rounded-3xl border border-border/60 bg-background p-7 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] md:p-8">
-                <h3 className="font-semibold text-foreground">Χρήσιμες πληροφορίες</h3>
-                <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                  {[
-                    "Δεν χρειάζεται πιστωτική κάρτα",
-                    "Δεν θα χρεωθείτε τώρα",
-                    "Η διαχείριση θα επικοινωνήσει μαζί σας για επιβεβαίωση",
-                    "Μπορείτε να αναφέρετε ειδικά αιτήματα",
-                  ].map((t) => (
-                    <li key={t} className="flex flex-col items-center text-center">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">
-                        <Check className="h-4 w-4" />
-                      </span>
-                      <span className="mt-3 text-sm leading-snug text-foreground/75">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
             {/* RIGHT — Summary */}
