@@ -48,7 +48,7 @@ function Landing() {
       <Header />
       <main>
         <Hero />
-        <div className="relative z-20 -mt-12 md:-mt-20">
+        <div className="relative z-20 -mt-[52px] md:-mt-[64px]">
           <div className="container-villa">
             <BookingBar />
           </div>
@@ -255,7 +255,7 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/80 to-transparent" />
 
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-28 pt-32 md:justify-center md:pb-36 md:pt-24">
+      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-16 pt-32 md:justify-center md:pb-24 md:pt-24">
         <div className="max-w-4xl text-white">
 
           <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
@@ -540,7 +540,7 @@ function VillaSection() {
   ];
 
   return (
-    <section id="villa" className="pt-32 pb-20 md:pt-44 md:pb-28 bg-[oklch(0.97_0.012_80)]">
+    <section id="villa" className="pt-24 pb-20 md:pt-32 md:pb-28 bg-[oklch(0.97_0.012_80)]">
       <div className="container-villa">
         {/* Eyebrow label */}
         <div className="flex items-center justify-center gap-4">
