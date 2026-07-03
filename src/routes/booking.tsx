@@ -9,16 +9,13 @@ import {
   User,
   Mail,
   Phone,
-  MessageSquare,
   Send,
   MapPin,
   Moon,
-  Info,
   Lock,
-  Wifi,
-  Car,
   Waves,
   BedDouble,
+  ArrowRight,
 } from "lucide-react";
 import { format, parseISO, differenceInCalendarDays } from "date-fns";
 import { el } from "date-fns/locale";
@@ -47,10 +44,10 @@ export const Route = createFileRoute("/booking")({
 });
 
 const formSchema = z.object({
-  firstName: z.string().trim().min(1, "Το όνομα είναι υποχρεωτικό").max(80),
-  lastName: z.string().trim().min(1, "Το επώνυμο είναι υποχρεωτικό").max(80),
-  email: z.string().trim().email("Μη έγκυρο email").max(200),
-  phone: z.string().trim().min(6, "Μη έγκυρο τηλέφωνο").max(30),
+  firstName: z.string().trim().min(1, "Παρακαλώ συμπληρώστε το όνομά σας").max(80),
+  lastName: z.string().trim().min(1, "Παρακαλώ συμπληρώστε το επώνυμό σας").max(80),
+  email: z.string().trim().email("Παρακαλώ εισάγετε ένα έγκυρο email").max(200),
+  phone: z.string().trim().min(6, "Παρακαλώ εισάγετε ένα έγκυρο τηλέφωνο").max(30),
   message: z.string().trim().max(1000).optional(),
 });
 
@@ -71,7 +68,7 @@ function BookingPage() {
     e.preventDefault();
     const result = formSchema.safeParse(form);
     if (!result.success) {
-      toast.error(result.error.issues[0]?.message ?? "Ελέγξτε τα στοιχεία");
+      toast.error(result.error.issues[0]?.message ?? "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.");
       return;
     }
     const subject = encodeURIComponent(`Αίτημα Κράτησης - Ekaterini VIP Villa`);
@@ -91,33 +88,36 @@ function BookingPage() {
     setSent(true);
   };
 
-  const fmt = (d: Date | null) => (d ? format(d, "EEEE d MMMM yyyy", { locale: el }) : "—");
+  const fmtLong = (d: Date | null) => (d ? format(d, "EEEE d MMMM yyyy", { locale: el }) : "—");
+  const fmtShort = (d: Date | null) => (d ? format(d, "d MMM", { locale: el }) : "—");
   const goEdit = () => navigate({ to: "/", hash: "home" });
 
   const guestSummary = `${adults} ${adults === 1 ? "ενήλικας" : "ενήλικες"}${children > 0 ? `, ${children} ${children === 1 ? "παιδί" : "παιδιά"}` : ""}`;
   const nightsLabel = nights > 0 ? `${nights} ${nights === 1 ? "διανυκτέρευση" : "διανυκτερεύσεις"}` : "—";
+  const rangeChip = ci && co ? `${fmtShort(ci)} — ${fmtShort(co)}` : "Επιλέξτε ημερομηνίες";
 
   if (sent) {
     return (
       <div className="min-h-screen bg-[hsl(35_35%_96%)] text-foreground">
         <Toaster position="top-center" />
         <TopBar />
-        <main className="container-villa flex min-h-[70vh] items-center justify-center py-14">
-          <div className="max-w-xl rounded-3xl border border-border/60 bg-background p-10 text-center shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)]">
+        <main className="container-villa flex min-h-[75vh] items-center justify-center py-14">
+          <div className="max-w-xl rounded-3xl border border-border/60 bg-background p-10 text-center shadow-[0_30px_80px_-40px_rgba(15,23,42,0.4)]">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/15 text-accent">
               <Check className="h-8 w-8" />
             </div>
-            <h1 className="mt-6 font-serif text-3xl leading-tight">
-              Το αίτημά σας <span className="text-accent">καταχωρήθηκε</span> με επιτυχία
+            <h1 className="mt-6 font-serif text-3xl leading-tight md:text-4xl">
+              Το αίτημά σας <span className="text-accent italic">καταχωρήθηκε</span> με επιτυχία
             </h1>
             <p className="mt-4 text-foreground/70">
-              Η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει σύντομα μαζί σας για διαθεσιμότητα, τιμή και επιβεβαίωση.
+              Η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει σύντομα μαζί σας για επιβεβαίωση διαθεσιμότητας και τιμής.
             </p>
-            <p className="mt-3 text-sm text-foreground/55">
-              Έχει σταλεί και επιβεβαίωση στο email σας, εφόσον είναι ενεργοποιημένη η αποστολή email.
-            </p>
-            <Link to="/" className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110">
+            <Link
+              to="/"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
+            >
               Επιστροφή στην αρχική
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </main>
@@ -130,127 +130,146 @@ function BookingPage() {
       <Toaster position="top-center" />
       <TopBar />
 
-      <main className="container-villa py-10 md:py-16">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
-            {/* LEFT */}
-            <div className="min-w-0">
-              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-accent">
-                <span className="h-px w-8 bg-accent" />
-                Κράτηση
+      <main className="lg:grid lg:grid-cols-[45fr_55fr] lg:min-h-[calc(100vh-68px)]">
+        {/* LEFT — visual panel */}
+        <aside className="relative min-h-[70vh] overflow-hidden lg:sticky lg:top-[68px] lg:h-[calc(100vh-68px)] lg:min-h-0">
+          <img
+            src={heroAsset.url}
+            alt="Ekaterini VIP Villa"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/45 to-black/85" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-accent/25 via-transparent to-transparent mix-blend-overlay" />
+
+          <div className="relative z-10 flex h-full flex-col justify-between p-8 md:p-12 lg:p-14 text-white">
+            <div>
+              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/85">
+                <span className="h-px w-8 bg-white/70" />
+                Ιδιωτική Βίλα
               </span>
-              <h1 className="mt-4 font-serif text-4xl leading-[1.1] md:text-5xl">
-                Ολοκληρώστε το <span className="text-accent italic">αίτημα</span> κράτησης
-              </h1>
-              <p className="mt-4 max-w-2xl text-foreground/70">
-                Συμπληρώστε τα στοιχεία σας και η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει μαζί σας για διαθεσιμότητα, τιμή και επιβεβαίωση.
-              </p>
-
-              {/* Form card */}
-              <form
-                onSubmit={submit}
-                className="mt-8 rounded-3xl border border-border/60 bg-background p-7 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)] md:p-9"
-              >
-                <h2 className="font-serif text-2xl">Τα στοιχεία σας</h2>
-
-                <div className="mt-6 grid gap-5 sm:grid-cols-2">
-                  <Field label="ΟΝΟΜΑ *" value={form.firstName} onChange={onChange("firstName")} icon={<User className="h-4 w-4" />} />
-                  <Field label="ΕΠΩΝΥΜΟ *" value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
-                  <Field label="EMAIL *" type="email" value={form.email} onChange={onChange("email")} icon={<Mail className="h-4 w-4" />} />
-                  <Field label="ΤΗΛΕΦΩΝΟ *" type="tel" value={form.phone} onChange={onChange("phone")} icon={<Phone className="h-4 w-4" />} />
-                </div>
-
-                <div className="mt-5">
-                  <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
-                    ΜΗΝΥΜΑ
-                  </label>
-                  <div className="relative mt-2">
-                    <span className="pointer-events-none absolute left-4 top-3.5 text-foreground/40">
-                      <MessageSquare className="h-4 w-4" />
-                    </span>
-                    <textarea
-                      value={form.message}
-                      onChange={onChange("message")}
-                      rows={4}
-                      placeholder="Επιπλέον πληροφορίες ή ειδικά αιτήματα..."
-                      className="w-full rounded-2xl border border-border bg-background pl-11 pr-4 py-3 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
-                >
-                  <Send className="h-4 w-4" />
-                  Αποστολή Αιτήματος Κράτησης
-                </button>
-                <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
-                  <Lock className="h-3.5 w-3.5" /> Δεν θα χρεωθείτε σε αυτό το βήμα.
-                </p>
-              </form>
-
-              {/* Info card */}
-              <div className="mt-6 rounded-3xl border border-border/60 bg-background/70 p-7 shadow-[0_10px_40px_-30px_rgba(15,23,42,0.25)]">
-                <h3 className="font-semibold text-foreground">Χρήσιμες πληροφορίες:</h3>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Δεν χρειάζεται πιστωτική κάρτα",
-                    "Δεν θα χρεωθείτε σε αυτό το βήμα",
-                    "Η διαχείριση θα επικοινωνήσει μαζί σας για επιβεβαίωση",
-                    "Μπορείτε να αναφέρετε ειδικά αιτήματα στο μήνυμα",
-                  ].map((t) => (
-                    <li key={t} className="flex items-start gap-2.5 text-sm text-foreground/75">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
-            {/* RIGHT — Summary */}
-            <aside className="lg:sticky lg:top-8 h-fit">
-              <div className="overflow-hidden rounded-3xl border border-border/60 bg-background shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)]">
-                <div className="aspect-[16/10] w-full overflow-hidden">
-                  <img src={heroAsset.url} alt="Ekaterini VIP Villa" className="h-full w-full object-cover" />
-                </div>
-                <div className="p-6">
-                  <h2 className="font-serif text-2xl leading-tight">Ekaterini VIP Villa</h2>
-                  <p className="mt-1.5 flex items-center gap-1.5 text-sm text-foreground/65">
-                    <MapPin className="h-4 w-4 text-accent" />
-                    Πλάκα Αποκορώνου, Χανιά, Κρήτη
-                  </p>
+            <div>
+              <h2 className="font-serif text-4xl leading-[1.05] md:text-5xl lg:text-[3.5rem]">
+                Ekaterini VIP Villa
+              </h2>
+              <p className="mt-3 inline-flex items-center gap-2 text-sm text-white/80">
+                <MapPin className="h-4 w-4" />
+                Πλάκα Αποκορώνου, Χανιά, Κρήτη
+              </p>
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/75">
+                Ιδιωτική βίλα με πισίνα για ήρεμες διακοπές στην Κρήτη.
+              </p>
 
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    <Pill icon={<UsersIcon className="h-3 w-3" />}>Έως 7 επισκέπτες</Pill>
-                    <Pill icon={<BedDouble className="h-3 w-3" />}>3 υπνοδωμάτια</Pill>
-                    <Pill icon={<Waves className="h-3 w-3" />}>Ιδιωτική πισίνα</Pill>
-                    <Pill icon={<Wifi className="h-3 w-3" />}>Δωρεάν Wi-Fi</Pill>
-                    <Pill icon={<Car className="h-3 w-3" />}>Δωρεάν πάρκινγκ</Pill>
-                  </div>
-
-                  <div className="mt-6 border-t border-border/60 pt-5">
-                    <h3 className="font-semibold text-foreground">Τα στοιχεία της κράτησής σας</h3>
-                    <div className="mt-4 space-y-3">
-                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label="Άφιξη" value={fmt(ci)} onEdit={goEdit} />
-                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label="Αναχώρηση" value={fmt(co)} onEdit={goEdit} />
-                      <SummaryRow icon={<UsersIcon className="h-4 w-4" />} label="Επισκέπτες" value={guestSummary} onEdit={goEdit} />
-                      <SummaryRow icon={<Moon className="h-4 w-4" />} label="Διαμονή" value={nightsLabel} />
-                    </div>
-                  </div>
-
-                  <div className="mt-6 flex items-start gap-2.5 rounded-2xl bg-accent/10 p-4 text-xs leading-relaxed text-foreground/75">
-                    <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    Η κράτηση επιβεβαιώνεται μετά από επικοινωνία με τη διαχείριση.
-                  </div>
-                </div>
+              <div className="mt-7 flex flex-wrap gap-2">
+                <GlassChip icon={<CalendarIcon className="h-3.5 w-3.5" />}>{rangeChip}</GlassChip>
+                <GlassChip icon={<UsersIcon className="h-3.5 w-3.5" />}>{guestSummary}</GlassChip>
+                <GlassChip icon={<Moon className="h-3.5 w-3.5" />}>{nightsLabel}</GlassChip>
               </div>
-            </aside>
+
+              <div className="mt-8 h-px w-24 bg-white/25" />
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                <FeatureChip icon={<UsersIcon className="h-3 w-3" />}>Έως 7 επισκέπτες</FeatureChip>
+                <FeatureChip icon={<BedDouble className="h-3 w-3" />}>3 υπνοδωμάτια</FeatureChip>
+                <FeatureChip icon={<Waves className="h-3 w-3" />}>Ιδιωτική πισίνα</FeatureChip>
+              </div>
+            </div>
           </div>
-        </div>
+        </aside>
+
+        {/* RIGHT — form panel */}
+        <section className="bg-[hsl(35_35%_96%)] px-6 py-12 md:px-12 lg:px-16 lg:py-16">
+          <div className="mx-auto max-w-xl">
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">
+              <span className="h-px w-8 bg-accent" />
+              Κράτηση
+            </span>
+            <h1 className="mt-4 font-serif text-4xl leading-[1.1] md:text-[2.75rem]">
+              Συμπληρώστε τα <span className="text-accent italic">στοιχεία</span> σας
+            </h1>
+            <p className="mt-4 text-foreground/70">
+              Η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει μαζί σας για διαθεσιμότητα, τιμή και επιβεβαίωση.
+            </p>
+            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-foreground/55">
+              <Lock className="h-3.5 w-3.5" /> Δεν θα χρεωθείτε σε αυτό το βήμα.
+            </p>
+
+            {/* Summary */}
+            <div className="mt-10">
+              <div className="flex items-baseline justify-between">
+                <h3 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-foreground/55">
+                  Σύνοψη αιτήματος
+                </h3>
+                <button
+                  type="button"
+                  onClick={goEdit}
+                  className="text-xs font-medium text-accent underline-offset-4 hover:underline"
+                >
+                  Αλλαγή
+                </button>
+              </div>
+              <dl className="mt-4 divide-y divide-border/60 border-y border-border/60">
+                <SummaryRow label="Άφιξη" value={fmtLong(ci)} />
+                <SummaryRow label="Αναχώρηση" value={fmtLong(co)} />
+                <SummaryRow label="Επισκέπτες" value={guestSummary} onEdit={goEdit} />
+                <SummaryRow label="Διαμονή" value={nightsLabel} />
+              </dl>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={submit} className="mt-10 space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field label="Όνομα *" value={form.firstName} onChange={onChange("firstName")} icon={<User className="h-4 w-4" />} />
+                <Field label="Επώνυμο *" value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
+                <Field label="Email *" type="email" value={form.email} onChange={onChange("email")} icon={<Mail className="h-4 w-4" />} />
+                <Field label="Τηλέφωνο *" type="tel" value={form.phone} onChange={onChange("phone")} icon={<Phone className="h-4 w-4" />} />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/55">
+                  Μήνυμα / Ειδικά αιτήματα
+                </label>
+                <textarea
+                  value={form.message}
+                  onChange={onChange("message")}
+                  rows={4}
+                  placeholder="Πείτε μας αν έχετε κάποια ειδική προτίμηση ή αίτημα..."
+                  className="mt-2 w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition placeholder:text-foreground/40 focus:border-accent focus:ring-2 focus:ring-accent/20"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="group mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
+              >
+                <Send className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                Αποστολή Αιτήματος Κράτησης
+              </button>
+              <p className="text-center text-xs text-foreground/55">Δεν θα χρεωθείτε σε αυτό το βήμα.</p>
+            </form>
+
+            {/* Helpful info — integrated */}
+            <div className="mt-12">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-foreground/55">
+                Χρήσιμες πληροφορίες
+              </h3>
+              <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                {[
+                  "Δεν χρειάζεται πιστωτική κάρτα",
+                  "Δεν θα χρεωθείτε τώρα",
+                  "Η κράτηση επιβεβαιώνεται μετά από επικοινωνία",
+                  "Μπορείτε να αναφέρετε ειδικά αιτήματα",
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-2 text-sm text-foreground/70">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
@@ -258,9 +277,12 @@ function BookingPage() {
 
 function TopBar() {
   return (
-    <header className="border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="container-villa flex items-center justify-between py-5">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 transition hover:text-accent">
+    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
+      <div className="container-villa flex items-center justify-between py-4">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 transition hover:text-accent"
+        >
           <ArrowLeft className="h-4 w-4" />
           Επιστροφή
         </Link>
@@ -287,7 +309,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/55">{label}</label>
+      <label className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/55">{label}</label>
       <div className="relative mt-2">
         {icon && (
           <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-foreground/40">
@@ -305,44 +327,40 @@ function Field({
   );
 }
 
-function Pill({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+function GlassChip({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-[hsl(35_35%_97%)] px-2.5 py-1 text-[11px] font-medium text-foreground/75">
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-md">
+      <span className="text-white/85">{icon}</span>
+      {children}
+    </span>
+  );
+}
+
+function FeatureChip({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/85 backdrop-blur">
       <span className="text-accent">{icon}</span>
       {children}
     </span>
   );
 }
 
-function SummaryRow({
-  icon,
-  label,
-  value,
-  onEdit,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  onEdit?: () => void;
-}) {
+function SummaryRow({ label, value, onEdit }: { label: string; value: string; onEdit?: () => void }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/50">{label}</div>
-        <div className="mt-0.5 truncate text-sm font-medium text-foreground">{value}</div>
-      </div>
-      {onEdit && (
-        <button
-          type="button"
-          onClick={onEdit}
-          className="shrink-0 rounded-full border border-border/70 px-3 py-1 text-xs font-medium text-foreground/70 transition hover:border-accent hover:text-accent"
-        >
-          Αλλαγή
-        </button>
-      )}
+    <div className="flex items-center justify-between gap-4 py-3">
+      <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/50">{label}</dt>
+      <dd className="flex items-center gap-3 text-right">
+        <span className="text-sm font-medium text-foreground">{value}</span>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="text-xs font-medium text-accent underline-offset-4 hover:underline"
+          >
+            Αλλαγή
+          </button>
+        )}
+      </dd>
     </div>
   );
 }
