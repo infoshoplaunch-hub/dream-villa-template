@@ -111,6 +111,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-weight: 500;
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
   }
