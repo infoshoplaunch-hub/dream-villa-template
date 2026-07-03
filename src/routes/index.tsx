@@ -283,33 +283,223 @@ function Hero() {
         </div>
       </div>
 
-      {/* Premium dark-glass highlights bar */}
-      <div className="absolute inset-x-0 bottom-8 z-10 md:bottom-14">
+      {/* Premium booking search bar */}
+      <div className="absolute inset-x-0 bottom-6 z-10 md:bottom-10">
         <div className="container-villa">
-          <div className="rounded-2xl border border-white/15 bg-black/45 shadow-2xl backdrop-blur-md">
-            <ul className="grid grid-cols-2 divide-y divide-white/10 md:grid-cols-5 md:divide-x md:divide-y-0">
-              {t.hero.highlights.map((h, i) => {
-                const Icon = HERO_HIGHLIGHT_ICONS[i] ?? HERO_HIGHLIGHT_ICONS[0];
-                return (
-                  <li
-                    key={h}
-                    className="flex items-center gap-3 px-4 py-4 md:px-5 md:py-5"
-                  >
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent/60 bg-black/40 text-accent">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <span className="text-[13px] font-medium leading-snug text-white/90 md:text-sm">
-                      {h}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          <BookingBar />
         </div>
       </div>
 
     </section>
+  );
+}
+
+/* ---------- Booking Bar (Hero) ---------- */
+
+function BookingBar() {
+  const navigate = useNavigate();
+  const [checkIn, setCheckIn] = useState<Date | undefined>();
+  const [checkOut, setCheckOut] = useState<Date | undefined>();
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [openCal, setOpenCal] = useState<"in" | "out" | null>(null);
+  const [openGuests, setOpenGuests] = useState(false);
+
+  const total = adults + children;
+  const MAX = 7;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const fmt = (d?: Date) =>
+    d ? format(d, "EEE d MMM", { locale: el }) : "Επιλέξτε ημερομηνία";
+
+  const bump = (
+    setter: React.Dispatch<React.SetStateAction<number>>,
+    current: number,
+    delta: number,
+    min: number,
+  ) => {
+    const next = current + delta;
+    if (next < min) return;
+    if (delta > 0 && total + delta > MAX) {
+      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      return;
+    }
+    setter(next);
+  };
+
+  const submit = () => {
+    if (!checkIn || !checkOut) {
+      toast.error("Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
+      return;
+    }
+    navigate({
+      to: "/booking",
+      search: {
+        check_in: format(checkIn, "yyyy-MM-dd"),
+        check_out: format(checkOut, "yyyy-MM-dd"),
+        adults,
+        children,
+        total_guests: total,
+      },
+    });
+  };
+
+  const fieldBase =
+    "flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-accent/5";
+  const label = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
+  const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
+
+  return (
+    <div className="mx-auto max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
+      <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
+        {/* Check-in */}
+        <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
+          <PopoverTrigger asChild>
+            <button type="button" className={fieldBase}>
+              <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
+              <span className="min-w-0 flex-1">
+                <span className={`block ${label}`}>Άφιξη</span>
+                <span className={`block ${value} ${!checkIn && "text-foreground/50"}`}>
+                  {fmt(checkIn)}
+                </span>
+              </span>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
+            <Calendar
+              mode="single"
+              selected={checkIn}
+              onSelect={(d) => {
+                setCheckIn(d);
+                if (d && checkOut && d >= checkOut) setCheckOut(undefined);
+                setOpenCal(d ? "out" : null);
+              }}
+              disabled={(d) => d < today}
+              locale={el}
+              initialFocus
+              className="p-3 pointer-events-auto"
+            />
+          </PopoverContent>
+        </Popover>
+
+        {/* Check-out */}
+        <Popover open={openCal === "out"} onOpenChange={(o) => setOpenCal(o ? "out" : null)}>
+          <PopoverTrigger asChild>
+            <button type="button" className={fieldBase}>
+              <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
+              <span className="min-w-0 flex-1">
+                <span className={`block ${label}`}>Αναχώρηση</span>
+                <span className={`block ${value} ${!checkOut && "text-foreground/50"}`}>
+                  {fmt(checkOut)}
+                </span>
+              </span>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
+            <Calendar
+              mode="single"
+              selected={checkOut}
+              onSelect={(d) => {
+                setCheckOut(d);
+                if (d) setOpenCal(null);
+              }}
+              disabled={(d) => d < today || (checkIn ? d <= checkIn : false)}
+              locale={el}
+              initialFocus
+              className="p-3 pointer-events-auto"
+            />
+          </PopoverContent>
+        </Popover>
+
+        {/* Guests */}
+        <Popover open={openGuests} onOpenChange={setOpenGuests}>
+          <PopoverTrigger asChild>
+            <button type="button" className={fieldBase}>
+              <UsersIcon className="h-5 w-5 shrink-0 text-accent" />
+              <span className="min-w-0 flex-1">
+                <span className={`block ${label}`}>Επισκέπτες</span>
+                <span className={`block ${value}`}>
+                  {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                </span>
+              </span>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-72 p-4" align="start">
+            <GuestRow
+              label="Ενήλικες"
+              sub="Από 13 ετών"
+              value={adults}
+              onDec={() => bump(setAdults, adults, -1, 1)}
+              onInc={() => bump(setAdults, adults, +1, 1)}
+            />
+            <div className="my-3 h-px bg-border" />
+            <GuestRow
+              label="Παιδιά"
+              sub="0–12 ετών"
+              value={children}
+              onDec={() => bump(setChildren, children, -1, 0)}
+              onInc={() => bump(setChildren, children, +1, 0)}
+            />
+            <div className="mt-4 text-xs text-foreground/60">
+              Μέγιστο {MAX} επισκέπτες συνολικά.
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        {/* CTA */}
+        <div className="p-3 md:p-2.5">
+          <button
+            type="button"
+            onClick={submit}
+            className="group flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] transition hover:brightness-110 md:px-10"
+          >
+            Κράτηση
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GuestRow({
+  label,
+  sub,
+  value,
+  onDec,
+  onInc,
+}: {
+  label: string;
+  sub: string;
+  value: number;
+  onDec: () => void;
+  onInc: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <div>
+        <div className="text-sm font-semibold text-foreground">{label}</div>
+        <div className="text-xs text-foreground/60">{sub}</div>
+      </div>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={onDec}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
+        >
+          <Minus className="h-3.5 w-3.5" />
+        </button>
+        <span className="w-5 text-center text-sm font-semibold text-foreground">{value}</span>
+        <button
+          type="button"
+          onClick={onInc}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/70 transition hover:border-accent hover:text-accent"
+        >
+          <Plus className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    </div>
   );
 }
 
