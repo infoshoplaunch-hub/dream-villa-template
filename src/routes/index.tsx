@@ -288,13 +288,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* Premium booking search bar */}
-      <div className="absolute inset-x-0 bottom-6 z-10 md:bottom-10">
-        <div className="container-villa">
-          <BookingBar />
-        </div>
-      </div>
-
     </section>
   );
 }
