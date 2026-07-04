@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const NAV_IDS = ["home", "villa", "rooms", "amenities", "location", "booking", "contact"] as const;
+const NAV_IDS = ["home", "villa", "rooms", "location", "booking", "contact"] as const;
 
 function Landing() {
   return (
