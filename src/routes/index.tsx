@@ -36,6 +36,8 @@ import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
 import villaExteriorDayAsset from "@/assets/villa/villa-exterior-day.jpg.asset.json";
 const villaExteriorDayImg = villaExteriorDayAsset.url;
+import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
+const villaLivingRoomImg = villaLivingRoomAsset.url;
 
 
 export const Route = createFileRoute("/")({
