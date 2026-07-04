@@ -108,14 +108,7 @@ function GalleryPage() {
 
       <main className="container-villa py-14 md:py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="flex items-center justify-center gap-4">
-            <span className="h-px w-10 bg-accent" />
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-              Φωτογραφίες
-            </span>
-            <span className="h-px w-10 bg-accent" />
-          </div>
-          <h1 className="mt-6 font-serif text-4xl leading-tight text-foreground md:text-5xl">
+          <h1 className="font-serif text-4xl leading-tight text-foreground md:text-5xl">
             Gallery
           </h1>
           <p className="mt-4 text-sm text-foreground/70 md:text-base">
