@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import {
@@ -182,6 +182,14 @@ function Header() {
               </a>
             );
           })}
+          <Link
+            to="/gallery"
+            className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
+              onDark ? "text-white/75 hover:text-white" : "text-foreground/70 hover:text-accent"
+            }`}
+          >
+            {t.nav.gallery}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -222,6 +230,13 @@ function Header() {
                 {n.label}
               </a>
             ))}
+            <Link
+              to="/gallery"
+              onClick={() => setOpen(false)}
+              className="border-b border-border/60 py-4 font-serif text-2xl"
+            >
+              {t.nav.gallery}
+            </Link>
             <a
               href="mailto:info@katerinavipvilla.gr"
               onClick={() => setOpen(false)}
