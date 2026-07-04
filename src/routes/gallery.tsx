@@ -116,7 +116,7 @@ function GalleryPage() {
             <span className="h-px w-10 bg-accent" />
           </div>
           <h1 className="mt-6 font-serif text-4xl leading-tight text-foreground md:text-5xl">
-            Gallery — <span className="text-accent">Ekaterini VIP Villa</span>
+            Gallery
           </h1>
           <p className="mt-4 text-sm text-foreground/70 md:text-base">
             Μια περιήγηση στους χώρους, την πισίνα και τη θέα της βίλας μας.
