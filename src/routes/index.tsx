@@ -32,13 +32,6 @@ const logoDarkUrl = logoDarkAsset.url;
 import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
 
-import bedroomImg from "@/assets/bedroom.jpg";
-import livingImg from "@/assets/living.jpg";
-import kitchenImg from "@/assets/kitchen.jpg";
-import verandaImg from "@/assets/veranda.jpg";
-import viewImg from "@/assets/view.jpg";
-import exteriorImg from "@/assets/exterior.jpg";
-import bathroomImg from "@/assets/bathroom.jpg";
 
 export const Route = createFileRoute("/")({
   component: Landing,
