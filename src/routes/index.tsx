@@ -387,7 +387,9 @@ function BookingBar() {
                 if (d && checkOut && d >= checkOut) setCheckOut(undefined);
                 setOpenCal(d ? "out" : null);
               }}
-              disabled={(d) => d < today}
+              disabled={(d) => d < today || isBlocked(d)}
+              modifiers={{ blocked: blockedDates }}
+              modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={el}
               initialFocus
               className="p-3 pointer-events-auto"
