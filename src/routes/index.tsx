@@ -780,7 +780,7 @@ const AMENITIES = [
   {
     title: "Δωρεάν Wi-Fi",
     desc: "Γρήγορη σύνδεση internet σε όλους τους χώρους της βίλας.",
-    img: livingImg,
+    img: villa7.url,
     alt: "Σαλόνι με Wi-Fi",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
