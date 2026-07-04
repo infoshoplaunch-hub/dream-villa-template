@@ -34,6 +34,8 @@ const logoUrl = logoAsset.url;
 const logoDarkUrl = logoDarkAsset.url;
 import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
+import villaExteriorDayAsset from "@/assets/villa/villa-exterior-day.jpg.asset.json";
+const villaExteriorDayImg = villaExteriorDayAsset.url;
 
 
 export const Route = createFileRoute("/")({
