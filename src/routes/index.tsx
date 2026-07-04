@@ -11,7 +11,10 @@ import {
   Users as UsersIcon,
   Minus,
   Plus,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
+
 import { format } from "date-fns";
 import { el } from "date-fns/locale";
 import { toast } from "sonner";
@@ -637,54 +640,149 @@ function VillaSection() {
 
 /* ---------- Rooms ---------- */
 
-const ROOMS = [
-  {
-    title: "Χώρος Πισίνας",
-    desc: "Ιδιωτική πισίνα με θέα, ιδανική για στιγμές χαλάρωσης από το πρωί μέχρι το βράδυ.",
-    img: poolImg,
-    alt: "Ιδιωτική πισίνα Ekaterini VIP Villa",
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-        <path d="M4 22c2 0 2-1.5 4-1.5S10 22 12 22s2-1.5 4-1.5S18 22 20 22s2-1.5 4-1.5S26 22 28 22" />
-        <path d="M4 27c2 0 2-1.5 4-1.5S10 27 12 27s2-1.5 4-1.5S18 27 20 27s2-1.5 4-1.5S26 27 28 27" />
-        <path d="M10 18V8a3 3 0 0 1 6 0" />
-        <path d="M22 18V8a3 3 0 0 0-6 0" />
-        <path d="M10 13h12" />
-      </svg>
-    ),
-  },
-  {
-    title: "Υπνοδωμάτια",
-    desc: "3 άνετα υπνοδωμάτια για ξεκούραστη διαμονή με οικογένεια ή παρέα.",
-    img: bedroomImg,
-    alt: "Υπνοδωμάτιο Ekaterini VIP Villa",
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-        <path d="M4 22V10" />
-        <path d="M28 22v-6a4 4 0 0 0-4-4H4" />
-        <path d="M4 18h24" />
-        <path d="M4 22h24" />
-        <path d="M9 12v-2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      </svg>
-    ),
-  },
-  {
-    title: "Εξωτερικοί Χώροι",
-    desc: "BBQ, βεράντα, κήπος και χώροι για φαγητό ή χαλάρωση κάτω από τον κρητικό ουρανό.",
-    img: verandaImg,
-    alt: "Εξωτερικοί χώροι και BBQ Ekaterini VIP Villa",
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-        <path d="M16 4v4" />
-        <path d="M4 14C4 9 9 6 16 6s12 3 12 8Z" />
-        <path d="M16 14v14" />
-        <path d="M11 28h10" />
-        <path d="M8 20h4" />
-        <path d="M20 20h4" />
-      </svg>
-    ),
-  },
+import villa12 from "@/assets/villa/EKATERINI-12.jpg.asset.json";
+import villa7 from "@/assets/villa/EKATERINI-7.jpg.asset.json";
+import villa3 from "@/assets/villa/EKATERINI-3.jpg.asset.json";
+import villa6 from "@/assets/villa/EKATERINI-6.jpg.asset.json";
+import villa4 from "@/assets/villa/EKATERINI-4.jpg.asset.json";
+import villa17 from "@/assets/villa/EKATERINI-17.jpg.asset.json";
+import villa9 from "@/assets/villa/EKATERINI-9.jpg.asset.json";
+import villa10 from "@/assets/villa/EKATERINI-10.jpg.asset.json";
+import villa1 from "@/assets/villa/EKATERINI-1.jpg.asset.json";
+
+const VILLA_SLIDES = [
+  { src: villa12.url, caption: "Βεράντα με θέα στη θάλασσα" },
+  { src: villa7.url, caption: "Σαλόνι με θέα" },
+  { src: villa3.url, caption: "Καθιστικό & τραπεζαρία" },
+  { src: villa6.url, caption: "Κουζίνα & τραπεζαρία" },
+  { src: villa4.url, caption: "Πλήρως εξοπλισμένη κουζίνα" },
+  { src: villa17.url, caption: "Master υπνοδωμάτιο" },
+  { src: villa9.url, caption: "Δίκλινο υπνοδωμάτιο" },
+  { src: villa10.url, caption: "Δίκλινο υπνοδωμάτιο" },
+  { src: villa1.url, caption: "Μπάνιο" },
 ] as const;
+
+function VillaCarousel() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const total = VILLA_SLIDES.length;
+
+  const go = React.useCallback(
+    (dir: number) => setIndex((i) => (i + dir + total) % total),
+    [total],
+  );
+
+  useEffect(() => {
+    if (paused) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % total), 5000);
+    return () => window.clearInterval(id);
+  }, [paused, total]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") go(-1);
+      else if (e.key === "ArrowRight") go(1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go]);
+
+  // Touch swipe
+  const touchStart = React.useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    touchStart.current = null;
+  };
+
+  return (
+    <div
+      className="relative mt-14 md:mt-20"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Viewport with peek */}
+      <div
+        className="overflow-hidden rounded-[2rem]"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        <div
+          className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{
+            transform: `translateX(calc(${-index * 100}% + ${index === 0 ? 0 : 0}px))`,
+          }}
+        >
+          {VILLA_SLIDES.map((slide, i) => (
+            <div key={slide.src} className="w-full shrink-0 px-2 md:px-4">
+              <div className="group relative overflow-hidden rounded-[2rem] bg-background shadow-[0_30px_70px_-35px_rgba(15,23,42,0.45)]">
+                <img
+                  src={slide.src}
+                  alt={slide.caption}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  className="aspect-[16/10] w-full object-cover"
+                />
+                {/* Caption chip */}
+                <div className="absolute left-5 top-5 md:left-7 md:top-7">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-background/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80 backdrop-blur-md md:text-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    {slide.caption}
+                  </span>
+                </div>
+                {/* Bottom gradient */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Arrows */}
+      <button
+        type="button"
+        onClick={() => go(-1)}
+        aria-label="Προηγούμενη φωτογραφία"
+        className="absolute left-3 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg backdrop-blur transition-all hover:bg-accent hover:text-accent-foreground md:left-6 md:h-14 md:w-14"
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </button>
+      <button
+        type="button"
+        onClick={() => go(1)}
+        aria-label="Επόμενη φωτογραφία"
+        className="absolute right-3 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg backdrop-blur transition-all hover:bg-accent hover:text-accent-foreground md:right-6 md:h-14 md:w-14"
+      >
+        <ChevronRight className="h-6 w-6" />
+      </button>
+
+      {/* Dots */}
+      <div className="mt-8 flex items-center justify-center gap-2">
+        {VILLA_SLIDES.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setIndex(i)}
+            aria-label={`Μετάβαση στη φωτογραφία ${i + 1}`}
+            className={`h-2 rounded-full transition-all ${
+              i === index ? "w-8 bg-accent" : "w-2 bg-foreground/25 hover:bg-foreground/40"
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Counter */}
+      <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.3em] text-foreground/50">
+        {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+      </div>
+    </div>
+  );
+}
 
 function RoomsSection() {
   return (
@@ -704,41 +802,12 @@ function RoomsSection() {
           Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
         </h2>
 
-        {/* Cards */}
-        <div className="mt-14 grid gap-8 md:mt-20 md:grid-cols-2 lg:grid-cols-3">
-          {ROOMS.map((room) => (
-            <article
-              key={room.title}
-              className="group flex flex-col overflow-hidden rounded-3xl bg-background shadow-[0_20px_50px_-30px_rgba(15,23,42,0.35)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_35px_70px_-25px_rgba(15,23,42,0.4)]"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={room.img}
-                  alt={room.alt}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-                />
-              </div>
-              <div className="flex flex-1 items-start gap-5 p-7 md:p-8">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/20">
-                  {room.icon}
-                </span>
-                <div className="min-w-0">
-                  <h3 className="font-serif text-2xl leading-tight text-foreground">
-                    {room.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-                    {room.desc}
-                  </p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <VillaCarousel />
       </div>
     </section>
   );
 }
+
 
 /* ---------- Amenities ---------- */
 
