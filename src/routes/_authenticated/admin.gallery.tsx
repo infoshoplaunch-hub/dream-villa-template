@@ -156,7 +156,7 @@ function AdminGalleryPage() {
       <header className="border-b border-border/60 bg-background/95 backdrop-blur sticky top-0 z-40">
         <div className="container-villa flex items-center justify-between py-4">
           <Link
-            to="/_authenticated/admin"
+            to="/admin"
             className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-accent transition"
           >
             <ArrowLeft className="h-4 w-4" />
