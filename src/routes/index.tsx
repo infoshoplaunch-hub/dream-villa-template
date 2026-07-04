@@ -770,7 +770,7 @@ const AMENITIES = [
   },
   {
     title: "Ιδιωτική Πισίνα",
-    description: "Αποκλειστική πισίνα με θέα στο Αιγαίο, μόνο για εσάς και τους καλεσμένους σας.",
+    description: "",
     Icon: PoolIcon,
     bg: "bg-[oklch(0.86_0.04_75)]",
     color: "text-[oklch(0.32_0.06_240)]",
