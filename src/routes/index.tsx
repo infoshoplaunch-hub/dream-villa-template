@@ -751,9 +751,76 @@ function RoomsSection() {
   );
 }
 
+/* ---------- Amenities ---------- */
 
+const AMENITIES = [
+  {
+    title: "Χώρος Στάθμευσης",
+    description: "Ιδιωτικός χώρος στάθμευσης για όλα τα οχήματά σας, με άμεση πρόσβαση στη βίλα.",
+    Icon: ParkingIcon,
+    bg: "bg-[oklch(0.94_0.02_80)]",
+    color: "text-[oklch(0.55_0.06_115)]",
+  },
+  {
+    title: "Δωρεάν Wi-Fi",
+    description: "Γρήγορο ασύρματο internet σε όλους τους χώρους της βίλας.",
+    Icon: WifiIcon,
+    bg: "bg-[oklch(0.955_0.012_85)]",
+    color: "text-[oklch(0.45_0.08_235)]",
+  },
+  {
+    title: "Ιδιωτική Πισίνα",
+    description: "Αποκλειστική πισίνα με θέα στο Αιγαίο, μόνο για εσάς και τους καλεσμένους σας.",
+    Icon: PoolIcon,
+    bg: "bg-[oklch(0.86_0.04_75)]",
+    color: "text-[oklch(0.32_0.06_240)]",
+  },
+] as const;
 
+function AmenitiesSection() {
+  return (
+    <section id="amenities" className="section-y bg-background">
+      <div className="container-villa">
+        <div className="flex items-center justify-center gap-4">
+          <span className="h-px w-10 bg-accent" />
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
+            Παροχές
+          </span>
+          <span className="h-px w-10 bg-accent" />
+        </div>
 
+        <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+          Ό,τι χρειάζεστε για <span className="text-accent">ήρεμες</span> διακοπές
+        </h2>
+
+        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
+          Η Ekaterini VIP Villa προσφέρει όλες τις ανέσεις για μια άνετη και ξένοιαστη διαμονή.
+        </p>
+
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3 md:mt-16">
+          {AMENITIES.map((a, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center text-center"
+            >
+              <div
+                className={`flex h-16 w-16 items-center justify-center rounded-full ${a.bg}`}
+              >
+                <a.Icon className={`h-7 w-7 ${a.color}`} />
+              </div>
+              <h3 className="mt-5 font-serif text-xl font-bold text-foreground md:text-2xl">
+                {a.title}
+              </h3>
+              <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
+                {a.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ---------- Reviews ---------- */
 
