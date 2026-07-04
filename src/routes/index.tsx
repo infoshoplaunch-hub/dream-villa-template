@@ -48,6 +48,7 @@ function Landing() {
         <Hero />
         <VillaSection />
         <RoomsSection />
+        <AmenitiesSection />
         <Reviews />
         <LocationSection />
         <BookingSection />
