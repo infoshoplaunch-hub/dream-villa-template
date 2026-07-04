@@ -34,6 +34,8 @@ const logoUrl = logoAsset.url;
 const logoDarkUrl = logoDarkAsset.url;
 import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
+import villaExteriorDayAsset from "@/assets/villa/villa-exterior-day.jpg.asset.json";
+const villaExteriorDayImg = villaExteriorDayAsset.url;
 
 
 export const Route = createFileRoute("/")({
@@ -578,7 +580,7 @@ function VillaSection() {
         <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
           <div className="relative">
             <img
-              src={heroImg}
+              src={villaExteriorDayImg}
               alt="Ekaterini VIP Villa exterior with pool"
               width={1600}
               height={1067}
