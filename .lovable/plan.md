@@ -1,41 +1,35 @@
-# Interactive Bento Gallery στο section «Οι Χώροι Μας»
+## Στόχος
+Δημιουργία ενός νέου section «Παροχές» ακριβώς κάτω από το section «Οι Χώροι Μας» (InteractiveBentoGallery). Το section θα παρουσιάζει 3 παροχές σε οριζόντια διάταξη με icon cards, παρόμοια με το reference image που έδωσε ο χρήστης.
 
-Αντικαθιστούμε το τωρινό carousel με ένα διαδραστικό bento gallery (drag-to-reorder + click-to-expand modal με draggable dock).
+## Design Direction
+- **Layout**: 3 στήλες σε desktop (grid), 1 στήλη σε mobile. Κέντρωση, με αρκετό padding.
+- **Card style**: Κάθε παροχή είναι ένα κέντρο-ευθυγραμμισμένο stack:
+  - Στρογγυλό background (circle ~64px) με icon μέσα σε χρώμα από το design system
+  - Title κάτω από το icon (bold, μεγαλύτερο)
+  - Σύντομη περιγραφή κάτω από τον title (muted, μικρότερο)
+- **Χρώματα icon backgrounds** (ένα για κάθε παροχή, από το υπάρχον palette):
+  - Στάθμευση: warm sand / secondary tint
+  - Wi-Fi: warm olive / muted tint
+  - Πισίνα: warm sea / primary tint
+- **Typography**: Χρήση του υπάρχοντος font stack (Cera GR), design tokens για χρώματα.
+- **Animation**: Subtle fade-in + translate-y on scroll (framer-motion, ήδη εγκατεστημένο).
 
-## Setup
-- Εγκατάσταση: `bun add framer-motion` (το lucide-react υπάρχει ήδη).
-- Νέο αρχείο: `src/components/ui/interactive-bento-gallery.tsx` — καθαρή, typed υλοποίηση βασισμένη στο snippet:
-  - `MediaItem` — υποστηρίζει `image` & `video` με IntersectionObserver autoplay.
-  - `GalleryModal` — fullscreen modal + draggable thumbnail dock από κάτω, `AnimatePresence` transitions, close button.
-  - `InteractiveBentoGallery` — bento grid, drag-to-reorder, stagger reveal animations.
-- Θα καθαρίσω το snippet από τα `"use client"` (δεν χρειάζεται εδώ), θα φτιάξω σωστά JSX/props/refs, θα προσθέσω `HTMLVideoElement` typing, και θα βάλω design-token colors (όχι hardcoded).
+## Περιεχόμενο
 
-## Ενσωμάτωση στο site
+| Παροχή | Icon | Περιγραφή |
+|---|---|---|
+| Δωρεάν Χώρος Στάθμευσης | ParkingIcon | Ιδιωτικός χώρος στάθμευσης για όλα τα οχήματά σας. |
+| Δωρεάν Wi-Fi | WifiIcon | Γρήγορο ασύρματο internet σε όλους τους χώρους. |
+| Ιδιωτική Πισίνα | PoolIcon | Αποκλειστική πισίνα μόνο για εσάς, με θέα στο Αιγαίο. |
+
+## Ενσωμάτωση
+
 Στο `src/routes/index.tsx`:
-- Αφαίρεση του `VillaCarousel` component και των imports που χρησιμοποιούσε μόνο αυτό (`ChevronLeft`, `ChevronRight`).
-- Κρατάμε τα 9 asset imports (`villa1..villa17`).
-- Δημιουργία `VILLA_MEDIA` array με τις 9 πραγματικές φωτογραφίες + captions και ένα ισορροπημένο bento layout:
+- Εισαγωγή των icons από `@/components/villa-icons` (ParkingIcon, WifiIcon, PoolIcon).
+- Δημιουργία νέου component `AmenitiesSection` (inline ή ξεχωριστό αρχείο αν είναι μεγάλο).
+- Τοποθέτηση `<AmenitiesSection />` ακριβώς κάτω από `<RoomsSection />` μέσα στο `<main>`.
 
-| # | Φωτογραφία | Caption | span (md) |
-|---|---|---|---|
-| 1 | EKATERINI-12 (Βεράντα) | Βεράντα με θέα | col-span-2 row-span-2 |
-| 2 | EKATERINI-17 (Master) | Master υπνοδωμάτιο | col-span-1 row-span-2 |
-| 3 | EKATERINI-7 (Σαλόνι) | Σαλόνι με θέα | col-span-1 row-span-1 |
-| 4 | EKATERINI-3 (Καθιστικό) | Καθιστικό & τραπεζαρία | col-span-1 row-span-1 |
-| 5 | EKATERINI-4 (Κουζίνα) | Πλήρως εξοπλισμένη κουζίνα | col-span-2 row-span-2 |
-| 6 | EKATERINI-6 (Κουζίνα/σκάλα) | Κουζίνα & τραπεζαρία | col-span-1 row-span-1 |
-| 7 | EKATERINI-9 (Δίκλινο) | Δίκλινο υπνοδωμάτιο | col-span-1 row-span-1 |
-| 8 | EKATERINI-10 (Δίκλινο) | Δίκλινο υπνοδωμάτιο | col-span-1 row-span-2 |
-| 9 | EKATERINI-1 (Μπάνιο) | Μπάνιο | col-span-1 row-span-1 |
-
-- Το `RoomsSection` κρατά το eyebrow + τίτλο και μεταφέρει τα `title`/`description` της gallery μέσα στο ίδιο section. (Αφαιρώ τον τίτλο του component για να αποφύγουμε διπλό heading — το εξωτερικό h2 μένει.)
-- Χρώματα από design tokens (`accent`, `foreground`, `background`) — καθόλου `text-white`/`bg-black` hardcoded.
-
-## Responsive & UX
-- Grid: `grid-cols-2` mobile → `md:grid-cols-4` desktop, με τα `span` κλάσεις του κάθε item.
-- Modal: full-viewport με backdrop blur, `Esc` κλείσιμο, click εκτός εικόνας κλείνει.
-- Dock: draggable, τα thumbnails ενεργοποιούν εναλλαγή slide.
-- `prefers-reduced-motion`: μειώνει scale/rotate animations στο dock.
-
-## Δεν αλλάζει
-Όλα τα υπόλοιπα sections (Amenities, Location, Booking, Contact) παραμένουν ως έχουν. Το asset `EKATERINI-*` set μένει ίδιο· η φωτογραφία πισίνας μπορεί να προστεθεί αργότερα ως 10ο item.
+## Τεχνικά
+- Δεν χρειάζονται νέα dependencies (framer-motion και lucide-react ήδη υπάρχουν).
+- Responsive: `grid-cols-1 md:grid-cols-3`.
+- `prefers-reduced-motion`: απενεργοποίηση animation.
