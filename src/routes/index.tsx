@@ -756,7 +756,7 @@ function RoomsSection() {
 const AMENITIES = [
   {
     title: "Χώρος Στάθμευσης",
-    description: "Ιδιωτικός χώρος στάθμευσης για όλα τα οχήματά σας, με άμεση πρόσβαση στη βίλα.",
+    description: "",
     Icon: ParkingIcon,
     bg: "bg-[oklch(0.94_0.02_80)]",
     color: "text-[oklch(0.55_0.06_115)]",
