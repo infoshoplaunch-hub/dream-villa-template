@@ -345,6 +345,11 @@ function BookingBar() {
       toast.error("Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
       return;
     }
+    const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
+    if (hasBlocked) {
+      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      return;
+    }
     navigate({
       to: "/booking",
       search: {
