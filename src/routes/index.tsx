@@ -756,7 +756,7 @@ function RoomsSection() {
 const AMENITIES = [
   {
     title: "Χώρος Στάθμευσης",
-    description: "Ιδιωτικός χώρος στάθμευσης για όλα τα οχήματά σας, με άμεση πρόσβαση στη βίλα.",
+    description: "",
     Icon: ParkingIcon,
     bg: "bg-[oklch(0.94_0.02_80)]",
     color: "text-[oklch(0.55_0.06_115)]",
@@ -811,9 +811,11 @@ function AmenitiesSection() {
               <h3 className="mt-5 font-serif text-xl font-bold text-foreground md:text-2xl">
                 {a.title}
               </h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
-                {a.description}
-              </p>
+              {a.description && (
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {a.description}
+                </p>
+              )}
             </div>
           ))}
         </div>
