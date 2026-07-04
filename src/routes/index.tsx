@@ -580,7 +580,7 @@ function VillaSection() {
         <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
           <div className="relative">
             <img
-              src={heroImg}
+              src={villaExteriorDayImg}
               alt="Ekaterini VIP Villa exterior with pool"
               width={1600}
               height={1067}
