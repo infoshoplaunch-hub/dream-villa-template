@@ -230,6 +230,13 @@ function Header() {
                 {n.label}
               </a>
             ))}
+            <Link
+              to="/gallery"
+              onClick={() => setOpen(false)}
+              className="border-b border-border/60 py-4 font-serif text-2xl"
+            >
+              {t.nav.gallery}
+            </Link>
             <a
               href="mailto:info@katerinavipvilla.gr"
               onClick={() => setOpen(false)}
