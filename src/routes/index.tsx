@@ -763,7 +763,7 @@ const AMENITIES = [
   },
   {
     title: "Δωρεάν Wi-Fi",
-    description: "Γρήγορο ασύρματο internet σε όλους τους χώρους της βίλας.",
+    description: "",
     Icon: WifiIcon,
     bg: "bg-[oklch(0.955_0.012_85)]",
     color: "text-[oklch(0.45_0.08_235)]",
