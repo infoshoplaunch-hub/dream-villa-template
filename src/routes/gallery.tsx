@@ -151,11 +151,6 @@ function GalleryPage() {
                     loading="lazy"
                     className="h-auto w-full object-cover transition duration-500 group-hover:scale-[1.02]"
                   />
-                  {p.caption ? (
-                    <div className="px-3 py-2 text-left text-xs text-foreground/70">
-                      {p.caption}
-                    </div>
-                  ) : null}
                 </button>
               ))}
             </div>
