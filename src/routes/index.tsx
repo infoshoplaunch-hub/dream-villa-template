@@ -310,6 +310,18 @@ function BookingBar() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  const blockedQuery = useQuery({
+    queryKey: ["blocked_dates_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blocked_dates").select("date");
+      if (error) throw error;
+      return (data ?? []).map((r) => parseISO(r.date));
+    },
+    staleTime: 60_000,
+  });
+  const blockedDates = blockedQuery.data ?? [];
+  const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+
   const fmt = (d?: Date) =>
     d ? format(d, "EEE d MMM", { locale: el }) : "Επιλέξτε ημερομηνία";
 
