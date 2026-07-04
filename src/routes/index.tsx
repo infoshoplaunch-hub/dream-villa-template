@@ -811,9 +811,11 @@ function AmenitiesSection() {
               <h3 className="mt-5 font-serif text-xl font-bold text-foreground md:text-2xl">
                 {a.title}
               </h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
-                {a.description}
-              </p>
+              {a.description && (
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {a.description}
+                </p>
+              )}
             </div>
           ))}
         </div>
