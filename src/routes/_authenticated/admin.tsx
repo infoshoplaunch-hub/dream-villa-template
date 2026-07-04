@@ -166,6 +166,12 @@ function AdminPage() {
             <ArrowLeft className="h-4 w-4" /> Επιστροφή στο site
           </Link>
           <div className="flex items-center gap-4">
+            <Link
+              to="/admin/gallery"
+              className="inline-flex items-center gap-2 rounded-full border border-accent px-4 py-2 text-xs font-semibold text-accent hover:bg-accent hover:text-accent-foreground transition"
+            >
+              Διαχείριση Gallery
+            </Link>
             <span className="hidden text-xs text-foreground/60 sm:inline">{email}</span>
             <button
               onClick={handleSignOut}
