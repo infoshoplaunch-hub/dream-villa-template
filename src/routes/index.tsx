@@ -182,6 +182,14 @@ function Header() {
               </a>
             );
           })}
+          <Link
+            to="/gallery"
+            className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
+              onDark ? "text-white/75 hover:text-white" : "text-foreground/70 hover:text-accent"
+            }`}
+          >
+            {t.nav.gallery}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
