@@ -15,7 +15,9 @@ import {
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 
 
-import { format } from "date-fns";
+import { format, parseISO, isSameDay } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { el } from "date-fns/locale";
 import { toast } from "sonner";
 
@@ -308,6 +310,18 @@ function BookingBar() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  const blockedQuery = useQuery({
+    queryKey: ["blocked_dates_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blocked_dates").select("date");
+      if (error) throw error;
+      return (data ?? []).map((r) => parseISO(r.date));
+    },
+    staleTime: 60_000,
+  });
+  const blockedDates = blockedQuery.data ?? [];
+  const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+
   const fmt = (d?: Date) =>
     d ? format(d, "EEE d MMM", { locale: el }) : "Επιλέξτε ημερομηνία";
 
@@ -329,6 +343,11 @@ function BookingBar() {
   const submit = () => {
     if (!checkIn || !checkOut) {
       toast.error("Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
+      return;
+    }
+    const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
+    if (hasBlocked) {
+      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
       return;
     }
     navigate({
@@ -373,7 +392,9 @@ function BookingBar() {
                 if (d && checkOut && d >= checkOut) setCheckOut(undefined);
                 setOpenCal(d ? "out" : null);
               }}
-              disabled={(d) => d < today}
+              disabled={(d) => d < today || isBlocked(d)}
+              modifiers={{ blocked: blockedDates }}
+              modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={el}
               initialFocus
               className="p-3 pointer-events-auto"
@@ -402,7 +423,9 @@ function BookingBar() {
                 setCheckOut(d);
                 if (d) setOpenCal(null);
               }}
-              disabled={(d) => d < today || (checkIn ? d <= checkIn : false)}
+              disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d)}
+              modifiers={{ blocked: blockedDates }}
+              modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={el}
               initialFocus
               className="p-3 pointer-events-auto"
