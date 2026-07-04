@@ -12,6 +12,7 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 
 
 import { format } from "date-fns";
