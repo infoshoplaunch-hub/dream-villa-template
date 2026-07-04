@@ -15,7 +15,9 @@ import {
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 
 
-import { format } from "date-fns";
+import { format, parseISO, isSameDay } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { el } from "date-fns/locale";
 import { toast } from "sonner";
 
