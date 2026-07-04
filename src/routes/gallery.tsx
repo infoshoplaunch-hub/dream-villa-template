@@ -201,11 +201,6 @@ function GalleryPage() {
             onClick={(e) => e.stopPropagation()}
             className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
           />
-          {photos[lightbox].caption ? (
-            <div className="absolute bottom-6 left-1/2 max-w-[80vw] -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-center text-sm text-white">
-              {photos[lightbox].caption}
-            </div>
-          ) : null}
         </div>
       ) : null}
     </div>
