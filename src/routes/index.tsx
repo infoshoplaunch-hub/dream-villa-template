@@ -36,6 +36,8 @@ import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
 import villaExteriorDayAsset from "@/assets/villa/villa-exterior-day.jpg.asset.json";
 const villaExteriorDayImg = villaExteriorDayAsset.url;
+import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
+const villaLivingRoomImg = villaLivingRoomAsset.url;
 
 
 export const Route = createFileRoute("/")({
@@ -644,8 +646,8 @@ function VillaSection() {
           </div>
           <div className="order-1 md:order-2">
             <img
-              src={heroImg}
-              alt="Ekaterini VIP Villa veranda and pool at sunset"
+              src={villaLivingRoomImg}
+              alt="Ekaterini VIP Villa living room with sea view"
               width={1600}
               height={1067}
               loading="lazy"
