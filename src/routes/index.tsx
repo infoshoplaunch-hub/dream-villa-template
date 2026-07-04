@@ -11,9 +11,8 @@ import {
   Users as UsersIcon,
   Minus,
   Plus,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
+
 
 import { format } from "date-fns";
 import { el } from "date-fns/locale";
@@ -649,140 +648,82 @@ import villa17 from "@/assets/villa/EKATERINI-17.jpg.asset.json";
 import villa9 from "@/assets/villa/EKATERINI-9.jpg.asset.json";
 import villa10 from "@/assets/villa/EKATERINI-10.jpg.asset.json";
 import villa1 from "@/assets/villa/EKATERINI-1.jpg.asset.json";
+import InteractiveBentoGallery, { type MediaItemType } from "@/components/ui/interactive-bento-gallery";
 
-const VILLA_SLIDES = [
-  { src: villa12.url, caption: "Βεράντα με θέα στη θάλασσα" },
-  { src: villa7.url, caption: "Σαλόνι με θέα" },
-  { src: villa3.url, caption: "Καθιστικό & τραπεζαρία" },
-  { src: villa6.url, caption: "Κουζίνα & τραπεζαρία" },
-  { src: villa4.url, caption: "Πλήρως εξοπλισμένη κουζίνα" },
-  { src: villa17.url, caption: "Master υπνοδωμάτιο" },
-  { src: villa9.url, caption: "Δίκλινο υπνοδωμάτιο" },
-  { src: villa10.url, caption: "Δίκλινο υπνοδωμάτιο" },
-  { src: villa1.url, caption: "Μπάνιο" },
-] as const;
-
-function VillaCarousel() {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const total = VILLA_SLIDES.length;
-
-  const go = React.useCallback(
-    (dir: number) => setIndex((i) => (i + dir + total) % total),
-    [total],
-  );
-
-  useEffect(() => {
-    if (paused) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % total), 5000);
-    return () => window.clearInterval(id);
-  }, [paused, total]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") go(-1);
-      else if (e.key === "ArrowRight") go(1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [go]);
-
-  // Touch swipe
-  const touchStart = React.useRef<number | null>(null);
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = e.touches[0].clientX;
-  };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStart.current;
-    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
-    touchStart.current = null;
-  };
-
-  return (
-    <div
-      className="relative mt-14 md:mt-20"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Viewport with peek */}
-      <div
-        className="overflow-hidden rounded-[2rem]"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        <div
-          className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-          style={{
-            transform: `translateX(calc(${-index * 100}% + ${index === 0 ? 0 : 0}px))`,
-          }}
-        >
-          {VILLA_SLIDES.map((slide, i) => (
-            <div key={slide.src} className="w-full shrink-0 px-2 md:px-4">
-              <div className="group relative overflow-hidden rounded-[2rem] bg-background shadow-[0_30px_70px_-35px_rgba(15,23,42,0.45)]">
-                <img
-                  src={slide.src}
-                  alt={slide.caption}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  className="aspect-[16/10] w-full object-cover"
-                />
-                {/* Caption chip */}
-                <div className="absolute left-5 top-5 md:left-7 md:top-7">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-background/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80 backdrop-blur-md md:text-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    {slide.caption}
-                  </span>
-                </div>
-                {/* Bottom gradient */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Arrows */}
-      <button
-        type="button"
-        onClick={() => go(-1)}
-        aria-label="Προηγούμενη φωτογραφία"
-        className="absolute left-3 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg backdrop-blur transition-all hover:bg-accent hover:text-accent-foreground md:left-6 md:h-14 md:w-14"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
-      <button
-        type="button"
-        onClick={() => go(1)}
-        aria-label="Επόμενη φωτογραφία"
-        className="absolute right-3 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg backdrop-blur transition-all hover:bg-accent hover:text-accent-foreground md:right-6 md:h-14 md:w-14"
-      >
-        <ChevronRight className="h-6 w-6" />
-      </button>
-
-      {/* Dots */}
-      <div className="mt-8 flex items-center justify-center gap-2">
-        {VILLA_SLIDES.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setIndex(i)}
-            aria-label={`Μετάβαση στη φωτογραφία ${i + 1}`}
-            className={`h-2 rounded-full transition-all ${
-              i === index ? "w-8 bg-accent" : "w-2 bg-foreground/25 hover:bg-foreground/40"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Counter */}
-      <div className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.3em] text-foreground/50">
-        {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-      </div>
-    </div>
-  );
-}
+const VILLA_MEDIA: MediaItemType[] = [
+  {
+    id: 1,
+    type: "image",
+    title: "Βεράντα με θέα",
+    desc: "Πανοραμική θέα στη θάλασσα της Κρήτης.",
+    url: villa12.url,
+    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
+  },
+  {
+    id: 2,
+    type: "image",
+    title: "Master υπνοδωμάτιο",
+    desc: "Άνετο δωμάτιο με θέα στον ορίζοντα.",
+    url: villa17.url,
+    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
+  },
+  {
+    id: 3,
+    type: "image",
+    title: "Σαλόνι με θέα",
+    desc: "Φωτεινός χώρος για χαλάρωση.",
+    url: villa7.url,
+    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
+  },
+  {
+    id: 4,
+    type: "image",
+    title: "Καθιστικό & τραπεζαρία",
+    desc: "Ενιαίος χώρος διημέρευσης.",
+    url: villa3.url,
+    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
+  },
+  {
+    id: 5,
+    type: "image",
+    title: "Πλήρως εξοπλισμένη κουζίνα",
+    desc: "Όλα όσα χρειάζεστε για μαγείρεμα.",
+    url: villa4.url,
+    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
+  },
+  {
+    id: 6,
+    type: "image",
+    title: "Κουζίνα & τραπεζαρία",
+    desc: "Ζεστό ξύλινο ντεκόρ.",
+    url: villa6.url,
+    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
+  },
+  {
+    id: 7,
+    type: "image",
+    title: "Δίκλινο υπνοδωμάτιο",
+    desc: "Ιδανικό για παρέα ή παιδιά.",
+    url: villa9.url,
+    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
+  },
+  {
+    id: 8,
+    type: "image",
+    title: "Δίκλινο υπνοδωμάτιο",
+    desc: "Φωτεινό δωμάτιο με πρόσβαση στη βεράντα.",
+    url: villa10.url,
+    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
+  },
+  {
+    id: 9,
+    type: "image",
+    title: "Μπάνιο",
+    desc: "Μπανιέρα υδρομασάζ & πλυντήριο.",
+    url: villa1.url,
+    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
+  },
+];
 
 function RoomsSection() {
   return (
@@ -802,11 +743,18 @@ function RoomsSection() {
           Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
         </h2>
 
-        <VillaCarousel />
+        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
+          Σύρετε τις εικόνες για αναδιάταξη ή πατήστε πάνω τους για μεγέθυνση.
+        </p>
+
+        <div className="mt-12 md:mt-16">
+          <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
+        </div>
       </div>
     </section>
   );
 }
+
 
 
 /* ---------- Amenities ---------- */
