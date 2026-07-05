@@ -1188,6 +1188,7 @@ function AmenitiesSection() {
 /* ---------- Availability Calendar Section ---------- */
 
 function AvailabilitySection() {
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [range, setRange] = useState<{ from?: Date; to?: Date } | undefined>();
@@ -1222,7 +1223,7 @@ function AvailabilitySection() {
     const next = current + delta;
     if (next < min) return;
     if (delta > 0 && total + delta > MAX) {
-      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      toast.error(t.availability.errMaxGuests);
       return;
     }
     setter(next);
@@ -1230,17 +1231,17 @@ function AvailabilitySection() {
 
   const submit = () => {
     if (!range?.from || !range?.to) {
-      toast.error("Παρακαλώ επιλέξτε ημερομηνία άφιξης και αναχώρησης.");
+      toast.error(t.availability.errDates);
       return;
     }
     const nights = Math.round((range.to.getTime() - range.from.getTime()) / 86400000);
     if (nights < 3) {
-      toast.error("Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις.");
+      toast.error(t.availability.errMinNights);
       return;
     }
     const hasBlocked = blockedDates.some((b) => b >= range.from! && b < range.to!);
     if (hasBlocked) {
-      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      toast.error(t.availability.errBlocked);
       return;
     }
     navigate({
@@ -1255,7 +1256,7 @@ function AvailabilitySection() {
     });
   };
 
-  const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : "Επιλέξτε");
+  const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : t.availability.pickPlaceholder);
   const fieldLabel = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
 
   const nights =
@@ -1264,27 +1265,13 @@ function AvailabilitySection() {
       : 0;
   const hasRange = Boolean(range?.from && range?.to);
 
-  const highlights = [
-    { label: "Έως 7 επισκέπτες", icon: UsersIcon },
-    { label: "Ιδιωτική Πισίνα", icon: PoolIcon },
-    { label: "Θέα στη Θάλασσα", icon: MountainSnowIcon },
-    { label: "Πλήρως Εξοπλισμένη Κουζίνα", icon: UtensilsCrossedIcon },
-    { label: "Δωρεάν Ιδιωτικό Πάρκινγκ", icon: ParkingIcon },
-    { label: "Wi-Fi Υψηλής Ταχύτητας", icon: WifiIcon },
-  ];
+  const highlightIcons = [UsersIcon, PoolIcon, MountainSnowIcon, UtensilsCrossedIcon, ParkingIcon, WifiIcon];
+  const highlights = t.availability.highlights.map((label, i) => ({ label, icon: highlightIcons[i] }));
 
-  const bookDirectPoints = [
-    { title: "Ασφαλής Απευθείας Κράτηση", desc: "Χωρίς μεσάζοντες, χωρίς έξτρα προμήθειες." },
-    { title: "Καλύτερη Διαθέσιμη Τιμή", desc: "Η πιο συμφέρουσα τιμή είναι πάντα εδώ." },
-    { title: "Άμεση Επιβεβαίωση", desc: "Λαμβάνετε επιβεβαίωση χωρίς καθυστέρηση." },
-  ];
+  const bookDirectPoints = t.availability.bookDirectPoints;
 
-  const trustStrip = [
-    { label: "Ασφαλής Κράτηση", icon: ShieldCheckIcon },
-    { label: "Εγγύηση Καλύτερης Τιμής", icon: AwardIcon },
-    { label: "Ιδιωτική Εμπειρία Villa", icon: KeyRoundIcon },
-    { label: "Άμεση Διαθεσιμότητα", icon: ZapIcon },
-  ];
+  const trustIcons = [ShieldCheckIcon, AwardIcon, KeyRoundIcon, ZapIcon];
+  const trustStrip = t.availability.trust.map((label, i) => ({ label, icon: trustIcons[i] }));
 
   return (
     <section id="availability" className="bg-background">
@@ -1297,27 +1284,26 @@ function AvailabilitySection() {
               <div>
                 <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-accent">
                   <span className="h-px w-8 bg-accent" />
-                  Διαθεσιμότητα
+                  {t.availability.eyebrow}
                 </span>
                 <h3 className="mt-4 font-serif text-3xl leading-tight text-foreground md:text-4xl">
-                  Ελέγξτε τη Διαθεσιμότητα
+                  {t.availability.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-foreground/70 md:text-base">
-                  Επιλέξτε τις ιδανικές σας ημερομηνίες και ξεκινήστε τον σχεδιασμό της
-                  πολυτελούς διαμονής σας στην Κρήτη.
+                  {t.availability.subtitle}
                 </p>
               </div>
 
               {/* Highlights card */}
               <div className="rounded-[20px] border border-border/60 bg-[oklch(0.98_0.008_85)] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.25)] md:p-7">
                 <h4 className="font-serif text-lg text-foreground md:text-xl">
-                  Η Εμπειρία της Βίλας
+                  {t.availability.experienceTitle}
                 </h4>
                 <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {highlights.map(({ label, icon: Icon }) => (
                     <li key={label} className="flex items-center gap-3 text-sm text-foreground/85">
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/5 text-accent">
-                        <Icon className="h-4 w-4" strokeWidth={1.75} />
+                        {Icon ? <Icon className="h-4 w-4" strokeWidth={1.75} /> : null}
                       </span>
                       <span className="min-w-0">{label}</span>
                     </li>
@@ -1332,7 +1318,7 @@ function AvailabilitySection() {
                     <BadgeCheckIcon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h4 className="font-serif text-lg text-foreground md:text-xl">
-                    Κάντε Απευθείας Κράτηση
+                    {t.availability.bookDirectTitle}
                   </h4>
                 </div>
                 <ul className="mt-5 space-y-4">
@@ -1352,7 +1338,7 @@ function AvailabilitySection() {
                   className="btn-lux btn-lux-primary mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
                   data-magnetic
                 >
-                  Κάνε την Κράτηση Σου
+                  {t.availability.bookNowCta}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>
               </div>
@@ -1364,12 +1350,12 @@ function AvailabilitySection() {
               <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-serif text-xl text-foreground md:text-2xl">
-                    Επιλέξτε ημερομηνίες
+                    {t.availability.calendarTitle}
                   </h3>
                   <span className="text-xs font-medium text-foreground/55">
                     {hasRange
-                      ? `${nights} ${nights === 1 ? "διανυκτέρευση" : "διανυκτερεύσεις"}`
-                      : "Ελάχιστο 3 διανυκτερεύσεις"}
+                      ? `${nights} ${nights === 1 ? t.availability.nightSingular : t.availability.nightPlural}`
+                      : t.availability.minNights}
                   </span>
                 </div>
 
@@ -1383,7 +1369,7 @@ function AvailabilitySection() {
                     disabled={(d) => d < today || isBlocked(d)}
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
-                    locale={el}
+                    locale={lang === "el" ? el : undefined}
                     className="p-0 pointer-events-auto w-full [--cell-size:2.5rem] sm:[--cell-size:2.75rem] lg:[--cell-size:2.6rem] text-[15px]"
                   />
                 </div>
@@ -1395,16 +1381,16 @@ function AvailabilitySection() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-[#17212B]/70 underline underline-offset-4 decoration-[#17212B]/25 transition hover:text-[#17212B] hover:decoration-[#17212B]"
                   >
                     <CalendarIcon className="h-4 w-4" />
-                    Εκκαθάριση ημερομηνιών
+                    {t.availability.clearDates}
                   </button>
                   <div className="hidden items-center gap-4 text-xs text-foreground/55 sm:flex">
                     <span className="inline-flex items-center gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full bg-[#C86B4A]" />
-                      Επιλεγμένες
+                      {t.availability.selected}
                     </span>
                     <span className="inline-flex items-center gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full border border-foreground/30 bg-transparent" />
-                      Μη διαθέσιμες
+                      {t.availability.unavailable}
                     </span>
                   </div>
                 </div>
@@ -1414,19 +1400,19 @@ function AvailabilitySection() {
               <div className="rounded-[20px] border border-border/60 bg-white p-5 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.2)] md:p-7">
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                   <div>
-                    <div className={fieldLabel}>Άφιξη</div>
+                    <div className={fieldLabel}>{t.availability.arrival}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${range?.from ? "text-foreground" : "text-foreground/40"}`}>
                       {fmtDate(range?.from)}
                     </div>
                   </div>
                   <div>
-                    <div className={fieldLabel}>Αναχώρηση</div>
+                    <div className={fieldLabel}>{t.availability.departure}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${range?.to ? "text-foreground" : "text-foreground/40"}`}>
                       {fmtDate(range?.to)}
                     </div>
                   </div>
                   <div>
-                    <div className={fieldLabel}>Διανυκτερεύσεις</div>
+                    <div className={fieldLabel}>{t.availability.nights}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${hasRange ? "text-foreground" : "text-foreground/40"}`}>
                       {hasRange ? nights : "—"}
                     </div>
@@ -1438,7 +1424,7 @@ function AvailabilitySection() {
                           type="button"
                           className="group flex w-full flex-col items-start text-left"
                         >
-                          <span className={fieldLabel}>Επισκέπτες</span>
+                          <span className={fieldLabel}>{t.availability.guests}</span>
                           <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
                             {total}
                             <ChevronDown className="h-3.5 w-3.5 text-foreground/50 transition group-hover:text-foreground" />
@@ -1448,8 +1434,8 @@ function AvailabilitySection() {
                       <PopoverContent className="w-72 p-4" align="end">
                         <div className="space-y-4">
                           {[
-                            { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
-                            { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
+                            { label: t.availability.adults, value: adults, setter: setAdults, min: 1 },
+                            { label: t.availability.children, value: children, setter: setChildren, min: 0 },
                           ].map((row) => (
                             <div key={row.label} className="flex items-center justify-between">
                               <span className="text-sm font-medium text-foreground">{row.label}</span>
@@ -1473,7 +1459,7 @@ function AvailabilitySection() {
                               </div>
                             </div>
                           ))}
-                          <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
+                          <p className="text-xs text-foreground/60">{t.availability.maxNote}</p>
                         </div>
                       </PopoverContent>
                     </Popover>
@@ -1488,9 +1474,9 @@ function AvailabilitySection() {
                     <span className="text-foreground/70">
                       {hasRange
                         ? nights >= 3
-                          ? "Έτοιμο για κράτηση"
-                          : "Ελάχιστο 3 διανυκτερεύσεις"
-                        : "Επιλέξτε ημερομηνίες για να συνεχίσετε"}
+                          ? t.availability.readyToBook
+                          : t.availability.minNights
+                        : t.availability.pickToContinue}
                     </span>
                   </div>
 
@@ -1500,14 +1486,14 @@ function AvailabilitySection() {
                     data-magnetic
                     className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
                   >
-                    Κάνε κράτηση
+                    {t.availability.bookCta}
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
 
                 <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
                   <Lock className="h-3 w-3" />
-                  Δεν θα χρεωθείτε ακόμα
+                  {t.availability.noChargeYet}
                 </p>
               </div>
             </div>
