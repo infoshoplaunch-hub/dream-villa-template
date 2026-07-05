@@ -13,6 +13,7 @@ import {
   Plus,
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 import { format, parseISO, isSameDay } from "date-fns";
