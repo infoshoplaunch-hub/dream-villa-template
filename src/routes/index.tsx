@@ -1162,7 +1162,7 @@ function AmenitiesSection() {
             <DialogTrigger asChild>
               <button
                 type="button"
-                className="inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+                className="btn-lux btn-lux-secondary inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
               >
                 Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
               </button>
