@@ -61,6 +61,7 @@ function BookingPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const formSchema = z.object({
     firstName: z.string().trim().min(1, t.bookingPage.errFirstName).max(80),
@@ -77,29 +78,52 @@ function BookingPage() {
   const onChange = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = formSchema.safeParse(form);
     if (!result.success) {
       toast.error(result.error.issues[0]?.message ?? t.bookingPage.errRequired);
       return;
     }
-    const L = t.bookingPage.mailLabels;
-    const subject = encodeURIComponent(t.bookingPage.mailSubject);
-    const body = encodeURIComponent(
-      `${L.fullName}: ${form.firstName} ${form.lastName}\n` +
-        `${L.email}: ${form.email}\n` +
-        `${L.phone}: ${form.phone}\n\n` +
-        `${L.arrival}: ${check_in ?? "-"}\n` +
-        `${L.departure}: ${check_out ?? "-"}\n` +
-        `${L.nights}: ${nights}\n` +
-        `${L.adults}: ${adults}\n` +
-        `${L.children}: ${children}\n` +
-        `${L.totalGuests}: ${total_guests}\n\n` +
-        `${L.message}:\n${form.message}`,
-    );
-    window.location.href = `mailto:info@katerinavipvilla.gr?subject=${subject}&body=${body}`;
-    setSent(true);
+    if (!check_in || !check_out) {
+      toast.error(lang === "en" ? "Please select check-in and check-out dates." : "Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/public/booking-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          message: form.message,
+          check_in,
+          check_out,
+          adults,
+          children,
+          lang,
+        }),
+      });
+      if (res.status === 409) {
+        toast.error(lang === "en"
+          ? "These dates are no longer available. Please choose different dates."
+          : "Οι ημερομηνίες δεν είναι πια διαθέσιμες. Παρακαλώ επιλέξτε άλλες.");
+        setSubmitting(false);
+        return;
+      }
+      if (!res.ok) {
+        toast.error(lang === "en" ? "Something went wrong. Please try again." : "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.");
+        setSubmitting(false);
+        return;
+      }
+      setSent(true);
+    } catch {
+      toast.error(lang === "en" ? "Network error. Please try again." : "Σφάλμα δικτύου. Παρακαλώ δοκιμάστε ξανά.");
+      setSubmitting(false);
+    }
   };
 
   const fmt = (d: Date | null) => (d ? format(d, "EEEE d MMMM yyyy", { locale: lang === "el" ? el : undefined }) : "—");
