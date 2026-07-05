@@ -963,92 +963,224 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  Waves,
+  Flame,
+  TreePine,
+  Umbrella,
+  MountainSnow,
+  Snowflake,
+  Tv,
+  Bed,
+  Sofa,
+  UtensilsCrossed,
+  Coffee,
+  Utensils,
+  Refrigerator,
+  WashingMachine,
+  Wifi,
+  Car,
+  Wind,
+  Users,
+  Palmtree,
+  type LucideIcon,
+} from "lucide-react";
+
+type AmenityChip = { label: string; icon: LucideIcon };
+type AmenityGroup = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  items: AmenityChip[];
+};
+
+const AMENITY_GROUPS: AmenityGroup[] = [
+  {
+    title: "Εξωτερικοί Χώροι",
+    description: "Απολαύστε τον ήλιο, τη θέα και την ιδιωτικότητα.",
+    icon: Palmtree,
+    items: [
+      { label: "Ιδιωτική Πισίνα", icon: Waves },
+      { label: "Χώρος BBQ", icon: Flame },
+      { label: "Κήπος", icon: TreePine },
+      { label: "Ξαπλώστρες", icon: Umbrella },
+      { label: "Βεράντα με Θέα Θάλασσας", icon: MountainSnow },
+    ],
+  },
+  {
+    title: "Άνεση & Χαλάρωση",
+    description: "Ζεστοί χώροι, σχεδιασμένοι για ήρεμες στιγμές.",
+    icon: Sofa,
+    items: [
+      { label: "Κλιματισμός", icon: Snowflake },
+      { label: "Smart TV", icon: Tv },
+      { label: "Υπνοδωμάτια Πολυτελείας", icon: Bed },
+      { label: "Ευρύχωρο Σαλόνι", icon: Sofa },
+    ],
+  },
+  {
+    title: "Κουζίνα & Τραπεζαρία",
+    description: "Πλήρως εξοπλισμένη κουζίνα για κάθε γεύμα.",
+    icon: UtensilsCrossed,
+    items: [
+      { label: "Πλήρως Εξοπλισμένη Κουζίνα", icon: UtensilsCrossed },
+      { label: "Μηχανή Καφέ", icon: Coffee },
+      { label: "Τραπεζαρία", icon: Utensils },
+      { label: "Ψυγείο", icon: Refrigerator },
+      { label: "Φούρνος", icon: Flame },
+      { label: "Πλυντήριο Πιάτων", icon: WashingMachine },
+    ],
+  },
+  {
+    title: "Βασικές Παροχές",
+    description: "Ό,τι χρειάζεστε για μια ξένοιαστη διαμονή.",
+    icon: Wifi,
+    items: [
+      { label: "Wi-Fi Υψηλής Ταχύτητας", icon: Wifi },
+      { label: "Ιδιωτικό Πάρκινγκ", icon: Car },
+      { label: "Πλυντήριο Ρούχων", icon: WashingMachine },
+      { label: "Στεγνωτήρας Μαλλιών", icon: Wind },
+      { label: "Οικογενειακή Φιλοξενία", icon: Users },
+    ],
+  },
+];
+
+function useInViewOnce<T extends HTMLElement>(threshold = 0.15) {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
+function AmenityCard({ group, index }: { group: AmenityGroup; index: number }) {
+  const Icon = group.icon;
+  return (
+    <article
+      className="amenity-fade-up group relative flex flex-col rounded-[20px] border border-border/60 bg-[oklch(0.98_0.008_85)] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.28)] md:p-8"
+      style={{ animationDelay: `${index * 90}ms` }}
+    >
+      {/* Header */}
+      <div className="flex items-start gap-4">
+        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-accent/30 bg-accent/5 text-accent transition-all duration-300 group-hover:scale-105 group-hover:border-accent/60 group-hover:bg-accent/10">
+          <Icon className="h-7 w-7 transition-transform duration-500 group-hover:-rotate-3" strokeWidth={1.5} />
+        </span>
+        <div className="min-w-0">
+          <h3 className="font-serif text-xl leading-tight text-foreground md:text-2xl">
+            {group.title}
+          </h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-foreground/65">
+            {group.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+
+      {/* Chips */}
+      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        {group.items.map(({ label, icon: ChipIcon }) => (
+          <li
+            key={label}
+            className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/60 px-3.5 py-2.5 text-sm text-foreground/80 transition-all duration-250 hover:border-accent/40 hover:bg-accent/[0.04] hover:text-foreground"
+          >
+            <ChipIcon className="h-4 w-4 shrink-0 text-accent/80" strokeWidth={1.75} />
+            <span className="truncate">{label}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
 function AmenitiesSection() {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
   return (
     <section id="amenities" className="section-y bg-background">
       <div className="container-villa">
-        <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+        {/* Eyebrow */}
+        <div className="flex items-center justify-center gap-4">
+          <span className="h-px w-10 bg-accent" />
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
+            Παροχές
+          </span>
+          <span className="h-px w-10 bg-accent" />
+        </div>
+
+        <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
           Ό,τι χρειάζεστε για <span className="text-accent">ήρεμες</span> διακοπές
         </h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
           Η Ekaterini VIP Villa προσφέρει όλες τις ανέσεις για μια άνετη και ξένοιαστη διαμονή.
         </p>
 
-        {/* Most popular */}
-        <div className="mx-auto mt-12 max-w-5xl rounded-3xl border border-border/70 bg-card/60 p-6 md:p-10">
-          <h3 className="font-serif text-xl text-foreground md:text-2xl">
-            Οι πιο δημοφιλείς παροχές
-          </h3>
-          <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-            {POPULAR_AMENITIES.map(({ label, icon: Icon }) => (
-              <li key={label} className="flex items-center gap-3 text-foreground/85">
-                <Icon className="h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
-                <span className="text-sm md:text-base">{label}</span>
-              </li>
-            ))}
-          </ul>
+        {/* 4 premium category cards */}
+        <div
+          ref={ref}
+          className={`mx-auto mt-12 grid max-w-6xl gap-6 md:mt-14 md:grid-cols-2 md:gap-8 ${inView ? "amenity-in-view" : ""}`}
+        >
+          {AMENITY_GROUPS.map((group, i) => (
+            <AmenityCard key={group.title} group={group} index={i} />
+          ))}
         </div>
 
-        {/* Preview list */}
-        <div className="mx-auto mt-12 max-w-5xl">
-          <h3 className="font-serif text-2xl text-foreground md:text-3xl">
-            Τι προσφέρει αυτός ο χώρος
-          </h3>
-          <ul className="mt-6 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2">
-            {PREVIEW_AMENITIES.map(({ label, icon: Icon }) => (
-              <li
-                key={label}
-                className="flex items-center gap-3 border-b border-border/50 pb-3 text-foreground/85"
+        {/* Full list dialog */}
+        <div className="mt-10 flex justify-center md:mt-14">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
               >
-                <Icon className="h-5 w-5 shrink-0 text-foreground/70" strokeWidth={1.75} />
-                <span className="text-sm md:text-base">{label}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-8">
-            <Dialog>
-              <DialogTrigger asChild>
-                <button
-                  type="button"
-                  className="inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
-                >
-                  Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
-                </button>
-              </DialogTrigger>
-              <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="font-serif text-2xl text-foreground md:text-3xl">
-                    Τι προσφέρει αυτός ο χώρος
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="mt-2 space-y-8">
-                  {AMENITY_CATEGORIES.map((cat) => (
-                    <section key={cat.title}>
-                      <h4 className="font-serif text-lg font-semibold text-foreground">
-                        {cat.title}
-                      </h4>
-                      <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-                        {cat.items.map(({ label, icon: Icon }) => (
-                          <li
-                            key={label}
-                            className="flex items-center gap-3 border-b border-border/40 pb-2 text-foreground/85"
-                          >
-                            <Icon
-                              className="h-[18px] w-[18px] shrink-0 text-foreground/70"
-                              strokeWidth={1.75}
-                            />
-                            <span className="text-sm">{label}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </section>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+                Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="font-serif text-2xl text-foreground md:text-3xl">
+                  Τι προσφέρει αυτός ο χώρος
+                </DialogTitle>
+              </DialogHeader>
+              <div className="mt-2 space-y-8">
+                {AMENITY_CATEGORIES.map((cat) => (
+                  <section key={cat.title}>
+                    <h4 className="font-serif text-lg font-semibold text-foreground">
+                      {cat.title}
+                    </h4>
+                    <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+                      {cat.items.map(({ label, icon: Icon }) => (
+                        <li
+                          key={label}
+                          className="flex items-center gap-3 border-b border-border/40 pb-2 text-foreground/85"
+                        >
+                          <Icon
+                            className="h-[18px] w-[18px] shrink-0 text-foreground/70"
+                            strokeWidth={1.75}
+                          />
+                          <span className="text-sm">{label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>

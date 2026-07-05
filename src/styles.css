@@ -201,6 +201,22 @@
   50%     { opacity: 0.85; transform: scale(1.08); }
 }
 
+/* ===== Amenities fade-up ===== */
+@keyframes amenity-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.amenity-fade-up {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.amenity-in-view .amenity-fade-up {
+  animation: amenity-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .amenity-fade-up { opacity: 1 !important; animation: none !important; transform: none !important; }
+}
+
 .hero-kenburns { animation: hero-kenburns 18s ease-in-out infinite; will-change: transform; }
 .hero-fade-down { animation: hero-fade-down 0.9s cubic-bezier(0.22,1,0.36,1) both; }
 .hero-fade-up   { animation: hero-fade-up   0.9s cubic-bezier(0.22,1,0.36,1) both; }
