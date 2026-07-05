@@ -1087,7 +1087,21 @@ function AmenityCard({ group, index }: { group: AmenityGroup; index: number }) {
 }
 
 function AmenitiesSection() {
+  const { t, lang } = useI18n();
   const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  // Merge translation text with icon definitions from AMENITY_GROUPS
+  const groups = AMENITY_GROUPS.map((g, i) => {
+    const tGroup = t.amenities.groups[i];
+    return {
+      icon: g.icon,
+      title: tGroup?.title ?? g.title,
+      description: tGroup?.description ?? g.description,
+      items: g.items.map((it, j) => ({
+        icon: it.icon,
+        label: tGroup?.items[j] ?? it.label,
+      })),
+    };
+  });
   return (
     <section id="amenities" className="section-y bg-background">
       <div className="container-villa">
@@ -1095,17 +1109,19 @@ function AmenitiesSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Παροχές
+            {t.amenities.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
 
         <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ό,τι χρειάζεστε για <span className="text-accent">ήρεμες</span> διακοπές
+          {t.amenities.titleA}
+          <span className="text-accent">{t.amenities.titleB}</span>
+          {t.amenities.titleC}
         </h2>
 
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
-          Η Ekaterini VIP Villa προσφέρει όλες τις ανέσεις για μια άνετη και ξένοιαστη διαμονή.
+          {t.amenities.subtitle}
         </p>
 
         {/* 4 premium category cards */}
@@ -1115,7 +1131,7 @@ function AmenitiesSection() {
           className={`mx-auto mt-12 grid max-w-6xl gap-6 md:mt-14 md:grid-cols-2 md:gap-8 ${inView ? "amenity-in-view" : ""}`}
 
         >
-          {AMENITY_GROUPS.map((group, i) => (
+          {groups.map((group, i) => (
             <AmenityCard key={group.title} group={group} index={i} />
           ))}
         </div>
@@ -1128,20 +1144,20 @@ function AmenitiesSection() {
                 type="button"
                 className="btn-lux btn-lux-secondary inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
               >
-                Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
+                {t.amenities.showAll(TOTAL_AMENITIES_COUNT)}
               </button>
             </DialogTrigger>
             <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="font-serif text-2xl text-foreground md:text-3xl">
-                  Τι προσφέρει αυτός ο χώρος
+                  {t.amenities.dialogTitle}
                 </DialogTitle>
               </DialogHeader>
               <div className="mt-2 space-y-8">
                 {AMENITY_CATEGORIES.map((cat) => (
                   <section key={cat.title}>
                     <h4 className="font-serif text-lg font-semibold text-foreground">
-                      {cat.title}
+                      {translateAmenity(cat.title, lang)}
                     </h4>
                     <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                       {cat.items.map(({ label, icon: Icon }) => (
@@ -1153,7 +1169,7 @@ function AmenitiesSection() {
                             className="h-[18px] w-[18px] shrink-0 text-foreground/70"
                             strokeWidth={1.75}
                           />
-                          <span className="text-sm">{label}</span>
+                          <span className="text-sm">{translateAmenity(label, lang)}</span>
                         </li>
                       ))}
                     </ul>
