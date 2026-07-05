@@ -774,15 +774,15 @@ function VillaSection() {
               Γιατί να επιλέξετε την Ekaterini{" "}
               <span className="text-accent">VIP</span> Villa;
             </h2>
-            <p className="mt-6 leading-relaxed text-foreground/80">
+            <p className="mt-5 leading-relaxed text-foreground/80">
               Εδώ δεν κάνετε απλώς μια διαμονή. Έχετε τον δικό σας ιδιωτικό χώρο στην Κρήτη,
               με πισίνα, εξωτερικούς χώρους και άνεση για να απολαύσετε τις διακοπές σας
               χωρίς πίεση και χωρίς περιορισμούς.
             </p>
 
-            <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
+            <ul className="mt-6 divide-y divide-border/70 border-y border-border/70">
               {bullets.map((b) => (
-                <li key={b} className="flex items-center gap-4 py-4">
+                <li key={b} className="flex items-center gap-4 py-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent text-accent">
                     <Check className="h-4 w-4" strokeWidth={2.5} />
                   </span>
@@ -793,10 +793,11 @@ function VillaSection() {
 
             <Link
               to="/gallery"
-              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
             >
               Δείτε τη Βίλα
             </Link>
+
           </div>
           <div className="order-1 md:order-2">
             <img
