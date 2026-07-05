@@ -13,6 +13,13 @@ import {
   Plus,
   Lock,
   ChevronDown,
+  MountainSnow as MountainSnowIcon,
+  UtensilsCrossed as UtensilsCrossedIcon,
+  ShieldCheck as ShieldCheckIcon,
+  Award as AwardIcon,
+  KeyRound as KeyRoundIcon,
+  Zap as ZapIcon,
+  BadgeCheck as BadgeCheckIcon,
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
