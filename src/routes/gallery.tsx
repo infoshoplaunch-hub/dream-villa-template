@@ -36,6 +36,7 @@ type PhotoRow = {
 type PhotoWithUrl = PhotoRow & { url: string };
 
 function GalleryPage() {
+  useLuxReveal();
   const query = useQuery({
     queryKey: ["gallery_photos_public"],
     queryFn: async (): Promise<PhotoWithUrl[]> => {
