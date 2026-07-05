@@ -1527,28 +1527,7 @@ function AvailabilitySection() {
 
 
 
-const REVIEWS = [
-  {
-    text: "Υπέροχη βίλα, πολύ άνετοι χώροι και εξαιρετική πισίνα. Ιδανική επιλογή για οικογένεια.",
-    source: "Επισκέπτης Booking.com",
-    platform: "booking",
-  },
-  {
-    text: "Η τοποθεσία ήταν ήρεμη και η διαμονή μας πολύ ξεκούραστη. Όλα ήταν άψογα.",
-    source: "Επισκέπτης Airbnb",
-    platform: "airbnb",
-  },
-  {
-    text: "Πολύ καλή επικοινωνία και όμορφος εξωτερικός χώρος. Σίγουρα θα το επιλέξουμε ξανά.",
-    source: "Επισκέπτης Google",
-    platform: "google",
-  },
-  {
-    text: "Καθαριότητα, άνεση και ιδιωτικότητα. Η καλύτερη επιλογή για ήρεμες διακοπές στα Χανιά.",
-    source: "Επισκέπτης Booking.com",
-    platform: "booking",
-  },
-] as const;
+const REVIEW_PLATFORMS = ["booking", "airbnb", "google", "booking"] as const;
 
 function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google" }) {
   const base = "flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-sm";
