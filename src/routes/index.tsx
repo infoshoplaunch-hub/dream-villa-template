@@ -77,8 +77,8 @@ function Landing() {
         <ContactSection />
       </main>
       <Footer />
-      <StickyBookCTA />
       <Toaster position="top-center" />
+
     </div>
   );
 }
