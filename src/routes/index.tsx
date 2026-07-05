@@ -229,7 +229,7 @@ function Header() {
           </a>
           <button
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            aria-label={t.nav.openMenu}
             className={`lg:hidden rounded-full p-2 ${onDark ? "text-white" : "text-foreground"}`}
           >
             <Menu className="h-6 w-6" />
