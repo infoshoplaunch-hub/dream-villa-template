@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useLuxReveal } from "@/hooks/use-lux-reveal";
+import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
 import { z } from "zod";
 import {
   ArrowLeft,
