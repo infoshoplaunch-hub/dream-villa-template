@@ -1652,7 +1652,7 @@ function LocationSection() {
             <div className="min-w-0">
               <div className="font-medium text-foreground">{t.location.address}</div>
               <span className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-accent transition group-hover:gap-2">
-                Άνοιγμα στο Google Maps
+                {t.location.openMaps}
                 <span aria-hidden>→</span>
               </span>
             </div>
