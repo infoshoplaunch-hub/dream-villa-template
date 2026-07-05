@@ -628,9 +628,6 @@ function VillaSection() {
           </div>
         </div>
 
-        {/* About this place */}
-        <AboutPlaceBlock />
-
         {/* Block 2 — text left / image right */}
         <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-2 md:items-center md:gap-16">
           <div className="order-2 md:order-1">
@@ -677,96 +674,6 @@ function VillaSection() {
     </section>
   );
 }
-
-/* ---------- About this place ---------- */
-
-const ABOUT_SECTIONS: { heading?: string; paragraphs: string[] }[] = [
-  {
-    paragraphs: [
-      "Το Ekaterini VIP Villa βρίσκεται στην Πλάκα και προσφέρει δωρεάν WiFi και θέα στη θάλασσα. Έχει επίσης εξωτερική πισίνα, κήπο και κοινόχρηστο χώρο lounge. Σε απόσταση 1,9 χλμ από την Παραλία Αλμυρίδα, το κατάλυμα διαθέτει βεράντα και δωρεάν ιδιωτικό χώρο στάθμευσης.",
-    ],
-  },
-  {
-    heading: "Ο χώρος",
-    paragraphs: [
-      "Το Ekaterini VIP Villa προσφέρει 3 υπνοδωμάτια, κουζίνα με ψυγείο και πλυντήριο πιάτων, πλυντήριο ρούχων, καθώς και 4 μπάνια με δωρεάν προϊόντα μπάνιου και στεγνωτήρα μαλλιών. Προσφέρονται τηλεόραση επίπεδης οθόνης με δορυφορικά κανάλια, παιχνιδοκονσόλα και PS2, καθώς και υπολογιστής και φορητός υπολογιστής.",
-    ],
-  },
-  {
-    heading: "Υπηρεσίες",
-    paragraphs: [
-      "Το προσωπικό της ρεσεψιόν, το οποίο μιλάει Ελληνικά και Αγγλικά, είναι στη διάθεσή σας όλο το 24ωρο.",
-    ],
-  },
-  {
-    heading: "Εξωτερικοί χώροι & δραστηριότητες",
-    paragraphs: [
-      "Το Ekaterini VIP Villa προσφέρει μπάρμπεκιου. Το κατάλυμα διαθέτει αίθουσα παιχνιδιών με βελάκια, καθώς και παιδική χαρά.",
-    ],
-  },
-  {
-    heading: "Τοποθεσία & αποστάσεις",
-    paragraphs: [
-      "Το σημείο ενδιαφέροντος Αρχαιολογικό Μουσείο Ρεθύμνου είναι 41 χλμ μακριά από το Ekaterini VIP Villa, ενώ το Ιστορικό - Λαογραφικό Μουσείο Γαβαλοχωρίου είναι 5,9 χλμ μακριά. Το Διεθνές Αεροδρόμιο Χανίων είναι 34 χλμ μακριά.",
-    ],
-  },
-];
-
-function AboutPlaceBlock() {
-  return (
-    <div className="mt-20 md:mt-28">
-      <div className="mx-auto max-w-3xl rounded-3xl border border-border/70 bg-background/80 p-8 shadow-[0_25px_60px_-30px_rgba(15,23,42,0.25)] md:p-12">
-        <h2 className="font-serif text-2xl leading-tight text-foreground md:text-4xl">
-          Σχετικά με αυτόν τον <span className="text-accent">χώρο</span>
-        </h2>
-
-        <div className="mt-6 space-y-4 leading-relaxed text-foreground/80">
-          <p>{ABOUT_SECTIONS[0].paragraphs[0]}</p>
-          <div>
-            <h3 className="font-semibold text-foreground">Ο χώρος</h3>
-            <p className="mt-2 line-clamp-3">{ABOUT_SECTIONS[1].paragraphs[0]}</p>
-          </div>
-        </div>
-
-        <Dialog>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
-            >
-              Περισσότερα
-            </button>
-          </DialogTrigger>
-          <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="font-serif text-2xl md:text-3xl">
-                Σχετικά με αυτόν τον χώρο
-              </DialogTitle>
-            </DialogHeader>
-            <div className="mt-4 space-y-6 text-foreground/80">
-              {ABOUT_SECTIONS.map((section, i) => (
-                <div key={i}>
-                  {section.heading && (
-                    <h3 className="mb-2 font-semibold text-foreground">
-                      {section.heading}
-                    </h3>
-                  )}
-                  {section.paragraphs.map((p, j) => (
-                    <p key={j} className="leading-relaxed">
-                      {p}
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </div>
-  );
-}
-
-
 
 /* ---------- Rooms ---------- */
 
