@@ -1,27 +1,20 @@
-### Στόχος
-Να αφαιρεθούν τα side margins/paddings που περιορίζουν το availability section στο κέντρο, ώστε το ημερολόγιο και το booking panel να απλώνονται σε όλο το πλάτος της οθόνης.
+## Πρόβλημα
+Το ημερολόγιο εμφανίζεται συμπυκνωμένο αριστερά και μένει μεγάλο κενό μέχρι το booking card δεξιά. Στο mockup οι δύο μήνες απλώνονται σε όλο τον διαθέσιμο χώρο και το card κάθεται δίπλα με μικρό gap.
 
-### Τρέχουσα κατάσταση
-Το section `AvailabilitySection` (`src/routes/index.tsx`, γραμμή 993) έχει δύο επίπεδα περιορισμού πλάτους:
-1. `container-villa` utility → `max-width: 80rem` + `padding-inline`
-2. `mx-auto max-w-[1180px]` wrapper → επιπλέον στενότερο όριο
+## Αιτία
+1. Το grid έχει `lg:gap-14` (~56px) — υπερβολικό.
+2. Οι δύο μήνες του `Calendar` έχουν σταθερό cell size `2.6rem` και δεν στρετσάρουν, οπότε το περιεχόμενο μαζεύεται αριστερά αφήνοντας κενή δεξιά πλευρά της στήλης.
 
-Μεταξύ τους δημιουργούν μεγάλα κενά αριστερά και δεξιά.
+## Αλλαγές (μόνο UI, χωρίς αλλαγή λειτουργικότητας)
 
-### Αλλαγές
+### `src/routes/index.tsx` — `AvailabilitySection`
+- Μείωση grid gap: `lg:gap-14` → `lg:gap-8`.
+- Στη στήλη του ημερολογίου, να απλώνει τους 2 μήνες σε όλο το πλάτος:
+  - Wrapper `.booking-calendar` να παίρνει `w-full`.
+  - Αύξηση `--cell-size` σε ~`2.9rem` για desktop ώστε οι μήνες να γεμίζουν φυσικά τη στήλη.
 
-**`src/routes/index.tsx`**
-- Αντικατάσταση του `<div className="container-villa">` με `<div className="px-4 md:px-6 lg:px-8">` (ή παρόμοιο minimal horizontal padding) για να μην υπάρχει `max-width`.
-- Αφαίρεση του `<div className="mx-auto max-w-[1180px]">` wrapper.
-- Το εσωτερικό rounded card (`bg-[#FAF7F1]`) και το grid (`lg:grid-cols-[minmax(0,1fr)_380px]`) παραμένουν ως έχουν — απλώς θα απλώνονται στο διαθέσιμο πλάτος.
+### `src/styles.css` — `.booking-calendar`
+- Στα responsive breakpoints (lg+) να απλώνει τα `[&_.rdp-months]` σε `justify-between` / `w-full` με μεγαλύτερο gap μεταξύ των δύο μηνών, ώστε να πιάνουν όλο το διαθέσιμο πλάτος αντί να στοιβάζονται στα αριστερά.
 
-**`src/styles.css`**
-- Καμία αλλαγή — το `container-villa` utility χρησιμοποιείται και από άλλα sections και δεν πρέπει να τροποποιηθεί globally.
-
-### Τι δεν αλλάζει
-- Η λειτουργικότητα του date picker και του booking card.
-- Τα χρώματα, typography, shadows, και το internal layout του calendar / card.
-- Τα υπόλοιπα sections της σελίδας.
-
-### Αποτέλεσμα
-Το ημερολόγιο θα καθίσταται αριστερά και το booking panel δεξιά, χρησιμοποιώντας σχεδόν όλο το viewport width, χωρίς τα μεγάλα εξωτερικά margins που υπάρχουν σήμερα.
+## Αποτέλεσμα
+Το ημερολόγιο απλώνεται σε όλο το αριστερό μισό, το booking card μένει 380px δεξιά με μικρό, ισορροπημένο gap — όπως στο mockup.
