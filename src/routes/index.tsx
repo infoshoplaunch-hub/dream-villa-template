@@ -994,7 +994,7 @@ function AvailabilitySection() {
       <div className="px-4 md:px-6 lg:px-8">
         
           <div className="rounded-[32px] bg-[#FAF7F1] p-6 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.18)] md:p-12 lg:p-14">
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-14">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
               {/* Left: calendar */}
               <div className="min-w-0">
                 <h2 className="font-serif text-3xl leading-tight text-[#17212B] md:text-[42px] md:leading-[1.1]">
@@ -1016,7 +1016,7 @@ function AvailabilitySection() {
                   );
                 })()}
 
-                <div className="mt-8 booking-calendar">
+                <div className="mt-8 booking-calendar w-full">
                   <Calendar
                     mode="range"
                     selected={range as any}
@@ -1027,7 +1027,7 @@ function AvailabilitySection() {
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
                     locale={el}
-                    className="p-0 pointer-events-auto [--cell-size:2.6rem] text-[15px]"
+                    className="p-0 pointer-events-auto w-full [--cell-size:2.75rem] lg:[--cell-size:3rem] text-[15px]"
                   />
 
                   <div className="mt-8 border-t border-[#17212B]/10 pt-5">
