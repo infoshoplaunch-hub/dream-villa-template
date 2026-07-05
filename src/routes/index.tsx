@@ -326,7 +326,7 @@ function Hero() {
         <div className="hero-kenburns absolute inset-0">
           <img
             src={heroImg}
-            alt="Ekaterini VIP Villa στην Κρήτη"
+            alt={t.hero.imgAlt}
             width={1920}
             height={1280}
             className="absolute inset-0 h-full w-full object-cover"
