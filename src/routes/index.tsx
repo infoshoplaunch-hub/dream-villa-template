@@ -437,10 +437,10 @@ function Hero() {
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-6 md:mt-10 flex flex-wrap gap-4">
+          <div className="mt-6 md:mt-10 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
             <a
               href="#booking-bar"
-              className="btn-lux btn-lux-primary hero-fade-up inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
+              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-transparent md:bg-accent md:py-4 md:text-accent-foreground md:shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] md:hover:bg-accent/90"
               style={{ animationDelay: "0.7s" }}
               data-magnetic
             >
@@ -449,23 +449,23 @@ function Hero() {
             </a>
             <a
               href="#villa"
-              className="btn-lux btn-lux-secondary hero-fade-up inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md"
+              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-white/50 md:bg-white/5 md:py-4"
               style={{ animationDelay: "0.85s" }}
               data-magnetic
             >
               {t.hero.cta2}
               <ArrowRight className="h-4 w-4" />
             </a>
-          </div>
 
-          {/* Mobile-only Viber CTA */}
-          <a
-            href={VIBER_CONTACT_LINK}
-            className="btn-lux md:hidden mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
-          >
-            <ViberIcon className="h-4 w-4" />
-            Επικοινωνία μέσω Viber
-          </a>
+            {/* Mobile-only Viber CTA */}
+            <a
+              href={VIBER_CONTACT_LINK}
+              className="btn-lux md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+            >
+              <ViberIcon className="h-4 w-4" />
+              Επικοινωνία μέσω Viber
+            </a>
+          </div>
           <p className="md:hidden mt-2 text-center text-xs text-white/70">
             Άμεση απάντηση για διαθεσιμότητα και κρατήσεις
           </p>
