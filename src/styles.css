@@ -139,6 +139,62 @@
   }
 }
 
+/* ===== Hero luxury animations ===== */
+@keyframes hero-kenburns {
+  0%   { transform: scale(1) translate3d(0,0,0); }
+  50%  { transform: scale(1.08) translate3d(-1%, -1%, 0); }
+  100% { transform: scale(1) translate3d(0,0,0); }
+}
+@keyframes hero-float-particle {
+  0%   { transform: translate3d(0,0,0); opacity: 0; }
+  10%  { opacity: var(--p-opacity, 0.5); }
+  90%  { opacity: var(--p-opacity, 0.5); }
+  100% { transform: translate3d(var(--p-dx, 20px), -140px, 0); opacity: 0; }
+}
+@keyframes hero-shimmer {
+  0%   { transform: translateX(-30%); opacity: 0; }
+  50%  { opacity: 0.35; }
+  100% { transform: translateX(30%); opacity: 0; }
+}
+@keyframes hero-scroll-float {
+  0%,100% { transform: translateY(0); opacity: 0.6; }
+  50%     { transform: translateY(8px); opacity: 1; }
+}
+@keyframes hero-fade-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-flare-pulse {
+  0%,100% { opacity: 0.55; transform: scale(1); }
+  50%     { opacity: 0.85; transform: scale(1.08); }
+}
+
+.hero-kenburns { animation: hero-kenburns 18s ease-in-out infinite; will-change: transform; }
+.hero-fade-down { animation: hero-fade-down 0.9s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-fade-up   { animation: hero-fade-up   0.9s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-flare     { animation: hero-flare-pulse 6s ease-in-out infinite; will-change: transform, opacity; }
+.hero-shimmer   { animation: hero-shimmer 7s ease-in-out infinite; will-change: transform, opacity; }
+.hero-scroll-indicator { animation: hero-scroll-float 2.4s ease-in-out infinite; }
+.hero-particle {
+  animation: hero-float-particle var(--p-dur, 14s) linear infinite;
+  animation-delay: var(--p-delay, 0s);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns, .hero-fade-down, .hero-fade-up,
+  .hero-flare, .hero-shimmer, .hero-scroll-indicator, .hero-particle {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
+
 
 /* Booking calendar premium styling */
 .booking-calendar .rdp-months,
