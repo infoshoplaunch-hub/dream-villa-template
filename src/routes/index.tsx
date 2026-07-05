@@ -33,7 +33,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { el } from "date-fns/locale";
 import { toast } from "sonner";
 
-import { useI18n, type Lang } from "@/lib/i18n";
+import { useI18n, translateAmenity, type Lang } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
