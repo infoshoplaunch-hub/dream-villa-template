@@ -57,6 +57,8 @@ export const Route = createFileRoute("/")({
 const NAV_IDS = ["home", "villa", "rooms", "location", "booking", "contact"] as const;
 
 function Landing() {
+  useLuxReveal();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
