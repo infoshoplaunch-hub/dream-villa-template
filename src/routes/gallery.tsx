@@ -167,7 +167,7 @@ function GalleryPage() {
         >
           <button
             onClick={close}
-            aria-label="Κλείσιμο"
+            aria-label={t.galleryPage.close}
             className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
           >
             <X className="h-6 w-6" />
@@ -179,7 +179,7 @@ function GalleryPage() {
                   e.stopPropagation();
                   prev();
                 }}
-                aria-label="Προηγούμενη"
+                aria-label={t.galleryPage.prev}
                 className="absolute left-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -189,7 +189,7 @@ function GalleryPage() {
                   e.stopPropagation();
                   next();
                 }}
-                aria-label="Επόμενη"
+                aria-label={t.galleryPage.next}
                 className="absolute right-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
               >
                 <ChevronRight className="h-6 w-6" />
