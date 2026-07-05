@@ -1261,34 +1261,149 @@ function AvailabilitySection() {
   const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : "Επιλέξτε");
   const fieldLabel = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
 
-  return (
-    <section id="availability" className="section-y bg-background">
-      <div className="px-4 md:px-6 lg:px-8">
-        
-          <div className="rounded-[32px] bg-[#FAF7F1] p-6 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.18)] md:p-12 lg:p-14">
-            <div className="grid grid-cols-1 gap-6 items-start md:gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-8">
-              {/* Left: calendar */}
-              <div className="min-w-0">
-                <h2 className="font-serif text-3xl leading-tight text-[#17212B] md:text-[42px] md:leading-[1.1]">
-                  Επιλέξτε ημερομηνία άφιξης
-                </h2>
-                {(() => {
-                  const nights =
-                    range?.from && range?.to
-                      ? Math.round(
-                          (range.to.getTime() - range.from.getTime()) / 86400000,
-                        )
-                      : 0;
-                  return (
-                    <p className="mt-3 text-sm text-[#17212B]/60 md:text-base">
-                      {range?.from && range?.to
-                        ? `${nights} διανυκτερεύσεις`
-                        : "Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"}
-                    </p>
-                  );
-                })()}
+  const nights =
+    range?.from && range?.to
+      ? Math.round((range.to.getTime() - range.from.getTime()) / 86400000)
+      : 0;
+  const hasRange = Boolean(range?.from && range?.to);
 
-                <div className="mt-8 booking-calendar w-full">
+  const highlights = [
+    { label: "Έως 7 επισκέπτες", icon: UsersIcon },
+    { label: "Ιδιωτική Πισίνα", icon: PoolIcon },
+    { label: "Θέα στη Θάλασσα", icon: MountainSnowIcon },
+    { label: "Πλήρως Εξοπλισμένη Κουζίνα", icon: UtensilsCrossedIcon },
+    { label: "Δωρεάν Ιδιωτικό Πάρκινγκ", icon: ParkingIcon },
+    { label: "Wi-Fi Υψηλής Ταχύτητας", icon: WifiIcon },
+  ];
+
+  const bookDirectPoints = [
+    { title: "Ασφαλής Απευθείας Κράτηση", desc: "Χωρίς μεσάζοντες, χωρίς έξτρα προμήθειες." },
+    { title: "Καλύτερη Διαθέσιμη Τιμή", desc: "Η πιο συμφέρουσα τιμή είναι πάντα εδώ." },
+    { title: "Άμεση Επιβεβαίωση", desc: "Λαμβάνετε επιβεβαίωση χωρίς καθυστέρηση." },
+  ];
+
+  const trustStrip = [
+    { label: "Ασφαλής Κράτηση", icon: ShieldCheckIcon },
+    { label: "Εγγύηση Καλύτερης Τιμής", icon: AwardIcon },
+    { label: "Ιδιωτική Εμπειρία Villa", icon: KeyRoundIcon },
+    { label: "Άμεση Διαθεσιμότητα", icon: ZapIcon },
+  ];
+
+  return (
+    <section id="availability" className="bg-background">
+      {/* ===== Top banner ===== */}
+      <div className="relative w-full overflow-hidden">
+        <div className="relative h-[280px] w-full md:h-[340px]">
+          <img
+            src={villaExteriorDayImg}
+            alt="Ekaterini VIP Villa"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/60" />
+          <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
+            <div className="hero-fade-up max-w-2xl text-white">
+              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.4em] text-white/85">
+                <span className="h-px w-8 bg-white/60" />
+                Κράτηση
+                <span className="h-px w-8 bg-white/60" />
+              </span>
+              <h2 className="mt-4 font-serif text-3xl leading-tight md:text-5xl">
+                Σχεδιάστε την Απόδρασή σας
+              </h2>
+              <p className="mt-3 text-sm text-white/85 md:text-base">
+                Η ιδιωτική σας βίλα πολυτελείας σας περιμένει στην Κρήτη.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ===== Booking content ===== */}
+      <div className="section-y-flow-top">
+        <div className="container-villa">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-10">
+            {/* ============ LEFT COLUMN ============ */}
+            <div className="amenity-fade-up space-y-6">
+              <div>
+                <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-accent">
+                  <span className="h-px w-8 bg-accent" />
+                  Διαθεσιμότητα
+                </span>
+                <h3 className="mt-4 font-serif text-3xl leading-tight text-foreground md:text-4xl">
+                  Ελέγξτε τη Διαθεσιμότητα
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/70 md:text-base">
+                  Επιλέξτε τις ιδανικές σας ημερομηνίες και ξεκινήστε τον σχεδιασμό της
+                  πολυτελούς διαμονής σας στην Κρήτη.
+                </p>
+              </div>
+
+              {/* Highlights card */}
+              <div className="rounded-[20px] border border-border/60 bg-[oklch(0.98_0.008_85)] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.25)] md:p-7">
+                <h4 className="font-serif text-lg text-foreground md:text-xl">
+                  Η Εμπειρία της Βίλας
+                </h4>
+                <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {highlights.map(({ label, icon: Icon }) => (
+                    <li key={label} className="flex items-center gap-3 text-sm text-foreground/85">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/5 text-accent">
+                        <Icon className="h-4 w-4" strokeWidth={1.75} />
+                      </span>
+                      <span className="min-w-0">{label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Book Direct card */}
+              <div className="rounded-[20px] border border-border/60 bg-[oklch(0.98_0.008_85)] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.25)] md:p-7">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-accent/5 text-accent">
+                    <BadgeCheckIcon className="h-5 w-5" strokeWidth={1.75} />
+                  </span>
+                  <h4 className="font-serif text-lg text-foreground md:text-xl">
+                    Κάντε Απευθείας Κράτηση
+                  </h4>
+                </div>
+                <ul className="mt-5 space-y-4">
+                  {bookDirectPoints.map((p) => (
+                    <li key={p.title} className="flex gap-3">
+                      <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" strokeWidth={2.25} />
+                      <div className="min-w-0">
+                        <div className="text-sm font-semibold text-foreground">{p.title}</div>
+                        <div className="mt-0.5 text-sm text-foreground/65">{p.desc}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={submit}
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#b25c3d] active:translate-y-0"
+                >
+                  Κάνε την Κράτηση Σου
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* ============ RIGHT COLUMN ============ */}
+            <div className="amenity-fade-up space-y-6" style={{ animationDelay: "120ms" }}>
+              {/* Calendar card */}
+              <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-serif text-xl text-foreground md:text-2xl">
+                    Επιλέξτε ημερομηνίες
+                  </h3>
+                  <span className="text-xs font-medium text-foreground/55">
+                    {hasRange
+                      ? `${nights} ${nights === 1 ? "διανυκτέρευση" : "διανυκτερεύσεις"}`
+                      : "Ελάχιστο 3 διανυκτερεύσεις"}
+                  </span>
+                </div>
+
+                <div className="mt-6 booking-calendar w-full">
                   <Calendar
                     mode="range"
                     selected={range as any}
@@ -1299,110 +1414,156 @@ function AvailabilitySection() {
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
                     locale={el}
-                    className="p-0 pointer-events-auto w-full [--cell-size:2.5rem] sm:[--cell-size:2.75rem] lg:[--cell-size:2.5rem] text-[15px]"
+                    className="p-0 pointer-events-auto w-full [--cell-size:2.5rem] sm:[--cell-size:2.75rem] lg:[--cell-size:2.6rem] text-[15px]"
                   />
+                </div>
 
-                  <div className="mt-8 border-t border-[#17212B]/10 pt-5">
-                    <button
-                      type="button"
-                      onClick={() => setRange(undefined)}
-                      className="inline-flex items-center gap-2 text-sm font-medium text-[#17212B]/75 underline underline-offset-4 decoration-[#17212B]/30 hover:text-[#17212B] hover:decoration-[#17212B]"
-                    >
-                      <CalendarIcon className="h-4 w-4" />
-                      Εκκαθάριση ημερομηνιών
-                    </button>
+                <div className="mt-6 flex items-center justify-between border-t border-[#17212B]/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setRange(undefined)}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-[#17212B]/70 underline underline-offset-4 decoration-[#17212B]/25 transition hover:text-[#17212B] hover:decoration-[#17212B]"
+                  >
+                    <CalendarIcon className="h-4 w-4" />
+                    Εκκαθάριση ημερομηνιών
+                  </button>
+                  <div className="hidden items-center gap-4 text-xs text-foreground/55 sm:flex">
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#C86B4A]" />
+                      Επιλεγμένες
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full border border-foreground/30 bg-transparent" />
+                      Μη διαθέσιμες
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Right: booking card */}
-              <aside className="lg:self-center">
-                <div className="rounded-3xl bg-white p-4 sm:p-6 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.25)] ring-1 ring-black/[0.04]">
-                  <div className="grid grid-cols-2 divide-x divide-[#17212B]/10 overflow-hidden rounded-2xl ring-1 ring-[#17212B]/10">
-                    <div className="px-4 py-3">
-                      <div className={fieldLabel}>Άφιξη</div>
-                      <div className={`mt-1 text-[15px] font-semibold ${range?.from ? "text-[#17212B]" : "text-[#17212B]/40"}`}>
-                        {fmtDate(range?.from)}
-                      </div>
-                    </div>
-                    <div className="px-4 py-3">
-                      <div className={fieldLabel}>Αναχώρηση</div>
-                      <div className={`mt-1 text-[15px] font-semibold ${range?.to ? "text-[#17212B]" : "text-[#17212B]/40"}`}>
-                        {fmtDate(range?.to)}
-                      </div>
+              {/* Booking summary card */}
+              <div className="rounded-[20px] border border-border/60 bg-white p-5 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.2)] md:p-7">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  <div>
+                    <div className={fieldLabel}>Άφιξη</div>
+                    <div className={`mt-1.5 text-sm font-semibold ${range?.from ? "text-foreground" : "text-foreground/40"}`}>
+                      {fmtDate(range?.from)}
                     </div>
                   </div>
-
-                  <Popover open={openGuests} onOpenChange={setOpenGuests}>
-                    <PopoverTrigger asChild>
-                      <button
-                        type="button"
-                        className="mt-3 flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left ring-1 ring-[#17212B]/10 transition hover:ring-[#17212B]/25"
-                      >
-                        <span className="min-w-0">
-                          <span className={`block ${fieldLabel}`}>Επισκέπτες</span>
-                          <span className="mt-1 block text-[15px] font-semibold text-[#17212B]">
-                            {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                  <div>
+                    <div className={fieldLabel}>Αναχώρηση</div>
+                    <div className={`mt-1.5 text-sm font-semibold ${range?.to ? "text-foreground" : "text-foreground/40"}`}>
+                      {fmtDate(range?.to)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className={fieldLabel}>Διανυκτερεύσεις</div>
+                    <div className={`mt-1.5 text-sm font-semibold ${hasRange ? "text-foreground" : "text-foreground/40"}`}>
+                      {hasRange ? nights : "—"}
+                    </div>
+                  </div>
+                  <div>
+                    <Popover open={openGuests} onOpenChange={setOpenGuests}>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          className="group flex w-full flex-col items-start text-left"
+                        >
+                          <span className={fieldLabel}>Επισκέπτες</span>
+                          <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                            {total}
+                            <ChevronDown className="h-3.5 w-3.5 text-foreground/50 transition group-hover:text-foreground" />
                           </span>
-                        </span>
-                        <span className="flex shrink-0 items-center gap-1.5 text-[#17212B]/60">
-                          <UsersIcon className="h-4 w-4" />
-                          <ChevronDown className="h-4 w-4" />
-                        </span>
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-72 p-4" align="end">
-                      <div className="space-y-4">
-                        {[
-                          { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
-                          { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
-                        ].map((row) => (
-                          <div key={row.label} className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-foreground">{row.label}</span>
-                            <div className="flex items-center gap-3">
-                              <button
-                                type="button"
-                                onClick={() => bump(row.setter, row.value, -1, row.min)}
-                                className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
-                                disabled={row.value <= row.min}
-                              >
-                                <Minus className="h-3.5 w-3.5" />
-                              </button>
-                              <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
-                              <button
-                                type="button"
-                                onClick={() => bump(row.setter, row.value, 1, row.min)}
-                                className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
-                              >
-                                <Plus className="h-3.5 w-3.5" />
-                              </button>
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-72 p-4" align="end">
+                        <div className="space-y-4">
+                          {[
+                            { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
+                            { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
+                          ].map((row) => (
+                            <div key={row.label} className="flex items-center justify-between">
+                              <span className="text-sm font-medium text-foreground">{row.label}</span>
+                              <div className="flex items-center gap-3">
+                                <button
+                                  type="button"
+                                  onClick={() => bump(row.setter, row.value, -1, row.min)}
+                                  className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
+                                  disabled={row.value <= row.min}
+                                >
+                                  <Minus className="h-3.5 w-3.5" />
+                                </button>
+                                <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => bump(row.setter, row.value, 1, row.min)}
+                                  className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
+                                >
+                                  <Plus className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                        <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                          ))}
+                          <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex flex-col gap-3 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="inline-flex items-center gap-2 text-xs">
+                    <span
+                      className={`h-2 w-2 rounded-full ${hasRange ? "bg-emerald-500" : "bg-foreground/25"}`}
+                    />
+                    <span className="text-foreground/70">
+                      {hasRange
+                        ? nights >= 3
+                          ? "Έτοιμο για κράτηση"
+                          : "Ελάχιστο 3 διανυκτερεύσεις"
+                        : "Επιλέξτε ημερομηνίες για να συνεχίσετε"}
+                    </span>
+                  </div>
 
                   <button
                     type="button"
                     onClick={submit}
-                    className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#C86B4A] px-6 py-4 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition hover:bg-[#b25c3d] active:translate-y-px"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#b25c3d] active:translate-y-0"
                   >
                     Κάνε κράτηση
+                    <ArrowRight className="h-4 w-4" />
                   </button>
-                  <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-[#17212B]/55">
-                    <Lock className="h-3 w-3" />
-                    Δεν θα χρεωθείτε ακόμα
-                  </p>
                 </div>
-              </aside>
+
+                <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
+                  <Lock className="h-3 w-3" />
+                  Δεν θα χρεωθείτε ακόμα
+                </p>
+              </div>
             </div>
+          </div>
+
+          {/* ===== Trust strip ===== */}
+          <div className="mt-12 border-t border-border/60 pt-8 md:mt-16 md:pt-10">
+            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+              {trustStrip.map(({ label, icon: Icon }) => (
+                <li
+                  key={label}
+                  className="flex items-center gap-3 rounded-2xl border border-transparent px-3 py-3 transition duration-300 hover:-translate-y-0.5 hover:border-border/60 hover:bg-[oklch(0.98_0.008_85)]"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/5 text-accent">
+                    <Icon className="h-5 w-5" strokeWidth={1.5} />
+                  </span>
+                  <span className="text-sm font-medium text-foreground/85">{label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 
 
