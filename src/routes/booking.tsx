@@ -56,6 +56,7 @@ const formSchema = z.object({
 });
 
 function BookingPage() {
+  useLuxReveal();
   const { check_in, check_out, adults, children, total_guests } = Route.useSearch();
   const navigate = useNavigate();
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
