@@ -430,19 +430,21 @@ function Hero() {
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#booking-bar"
-              className="hero-fade-up group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_26px_55px_-18px_rgba(214,120,50,0.85)] hover:brightness-110"
+              className="btn-lux btn-lux-primary hero-fade-up inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
               style={{ animationDelay: "0.7s" }}
+              data-magnetic
             >
               {t.hero.cta1}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4" />
             </a>
             <a
               href="#villa"
-              className="hero-fade-up group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[0_20px_45px_-20px_rgba(255,255,255,0.35)]"
+              className="btn-lux btn-lux-secondary hero-fade-up inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md"
               style={{ animationDelay: "0.85s" }}
+              data-magnetic
             >
               {t.hero.cta2}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4" />
             </a>
           </div>
         </div>
