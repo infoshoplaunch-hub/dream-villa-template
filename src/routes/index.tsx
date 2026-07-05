@@ -905,8 +905,11 @@ const VILLA_MEDIA: MediaItemType[] = [
 
 function RoomsSection() {
   return (
-    <section id="rooms" className="section-y bg-[oklch(0.97_0.012_80)]">
+    <section id="rooms" className="section-y-flow-bottom surface-warm">
       <div className="container-villa">
+        {/* subtle divider connecting from the Villa story above */}
+        <div aria-hidden className="mx-auto mb-10 h-px w-24 bg-accent/40 md:mb-14" />
+
         {/* Eyebrow */}
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
@@ -917,19 +920,19 @@ function RoomsSection() {
         </div>
 
         {/* Title */}
-        <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+        <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
           Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
         </h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
           Σύρετε τις εικόνες για αναδιάταξη ή πατήστε πάνω τους για μεγέθυνση.
         </p>
 
-        <div className="mt-12 md:mt-16">
+        <div className="mt-8 md:mt-12">
           <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-8 flex justify-center">
           <Link
             to="/gallery"
             className="group inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent transition hover:bg-accent hover:text-accent-foreground"
@@ -938,6 +941,7 @@ function RoomsSection() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
+
       </div>
     </section>
   );
