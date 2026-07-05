@@ -913,7 +913,107 @@ function AmenitiesSection() {
 }
 
 
-/* ---------- Reviews ---------- */
+/* ---------- Availability Calendar Section ---------- */
+
+function AvailabilitySection() {
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const [range, setRange] = useState<{ from?: Date; to?: Date } | undefined>();
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const blockedQuery = useQuery({
+    queryKey: ["blocked_dates_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blocked_dates").select("date");
+      if (error) throw error;
+      return (data ?? []).map((r) => parseISO(r.date));
+    },
+    staleTime: 60_000,
+  });
+  const blockedDates = blockedQuery.data ?? [];
+  const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+
+  const check = () => {
+    if (!range?.from || !range?.to) {
+      toast.error("Παρακαλώ επιλέξτε ημερομηνία άφιξης και αναχώρησης.");
+      return;
+    }
+    const nights = Math.round((range.to.getTime() - range.from.getTime()) / 86400000);
+    if (nights < 3) {
+      toast.error("Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις.");
+      return;
+    }
+    const hasBlocked = blockedDates.some((b) => b >= range.from! && b < range.to!);
+    if (hasBlocked) {
+      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      return;
+    }
+    navigate({
+      to: "/booking",
+      search: {
+        check_in: format(range.from, "yyyy-MM-dd"),
+        check_out: format(range.to, "yyyy-MM-dd"),
+        adults: 2,
+        children: 0,
+        total_guests: 2,
+      },
+    });
+  };
+
+  return (
+    <section id="availability" className="section-y bg-background">
+      <div className="container-villa">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="font-serif text-3xl leading-tight text-foreground md:text-4xl">
+            Επιλέξτε ημερομηνία άφιξης
+          </h2>
+          <p className="mt-2 text-sm text-foreground/70 md:text-base">
+            Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις
+          </p>
+
+          <div className="mt-8 rounded-3xl border border-border/70 bg-card/40 p-4 md:p-8">
+            <div className="flex justify-center">
+              <Calendar
+                mode="range"
+                selected={range as any}
+                onSelect={(r: any) => setRange(r)}
+                numberOfMonths={isMobile ? 1 : 2}
+                min={3}
+                disabled={(d) => d < today || isBlocked(d)}
+                modifiers={{ blocked: blockedDates }}
+                modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
+                locale={el}
+                className="p-0 pointer-events-auto"
+              />
+            </div>
+
+            <div className="mt-6 flex flex-col-reverse items-stretch gap-4 border-t border-border/50 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="button"
+                onClick={() => setRange(undefined)}
+                className="text-sm font-medium text-foreground/70 underline underline-offset-4 hover:text-accent"
+              >
+                Εκκαθάριση ημερομηνιών
+              </button>
+              <button
+                type="button"
+                onClick={check}
+                className="inline-flex items-center justify-center rounded-full bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-soft transition hover:bg-accent/90"
+              >
+                Έλεγχος διαθεσιμότητας
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
 
 const REVIEWS = [
   {
