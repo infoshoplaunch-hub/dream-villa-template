@@ -1837,13 +1837,10 @@ function ContactSection() {
 /* ---------- Footer ---------- */
 
 function Footer() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const year = new Date().getFullYear();
   const links = NAV_IDS.filter((i) => i !== "home").map((id) => ({ id, l: t.nav[id] }));
-  const amenitiesList =
-    lang === "el"
-      ? ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]
-      : ["Pool", "Wi-Fi", "Parking", "BBQ", "Garden"];
+  const amenitiesList = t.footer.amenities;
   return (
     <footer data-lux-reveal className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
       <div className="container-villa py-16">
