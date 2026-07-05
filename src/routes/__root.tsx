@@ -79,9 +79,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
-      { name: "description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
-      { property: "og:description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
-      { name: "twitter:description", content: "A premium, elegant, one-page landing page for Ekaterini VIP Villa, designed to drive direct bookings." },
+      { name: "twitter:description", content: "Ιδιωτική πισίνα, άνετοι χώροι και όλες οι παροχές για ήρεμες διακοπές στην Κρήτη." },
+      { property: "og:site_name", content: "Ekaterini VIP Villa" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
