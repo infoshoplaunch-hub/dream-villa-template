@@ -1555,7 +1555,7 @@ function AvailabilitySection() {
 
           {/* ===== Trust strip ===== */}
           <div className="mt-12 border-t border-border/60 pt-8 md:mt-16 md:pt-10">
-            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            <ul data-lux-stagger className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
               {trustStrip.map(({ label, icon: Icon }) => (
                 <li
                   key={label}
