@@ -644,10 +644,11 @@ function BookingBar() {
           <button
             type="button"
             onClick={submit}
-            className="group flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] transition hover:brightness-110 md:px-10"
+            data-magnetic
+            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
             Κράτηση
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
