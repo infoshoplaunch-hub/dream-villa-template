@@ -997,9 +997,21 @@ function AvailabilitySection() {
               <h2 className="font-serif text-3xl leading-tight text-foreground md:text-4xl">
                 Επιλέξτε ημερομηνία άφιξης
               </h2>
-              <p className="mt-2 text-sm text-foreground/70 md:text-base">
-                Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις
-              </p>
+              {(() => {
+                const nights =
+                  range?.from && range?.to
+                    ? Math.round(
+                        (range.to.getTime() - range.from.getTime()) / 86400000,
+                      )
+                    : 0;
+                return (
+                  <p className="mt-2 text-sm text-foreground/70 md:text-base">
+                    {range?.from && range?.to
+                      ? `${nights} διανυκτερεύσεις`
+                      : "Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"}
+                  </p>
+                );
+              })()}
 
               <div className="mt-8">
                 <Calendar
