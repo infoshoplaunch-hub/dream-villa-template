@@ -628,6 +628,9 @@ function VillaSection() {
           </div>
         </div>
 
+        {/* About this place */}
+        <AboutPlaceBlock />
+
         {/* Block 2 — text left / image right */}
         <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-2 md:items-center md:gap-16">
           <div className="order-2 md:order-1">
