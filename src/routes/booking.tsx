@@ -27,6 +27,7 @@ import { el } from "date-fns/locale";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
+import { useI18n } from "@/lib/i18n";
 
 const searchSchema = z.object({
   check_in: z.string().optional(),
@@ -48,21 +49,22 @@ export const Route = createFileRoute("/booking")({
   component: BookingPage,
 });
 
-const formSchema = z.object({
-  firstName: z.string().trim().min(1, "Παρακαλώ συμπληρώστε το όνομά σας").max(80),
-  lastName: z.string().trim().min(1, "Παρακαλώ συμπληρώστε το επώνυμό σας").max(80),
-  email: z.string().trim().email("Παρακαλώ εισάγετε ένα έγκυρο email").max(200),
-  phone: z.string().trim().min(6, "Παρακαλώ εισάγετε ένα έγκυρο τηλέφωνο").max(30),
-  message: z.string().trim().max(1000).optional(),
-});
-
 function BookingPage() {
   useLuxReveal();
   useLuxMagnetic();
+  const { t, lang } = useI18n();
   const { check_in, check_out, adults, children, total_guests } = Route.useSearch();
   const navigate = useNavigate();
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [sent, setSent] = useState(false);
+
+  const formSchema = z.object({
+    firstName: z.string().trim().min(1, t.bookingPage.errFirstName).max(80),
+    lastName: z.string().trim().min(1, t.bookingPage.errLastName).max(80),
+    email: z.string().trim().email(t.bookingPage.errEmail).max(200),
+    phone: z.string().trim().min(6, t.bookingPage.errPhone).max(30),
+    message: z.string().trim().max(1000).optional(),
+  });
 
   const ci = check_in ? parseISO(check_in) : null;
   const co = check_out ? parseISO(check_out) : null;
@@ -75,31 +77,32 @@ function BookingPage() {
     e.preventDefault();
     const result = formSchema.safeParse(form);
     if (!result.success) {
-      toast.error(result.error.issues[0]?.message ?? "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.");
+      toast.error(result.error.issues[0]?.message ?? t.bookingPage.errRequired);
       return;
     }
-    const subject = encodeURIComponent(`Αίτημα Κράτησης - Ekaterini VIP Villa`);
+    const L = t.bookingPage.mailLabels;
+    const subject = encodeURIComponent(t.bookingPage.mailSubject);
     const body = encodeURIComponent(
-      `Ονοματεπώνυμο: ${form.firstName} ${form.lastName}\n` +
-        `Email: ${form.email}\n` +
-        `Τηλέφωνο: ${form.phone}\n\n` +
-        `Άφιξη: ${check_in ?? "-"}\n` +
-        `Αναχώρηση: ${check_out ?? "-"}\n` +
-        `Διανυκτερεύσεις: ${nights}\n` +
-        `Ενήλικες: ${adults}\n` +
-        `Παιδιά: ${children}\n` +
-        `Σύνολο επισκεπτών: ${total_guests}\n\n` +
-        `Μήνυμα:\n${form.message}`,
+      `${L.fullName}: ${form.firstName} ${form.lastName}\n` +
+        `${L.email}: ${form.email}\n` +
+        `${L.phone}: ${form.phone}\n\n` +
+        `${L.arrival}: ${check_in ?? "-"}\n` +
+        `${L.departure}: ${check_out ?? "-"}\n` +
+        `${L.nights}: ${nights}\n` +
+        `${L.adults}: ${adults}\n` +
+        `${L.children}: ${children}\n` +
+        `${L.totalGuests}: ${total_guests}\n\n` +
+        `${L.message}:\n${form.message}`,
     );
     window.location.href = `mailto:info@katerinavipvilla.gr?subject=${subject}&body=${body}`;
     setSent(true);
   };
 
-  const fmt = (d: Date | null) => (d ? format(d, "EEEE d MMMM yyyy", { locale: el }) : "—");
+  const fmt = (d: Date | null) => (d ? format(d, "EEEE d MMMM yyyy", { locale: lang === "el" ? el : undefined }) : "—");
   const goEdit = () => navigate({ to: "/", hash: "home" });
 
-  const guestSummary = `${adults} ${adults === 1 ? "ενήλικας" : "ενήλικες"}${children > 0 ? `, ${children} ${children === 1 ? "παιδί" : "παιδιά"}` : ""}`;
-  const nightsLabel = nights > 0 ? `${nights} ${nights === 1 ? "διανυκτέρευση" : "διανυκτερεύσεις"}` : "—";
+  const guestSummary = `${adults} ${adults === 1 ? t.bookingPage.adultSingular : t.bookingPage.adultPlural}${children > 0 ? `, ${children} ${children === 1 ? t.bookingPage.childSingular : t.bookingPage.childPlural}` : ""}`;
+  const nightsLabel = nights > 0 ? `${nights} ${nights === 1 ? t.bookingPage.nightSingular : t.bookingPage.nightPlural}` : "—";
 
   if (sent) {
     return (
@@ -112,16 +115,18 @@ function BookingPage() {
               <Check className="h-8 w-8" />
             </div>
             <h1 className="mt-6 font-serif text-3xl leading-tight md:text-4xl">
-              Το αίτημά σας <span className="text-accent italic">καταχωρήθηκε</span> με επιτυχία
+              {t.bookingPage.successTitleA}
+              <span className="text-accent italic">{t.bookingPage.successTitleB}</span>
+              {t.bookingPage.successTitleC}
             </h1>
             <p className="mt-4 text-foreground/70">
-              Η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει σύντομα μαζί σας για επιβεβαίωση διαθεσιμότητας και τιμής.
+              {t.bookingPage.successText}
             </p>
             <Link
               to="/"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
-              Επιστροφή στην αρχική
+              {t.bookingPage.successBack}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -142,13 +147,15 @@ function BookingPage() {
             <div className="min-w-0">
               <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-accent">
                 <span className="h-px w-8 bg-accent" />
-                Κράτηση
+                {t.bookingPage.eyebrow}
               </span>
               <h1 className="mt-4 font-serif text-4xl leading-[1.1] md:text-5xl">
-                Ολοκληρώστε το <span className="text-accent italic">αίτημα</span> κράτησης
+                {t.bookingPage.titleA}
+                <span className="text-accent italic">{t.bookingPage.titleB}</span>
+                {t.bookingPage.titleC}
               </h1>
               <p className="mt-4 max-w-2xl text-foreground/70">
-                Συμπληρώστε τα στοιχεία σας και η διαχείριση της Ekaterini VIP Villa θα επικοινωνήσει μαζί σας για διαθεσιμότητα, τιμή και επιβεβαίωση.
+                {t.bookingPage.subtitle}
               </p>
 
               {/* Form card */}
@@ -156,18 +163,18 @@ function BookingPage() {
                 onSubmit={submit}
                 className="mt-8 rounded-3xl border border-border/60 bg-background p-7 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)] md:p-9"
               >
-                <h2 className="font-serif text-2xl">Τα στοιχεία σας</h2>
+                <h2 className="font-serif text-2xl">{t.bookingPage.formTitle}</h2>
 
                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
-                  <Field label="ΟΝΟΜΑ *" value={form.firstName} onChange={onChange("firstName")} icon={<User className="h-4 w-4" />} />
-                  <Field label="ΕΠΙΘΕΤΟ *" value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
-                  <Field label="EMAIL *" type="email" value={form.email} onChange={onChange("email")} icon={<Mail className="h-4 w-4" />} />
-                  <Field label="ΤΗΛΕΦΩΝΟ *" type="tel" value={form.phone} onChange={onChange("phone")} icon={<Phone className="h-4 w-4" />} />
+                  <Field label={t.bookingPage.firstName} value={form.firstName} onChange={onChange("firstName")} icon={<User className="h-4 w-4" />} />
+                  <Field label={t.bookingPage.lastName} value={form.lastName} onChange={onChange("lastName")} icon={<User className="h-4 w-4" />} />
+                  <Field label={t.bookingPage.email} type="email" value={form.email} onChange={onChange("email")} icon={<Mail className="h-4 w-4" />} />
+                  <Field label={t.bookingPage.phone} type="tel" value={form.phone} onChange={onChange("phone")} icon={<Phone className="h-4 w-4" />} />
                 </div>
 
                 <div className="mt-5">
                   <label className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/55">
-                    ΜΗΝΥΜΑ&nbsp;
+                    {t.bookingPage.message}&nbsp;
                   </label>
                   <div className="relative mt-2">
                     <span className="pointer-events-none absolute left-4 top-3.5 text-foreground/40">
@@ -177,7 +184,7 @@ function BookingPage() {
                       value={form.message}
                       onChange={onChange("message")}
                       rows={4}
-                      placeholder="Πείτε μας αν έχετε κάποια ειδική προτίμηση ή αίτημα..."
+                      placeholder={t.bookingPage.messagePlaceholder}
                       className="w-full rounded-2xl border border-border bg-background pl-11 pr-4 py-3 text-sm outline-none transition placeholder:text-foreground/40 focus:border-accent focus:ring-2 focus:ring-accent/20"
                     />
                   </div>
@@ -189,10 +196,10 @@ function BookingPage() {
                   className="btn-lux btn-lux-primary mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
                 >
                   <Send className="h-4 w-4" />
-                  Αποστολή Αιτήματος Κράτησης
+                  {t.bookingPage.submit}
                 </button>
                 <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
-                  <Lock className="h-3.5 w-3.5" /> Δεν θα χρεωθείτε σε αυτό το βήμα.
+                  <Lock className="h-3.5 w-3.5" /> {t.bookingPage.noChargeStep}
                 </p>
               </form>
 
@@ -208,30 +215,30 @@ function BookingPage() {
                   <h2 className="font-serif text-2xl leading-tight">Ekaterini VIP Villa</h2>
                   <p className="mt-1.5 flex items-center gap-1.5 text-sm text-foreground/65">
                     <MapPin className="h-4 w-4 text-accent" />
-                    Πλάκα Αποκορώνου, Χανιά, Κρήτη
+                    {t.bookingPage.summaryLocation}
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Pill icon={<UsersIcon className="h-3 w-3" />}>Έως 7 επισκέπτες</Pill>
-                    <Pill icon={<BedDouble className="h-3 w-3" />}>3 υπνοδωμάτια</Pill>
-                    <Pill icon={<Waves className="h-3 w-3" />}>Ιδιωτική πισίνα</Pill>
-                    <Pill icon={<Wifi className="h-3 w-3" />}>Δωρεάν Wi-Fi</Pill>
-                    <Pill icon={<Car className="h-3 w-3" />}>Δωρεάν πάρκινγκ</Pill>
+                    <Pill icon={<UsersIcon className="h-3 w-3" />}>{t.bookingPage.pillGuests}</Pill>
+                    <Pill icon={<BedDouble className="h-3 w-3" />}>{t.bookingPage.pillBedrooms}</Pill>
+                    <Pill icon={<Waves className="h-3 w-3" />}>{t.bookingPage.pillPool}</Pill>
+                    <Pill icon={<Wifi className="h-3 w-3" />}>{t.bookingPage.pillWifi}</Pill>
+                    <Pill icon={<Car className="h-3 w-3" />}>{t.bookingPage.pillParking}</Pill>
                   </div>
 
                   <div className="mt-6 border-t border-border/60 pt-5">
-                    <h3 className="font-semibold text-foreground">Τα στοιχεία της κράτησής σας</h3>
+                    <h3 className="font-semibold text-foreground">{t.bookingPage.summaryTitle}</h3>
                     <div className="mt-4 space-y-3.5">
-                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label="Άφιξη" value={fmt(ci)} onEdit={goEdit} />
-                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label="Αναχώρηση" value={fmt(co)} onEdit={goEdit} />
-                      <SummaryRow icon={<UsersIcon className="h-4 w-4" />} label="Επισκέπτες" value={guestSummary} onEdit={goEdit} />
-                      <SummaryRow icon={<Moon className="h-4 w-4" />} label="Διαμονή" value={nightsLabel} />
+                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label={t.bookingPage.rowArrival} value={fmt(ci)} onEdit={goEdit} editLabel={t.bookingPage.change} />
+                      <SummaryRow icon={<CalendarIcon className="h-4 w-4" />} label={t.bookingPage.rowDeparture} value={fmt(co)} onEdit={goEdit} editLabel={t.bookingPage.change} />
+                      <SummaryRow icon={<UsersIcon className="h-4 w-4" />} label={t.bookingPage.rowGuests} value={guestSummary} onEdit={goEdit} editLabel={t.bookingPage.change} />
+                      <SummaryRow icon={<Moon className="h-4 w-4" />} label={t.bookingPage.rowStay} value={nightsLabel} />
                     </div>
                   </div>
 
                   <div className="mt-6 flex items-start gap-2.5 rounded-2xl bg-accent/10 p-4 text-xs leading-relaxed text-foreground/75">
                     <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    Η κράτηση επιβεβαιώνεται μετά από επικοινωνία με τη διαχείριση.
+                    {t.bookingPage.infoNote}
                   </div>
                 </div>
               </div>
@@ -244,6 +251,7 @@ function BookingPage() {
 }
 
 function TopBar() {
+  const { t } = useI18n();
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="container-villa flex items-center justify-between py-4">
@@ -252,7 +260,7 @@ function TopBar() {
           className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 transition hover:text-accent"
         >
           <ArrowLeft className="h-4 w-4" />
-          Επιστροφή
+          {t.bookingPage.back}
         </Link>
         <div className="font-serif text-lg md:text-xl">
           Ekaterini <span className="text-accent">VIP</span> Villa
@@ -309,11 +317,13 @@ function SummaryRow({
   label,
   value,
   onEdit,
+  editLabel,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   onEdit?: () => void;
+  editLabel?: string;
 }) {
   return (
     <div className="flex items-center gap-3">
@@ -330,7 +340,7 @@ function SummaryRow({
           onClick={onEdit}
           className="shrink-0 text-xs font-semibold text-accent underline-offset-4 hover:underline"
         >
-          Αλλαγή
+          {editLabel ?? "Edit"}
         </button>
       )}
     </div>

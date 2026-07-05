@@ -33,7 +33,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { el } from "date-fns/locale";
 import { toast } from "sonner";
 
-import { useI18n, type Lang } from "@/lib/i18n";
+import { useI18n, translateAmenity, type Lang } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -229,7 +229,7 @@ function Header() {
           </a>
           <button
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            aria-label={t.nav.openMenu}
             className={`lg:hidden rounded-full p-2 ${onDark ? "text-white" : "text-foreground"}`}
           >
             <Menu className="h-6 w-6" />
@@ -241,7 +241,7 @@ function Header() {
         <div className="lg:hidden fixed inset-0 z-50 bg-background">
           <div className="container-villa flex items-center justify-between py-5">
             <img src={logoUrl} alt="Ekaterini VIP Villa" className="h-9 w-auto" />
-            <button onClick={() => setOpen(false)} aria-label="Close menu">
+            <button onClick={() => setOpen(false)} aria-label={t.nav.closeMenu}>
               <X className="h-6 w-6" />
             </button>
           </div>
@@ -326,7 +326,7 @@ function Hero() {
         <div className="hero-kenburns absolute inset-0">
           <img
             src={heroImg}
-            alt="Ekaterini VIP Villa στην Κρήτη"
+            alt={t.hero.imgAlt}
             width={1920}
             height={1280}
             className="absolute inset-0 h-full w-full object-cover"
@@ -463,11 +463,11 @@ function Hero() {
               className="btn-lux md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
             >
               <ViberIcon className="h-4 w-4" />
-              Επικοινωνία μέσω Viber
+              {t.hero.viber}
             </a>
           </div>
           <p className="md:hidden mt-2 text-center text-xs text-white/70">
-            Άμεση απάντηση για διαθεσιμότητα και κρατήσεις
+            {t.hero.viberHelper}
           </p>
         </div>
       </div>
@@ -490,6 +490,7 @@ function Hero() {
 /* ---------- Booking Bar (Hero) ---------- */
 
 function BookingBar() {
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const [checkIn, setCheckIn] = useState<Date | undefined>();
   const [checkOut, setCheckOut] = useState<Date | undefined>();
@@ -515,8 +516,9 @@ function BookingBar() {
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
 
+  const dateLocale = lang === "el" ? el : undefined;
   const fmt = (d?: Date) =>
-    d ? format(d, "EEE d MMM", { locale: el }) : "Επιλέξτε ημερομηνία";
+    d ? format(d, "EEE d MMM", { locale: dateLocale }) : t.bookingBar.pickDate;
 
   const bump = (
     setter: React.Dispatch<React.SetStateAction<number>>,
@@ -527,7 +529,7 @@ function BookingBar() {
     const next = current + delta;
     if (next < min) return;
     if (delta > 0 && total + delta > MAX) {
-      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      toast.error(t.bookingBar.errMaxGuests);
       return;
     }
     setter(next);
@@ -535,12 +537,12 @@ function BookingBar() {
 
   const submit = () => {
     if (!checkIn || !checkOut) {
-      toast.error("Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
+      toast.error(t.bookingBar.errDates);
       return;
     }
     const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
     if (hasBlocked) {
-      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      toast.error(t.bookingBar.errBlocked);
       return;
     }
     navigate({
@@ -569,7 +571,7 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Άφιξη</span>
+                <span className={`block ${label}`}>{t.bookingBar.arrival}</span>
                 <span className={`block ${value} ${!checkIn && "text-foreground/50"}`}>
                   {fmt(checkIn)}
                 </span>
@@ -588,7 +590,7 @@ function BookingBar() {
               disabled={(d) => d < today || isBlocked(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-              locale={el}
+              locale={dateLocale}
               initialFocus
               className="p-3 pointer-events-auto"
             />
@@ -601,7 +603,7 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Αναχώρηση</span>
+                <span className={`block ${label}`}>{t.bookingBar.departure}</span>
                 <span className={`block ${value} ${!checkOut && "text-foreground/50"}`}>
                   {fmt(checkOut)}
                 </span>
@@ -619,7 +621,7 @@ function BookingBar() {
               disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-              locale={el}
+              locale={dateLocale}
               initialFocus
               className="p-3 pointer-events-auto"
             />
@@ -632,31 +634,31 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <UsersIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Επισκέπτες</span>
+                <span className={`block ${label}`}>{t.bookingBar.guests}</span>
                 <span className={`block ${value}`}>
-                  {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                  {total} {total === 1 ? t.bookingBar.guestSingular : t.bookingBar.guestPlural}
                 </span>
               </span>
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4" align="start">
             <GuestRow
-              label="Ενήλικες"
-              sub="Από 13 ετών"
+              label={t.bookingBar.adults}
+              sub={t.bookingBar.adultsSub}
               value={adults}
               onDec={() => bump(setAdults, adults, -1, 1)}
               onInc={() => bump(setAdults, adults, +1, 1)}
             />
             <div className="my-3 h-px bg-border" />
             <GuestRow
-              label="Παιδιά"
-              sub="0–12 ετών"
+              label={t.bookingBar.children}
+              sub={t.bookingBar.childrenSub}
               value={children}
               onDec={() => bump(setChildren, children, -1, 0)}
               onInc={() => bump(setChildren, children, +1, 0)}
             />
             <div className="mt-4 text-xs text-foreground/60">
-              Μέγιστο {MAX} επισκέπτες συνολικά.
+              {t.bookingBar.maxNote}
             </div>
           </PopoverContent>
         </Popover>
@@ -669,7 +671,7 @@ function BookingBar() {
             data-magnetic
             className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-3 md:py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
-            Κράτηση
+            {t.bookingBar.cta}
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -749,12 +751,8 @@ function SectionHead({
 /* ---------- Villa ---------- */
 
 function VillaSection() {
-  const bullets = [
-    "Ιδανική για οικογένειες και παρέες",
-    "Ιδιωτική πισίνα και εξωτερικοί χώροι",
-    "Κοντά στη θάλασσα και στα Χανιά",
-    "Άμεση επικοινωνία με τη διαχείριση",
-  ];
+  const { t } = useI18n();
+  const bullets = t.villa.bullets;
 
   return (
     <section id="villa" className="section-y-flow-top surface-warm-to-b">
@@ -763,7 +761,7 @@ function VillaSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Η Βίλα
+            {t.villa.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
@@ -773,7 +771,7 @@ function VillaSection() {
           <div className="relative">
             <img
               src={villaExteriorDayImg}
-              alt="Ekaterini VIP Villa exterior with pool"
+              alt={t.villa.imgAltExterior}
               width={1600}
               height={1067}
               loading="lazy"
@@ -782,23 +780,20 @@ function VillaSection() {
           </div>
           <div>
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
-              Ιδιωτικότητα, άνεση και{" "}
-              <span className="text-accent">αυθεντική κρητική φιλοξενία</span>
+              {t.villa.block1TitleA}
+              <span className="text-accent">{t.villa.block1TitleB}</span>
             </h2>
             <p className="mt-5 leading-relaxed text-foreground/80">
-              Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης,
-              και προσφέρει έναν ιδανικό συνδυασμό άνεσης, ιδιωτικότητας και χαλάρωσης.
+              {t.villa.block1P1}
             </p>
             <p className="mt-3 leading-relaxed text-foreground/80">
-              Με 3 υπνοδωμάτια, ιδιωτική πισίνα, πλήρως εξοπλισμένη κουζίνα, BBQ, κήπο και
-              δωρεάν ιδιωτικό πάρκινγκ, η βίλα είναι ιδανική για οικογένειες και παρέες
-              έως 7 ατόμων.
+              {t.villa.block1P2}
             </p>
             <a
               href="#amenities"
               className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
-              Μάθετε Περισσότερα
+              {t.villa.learnMore}
             </a>
           </div>
         </div>
@@ -808,13 +803,12 @@ function VillaSection() {
 
           <div className="order-2 md:order-1">
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
-              Γιατί να επιλέξετε την Ekaterini{" "}
-              <span className="text-accent">VIP</span> Villa;
+              {t.villa.block2TitleA}
+              <span className="text-accent">{t.villa.block2TitleB}</span>
+              {t.villa.block2TitleC}
             </h2>
             <p className="mt-5 leading-relaxed text-foreground/80">
-              Εδώ δεν κάνετε απλώς μια διαμονή. Έχετε τον δικό σας ιδιωτικό χώρο στην Κρήτη,
-              με πισίνα, εξωτερικούς χώρους και άνεση για να απολαύσετε τις διακοπές σας
-              χωρίς πίεση και χωρίς περιορισμούς.
+              {t.villa.block2P}
             </p>
 
             <ul className="mt-6 divide-y divide-border/70 border-y border-border/70">
@@ -832,14 +826,14 @@ function VillaSection() {
               to="/gallery"
               className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
-              Δείτε τη Βίλα
+              {t.villa.seeVilla}
             </Link>
 
           </div>
           <div className="order-1 md:order-2">
             <img
               src={villaLivingRoomImg}
-              alt="Ekaterini VIP Villa living room with sea view"
+              alt={t.villa.imgAltLiving}
               width={1600}
               height={1067}
               loading="lazy"
@@ -865,82 +859,28 @@ import villa10 from "@/assets/villa/EKATERINI-10.jpg.asset.json";
 import villa1 from "@/assets/villa/EKATERINI-1.jpg.asset.json";
 import InteractiveBentoGallery, { type MediaItemType } from "@/components/ui/interactive-bento-gallery";
 
-const VILLA_MEDIA: MediaItemType[] = [
-  {
-    id: 1,
-    type: "image",
-    title: "Βεράντα με θέα",
-    desc: "Πανοραμική θέα στη θάλασσα της Κρήτης.",
-    url: villa12.url,
-    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
-  },
-  {
-    id: 2,
-    type: "image",
-    title: "Master υπνοδωμάτιο",
-    desc: "Άνετο δωμάτιο με θέα στον ορίζοντα.",
-    url: villa17.url,
-    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
-  },
-  {
-    id: 3,
-    type: "image",
-    title: "Σαλόνι με θέα",
-    desc: "Φωτεινός χώρος για χαλάρωση.",
-    url: villa7.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 4,
-    type: "image",
-    title: "Καθιστικό & τραπεζαρία",
-    desc: "Ενιαίος χώρος διημέρευσης.",
-    url: villa3.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 5,
-    type: "image",
-    title: "Πλήρως εξοπλισμένη κουζίνα",
-    desc: "Όλα όσα χρειάζεστε για μαγείρεμα.",
-    url: villa4.url,
-    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
-  },
-  {
-    id: 6,
-    type: "image",
-    title: "Κουζίνα & τραπεζαρία",
-    desc: "Ζεστό ξύλινο ντεκόρ.",
-    url: villa6.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 7,
-    type: "image",
-    title: "Δίκλινο υπνοδωμάτιο",
-    desc: "Ιδανικό για παρέα ή παιδιά.",
-    url: villa9.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 8,
-    type: "image",
-    title: "Δίκλινο υπνοδωμάτιο",
-    desc: "Φωτεινό δωμάτιο με πρόσβαση στη βεράντα.",
-    url: villa10.url,
-    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
-  },
-  {
-    id: 9,
-    type: "image",
-    title: "Μπάνιο",
-    desc: "Μπανιέρα υδρομασάζ & πλυντήριο.",
-    url: villa1.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
+const VILLA_MEDIA_SPECS: { id: number; url: string; span: string }[] = [
+  { id: 1, url: villa12.url, span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2" },
+  { id: 2, url: villa17.url, span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2" },
+  { id: 3, url: villa7.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 4, url: villa3.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 5, url: villa4.url, span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2" },
+  { id: 6, url: villa6.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 7, url: villa9.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 8, url: villa10.url, span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2" },
+  { id: 9, url: villa1.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
 ];
 
 function RoomsSection() {
+  const { t } = useI18n();
+  const media: MediaItemType[] = VILLA_MEDIA_SPECS.map((s, i) => ({
+    id: s.id,
+    type: "image",
+    title: t.rooms.media[i]?.title ?? "",
+    desc: t.rooms.media[i]?.desc ?? "",
+    url: s.url,
+    span: s.span,
+  }));
   return (
     <section id="rooms" className="section-y-flow-bottom surface-warm">
       <div className="container-villa">
@@ -951,22 +891,24 @@ function RoomsSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Οι Χώροι Μας
+            {t.rooms.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
 
         {/* Title */}
         <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
+          {t.rooms.titleA}
+          <span className="text-accent">{t.rooms.titleB}</span>
+          {t.rooms.titleC}
         </h2>
 
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
-          Σύρετε τις εικόνες για αναδιάταξη ή πατήστε πάνω τους για μεγέθυνση.
+          {t.rooms.subtitle}
         </p>
 
         <div className="mt-8 md:mt-12">
-          <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
+          <InteractiveBentoGallery mediaItems={media} />
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -974,7 +916,7 @@ function RoomsSection() {
             to="/gallery"
             className="btn-lux btn-lux-secondary inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent hover:bg-accent hover:text-accent-foreground"
           >
-            Δείτε όλες τις φωτογραφίες
+            {t.rooms.seeAll}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -1145,7 +1087,21 @@ function AmenityCard({ group, index }: { group: AmenityGroup; index: number }) {
 }
 
 function AmenitiesSection() {
+  const { t, lang } = useI18n();
   const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  // Merge translation text with icon definitions from AMENITY_GROUPS
+  const groups = AMENITY_GROUPS.map((g, i) => {
+    const tGroup = t.amenities.groups[i];
+    return {
+      icon: g.icon,
+      title: tGroup?.title ?? g.title,
+      description: tGroup?.description ?? g.description,
+      items: g.items.map((it, j) => ({
+        icon: it.icon,
+        label: tGroup?.items[j] ?? it.label,
+      })),
+    };
+  });
   return (
     <section id="amenities" className="section-y bg-background">
       <div className="container-villa">
@@ -1153,17 +1109,19 @@ function AmenitiesSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Παροχές
+            {t.amenities.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
 
         <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ό,τι χρειάζεστε για <span className="text-accent">ήρεμες</span> διακοπές
+          {t.amenities.titleA}
+          <span className="text-accent">{t.amenities.titleB}</span>
+          {t.amenities.titleC}
         </h2>
 
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
-          Η Ekaterini VIP Villa προσφέρει όλες τις ανέσεις για μια άνετη και ξένοιαστη διαμονή.
+          {t.amenities.subtitle}
         </p>
 
         {/* 4 premium category cards */}
@@ -1173,7 +1131,7 @@ function AmenitiesSection() {
           className={`mx-auto mt-12 grid max-w-6xl gap-6 md:mt-14 md:grid-cols-2 md:gap-8 ${inView ? "amenity-in-view" : ""}`}
 
         >
-          {AMENITY_GROUPS.map((group, i) => (
+          {groups.map((group, i) => (
             <AmenityCard key={group.title} group={group} index={i} />
           ))}
         </div>
@@ -1186,20 +1144,20 @@ function AmenitiesSection() {
                 type="button"
                 className="btn-lux btn-lux-secondary inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
               >
-                Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
+                {t.amenities.showAll(TOTAL_AMENITIES_COUNT)}
               </button>
             </DialogTrigger>
             <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="font-serif text-2xl text-foreground md:text-3xl">
-                  Τι προσφέρει αυτός ο χώρος
+                  {t.amenities.dialogTitle}
                 </DialogTitle>
               </DialogHeader>
               <div className="mt-2 space-y-8">
                 {AMENITY_CATEGORIES.map((cat) => (
                   <section key={cat.title}>
                     <h4 className="font-serif text-lg font-semibold text-foreground">
-                      {cat.title}
+                      {translateAmenity(cat.title, lang)}
                     </h4>
                     <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                       {cat.items.map(({ label, icon: Icon }) => (
@@ -1211,7 +1169,7 @@ function AmenitiesSection() {
                             className="h-[18px] w-[18px] shrink-0 text-foreground/70"
                             strokeWidth={1.75}
                           />
-                          <span className="text-sm">{label}</span>
+                          <span className="text-sm">{translateAmenity(label, lang)}</span>
                         </li>
                       ))}
                     </ul>
@@ -1230,6 +1188,7 @@ function AmenitiesSection() {
 /* ---------- Availability Calendar Section ---------- */
 
 function AvailabilitySection() {
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [range, setRange] = useState<{ from?: Date; to?: Date } | undefined>();
@@ -1264,7 +1223,7 @@ function AvailabilitySection() {
     const next = current + delta;
     if (next < min) return;
     if (delta > 0 && total + delta > MAX) {
-      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      toast.error(t.availability.errMaxGuests);
       return;
     }
     setter(next);
@@ -1272,17 +1231,17 @@ function AvailabilitySection() {
 
   const submit = () => {
     if (!range?.from || !range?.to) {
-      toast.error("Παρακαλώ επιλέξτε ημερομηνία άφιξης και αναχώρησης.");
+      toast.error(t.availability.errDates);
       return;
     }
     const nights = Math.round((range.to.getTime() - range.from.getTime()) / 86400000);
     if (nights < 3) {
-      toast.error("Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις.");
+      toast.error(t.availability.errMinNights);
       return;
     }
     const hasBlocked = blockedDates.some((b) => b >= range.from! && b < range.to!);
     if (hasBlocked) {
-      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      toast.error(t.availability.errBlocked);
       return;
     }
     navigate({
@@ -1297,7 +1256,7 @@ function AvailabilitySection() {
     });
   };
 
-  const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : "Επιλέξτε");
+  const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : t.availability.pickPlaceholder);
   const fieldLabel = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
 
   const nights =
@@ -1306,27 +1265,13 @@ function AvailabilitySection() {
       : 0;
   const hasRange = Boolean(range?.from && range?.to);
 
-  const highlights = [
-    { label: "Έως 7 επισκέπτες", icon: UsersIcon },
-    { label: "Ιδιωτική Πισίνα", icon: PoolIcon },
-    { label: "Θέα στη Θάλασσα", icon: MountainSnowIcon },
-    { label: "Πλήρως Εξοπλισμένη Κουζίνα", icon: UtensilsCrossedIcon },
-    { label: "Δωρεάν Ιδιωτικό Πάρκινγκ", icon: ParkingIcon },
-    { label: "Wi-Fi Υψηλής Ταχύτητας", icon: WifiIcon },
-  ];
+  const highlightIcons = [UsersIcon, PoolIcon, MountainSnowIcon, UtensilsCrossedIcon, ParkingIcon, WifiIcon];
+  const highlights = t.availability.highlights.map((label, i) => ({ label, icon: highlightIcons[i] }));
 
-  const bookDirectPoints = [
-    { title: "Ασφαλής Απευθείας Κράτηση", desc: "Χωρίς μεσάζοντες, χωρίς έξτρα προμήθειες." },
-    { title: "Καλύτερη Διαθέσιμη Τιμή", desc: "Η πιο συμφέρουσα τιμή είναι πάντα εδώ." },
-    { title: "Άμεση Επιβεβαίωση", desc: "Λαμβάνετε επιβεβαίωση χωρίς καθυστέρηση." },
-  ];
+  const bookDirectPoints = t.availability.bookDirectPoints;
 
-  const trustStrip = [
-    { label: "Ασφαλής Κράτηση", icon: ShieldCheckIcon },
-    { label: "Εγγύηση Καλύτερης Τιμής", icon: AwardIcon },
-    { label: "Ιδιωτική Εμπειρία Villa", icon: KeyRoundIcon },
-    { label: "Άμεση Διαθεσιμότητα", icon: ZapIcon },
-  ];
+  const trustIcons = [ShieldCheckIcon, AwardIcon, KeyRoundIcon, ZapIcon];
+  const trustStrip = t.availability.trust.map((label, i) => ({ label, icon: trustIcons[i] }));
 
   return (
     <section id="availability" className="bg-background">
@@ -1339,27 +1284,26 @@ function AvailabilitySection() {
               <div>
                 <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-accent">
                   <span className="h-px w-8 bg-accent" />
-                  Διαθεσιμότητα
+                  {t.availability.eyebrow}
                 </span>
                 <h3 className="mt-4 font-serif text-3xl leading-tight text-foreground md:text-4xl">
-                  Ελέγξτε τη Διαθεσιμότητα
+                  {t.availability.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-foreground/70 md:text-base">
-                  Επιλέξτε τις ιδανικές σας ημερομηνίες και ξεκινήστε τον σχεδιασμό της
-                  πολυτελούς διαμονής σας στην Κρήτη.
+                  {t.availability.subtitle}
                 </p>
               </div>
 
               {/* Highlights card */}
               <div className="rounded-[20px] border border-border/60 bg-[oklch(0.98_0.008_85)] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-25px_rgba(15,23,42,0.25)] md:p-7">
                 <h4 className="font-serif text-lg text-foreground md:text-xl">
-                  Η Εμπειρία της Βίλας
+                  {t.availability.experienceTitle}
                 </h4>
                 <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {highlights.map(({ label, icon: Icon }) => (
                     <li key={label} className="flex items-center gap-3 text-sm text-foreground/85">
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/5 text-accent">
-                        <Icon className="h-4 w-4" strokeWidth={1.75} />
+                        {Icon ? <Icon className="h-4 w-4" strokeWidth={1.75} /> : null}
                       </span>
                       <span className="min-w-0">{label}</span>
                     </li>
@@ -1374,7 +1318,7 @@ function AvailabilitySection() {
                     <BadgeCheckIcon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h4 className="font-serif text-lg text-foreground md:text-xl">
-                    Κάντε Απευθείας Κράτηση
+                    {t.availability.bookDirectTitle}
                   </h4>
                 </div>
                 <ul className="mt-5 space-y-4">
@@ -1394,7 +1338,7 @@ function AvailabilitySection() {
                   className="btn-lux btn-lux-primary mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
                   data-magnetic
                 >
-                  Κάνε την Κράτηση Σου
+                  {t.availability.bookNowCta}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>
               </div>
@@ -1406,12 +1350,12 @@ function AvailabilitySection() {
               <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-serif text-xl text-foreground md:text-2xl">
-                    Επιλέξτε ημερομηνίες
+                    {t.availability.calendarTitle}
                   </h3>
                   <span className="text-xs font-medium text-foreground/55">
                     {hasRange
-                      ? `${nights} ${nights === 1 ? "διανυκτέρευση" : "διανυκτερεύσεις"}`
-                      : "Ελάχιστο 3 διανυκτερεύσεις"}
+                      ? `${nights} ${nights === 1 ? t.availability.nightSingular : t.availability.nightPlural}`
+                      : t.availability.minNights}
                   </span>
                 </div>
 
@@ -1425,7 +1369,7 @@ function AvailabilitySection() {
                     disabled={(d) => d < today || isBlocked(d)}
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
-                    locale={el}
+                    locale={lang === "el" ? el : undefined}
                     className="p-0 pointer-events-auto w-full [--cell-size:2.5rem] sm:[--cell-size:2.75rem] lg:[--cell-size:2.6rem] text-[15px]"
                   />
                 </div>
@@ -1437,16 +1381,16 @@ function AvailabilitySection() {
                     className="inline-flex items-center gap-2 text-sm font-medium text-[#17212B]/70 underline underline-offset-4 decoration-[#17212B]/25 transition hover:text-[#17212B] hover:decoration-[#17212B]"
                   >
                     <CalendarIcon className="h-4 w-4" />
-                    Εκκαθάριση ημερομηνιών
+                    {t.availability.clearDates}
                   </button>
                   <div className="hidden items-center gap-4 text-xs text-foreground/55 sm:flex">
                     <span className="inline-flex items-center gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full bg-[#C86B4A]" />
-                      Επιλεγμένες
+                      {t.availability.selected}
                     </span>
                     <span className="inline-flex items-center gap-1.5">
                       <span className="h-2.5 w-2.5 rounded-full border border-foreground/30 bg-transparent" />
-                      Μη διαθέσιμες
+                      {t.availability.unavailable}
                     </span>
                   </div>
                 </div>
@@ -1456,19 +1400,19 @@ function AvailabilitySection() {
               <div className="rounded-[20px] border border-border/60 bg-white p-5 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.2)] md:p-7">
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                   <div>
-                    <div className={fieldLabel}>Άφιξη</div>
+                    <div className={fieldLabel}>{t.availability.arrival}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${range?.from ? "text-foreground" : "text-foreground/40"}`}>
                       {fmtDate(range?.from)}
                     </div>
                   </div>
                   <div>
-                    <div className={fieldLabel}>Αναχώρηση</div>
+                    <div className={fieldLabel}>{t.availability.departure}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${range?.to ? "text-foreground" : "text-foreground/40"}`}>
                       {fmtDate(range?.to)}
                     </div>
                   </div>
                   <div>
-                    <div className={fieldLabel}>Διανυκτερεύσεις</div>
+                    <div className={fieldLabel}>{t.availability.nights}</div>
                     <div className={`mt-1.5 text-sm font-semibold ${hasRange ? "text-foreground" : "text-foreground/40"}`}>
                       {hasRange ? nights : "—"}
                     </div>
@@ -1480,7 +1424,7 @@ function AvailabilitySection() {
                           type="button"
                           className="group flex w-full flex-col items-start text-left"
                         >
-                          <span className={fieldLabel}>Επισκέπτες</span>
+                          <span className={fieldLabel}>{t.availability.guests}</span>
                           <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
                             {total}
                             <ChevronDown className="h-3.5 w-3.5 text-foreground/50 transition group-hover:text-foreground" />
@@ -1490,8 +1434,8 @@ function AvailabilitySection() {
                       <PopoverContent className="w-72 p-4" align="end">
                         <div className="space-y-4">
                           {[
-                            { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
-                            { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
+                            { label: t.availability.adults, value: adults, setter: setAdults, min: 1 },
+                            { label: t.availability.children, value: children, setter: setChildren, min: 0 },
                           ].map((row) => (
                             <div key={row.label} className="flex items-center justify-between">
                               <span className="text-sm font-medium text-foreground">{row.label}</span>
@@ -1515,7 +1459,7 @@ function AvailabilitySection() {
                               </div>
                             </div>
                           ))}
-                          <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
+                          <p className="text-xs text-foreground/60">{t.availability.maxNote}</p>
                         </div>
                       </PopoverContent>
                     </Popover>
@@ -1530,9 +1474,9 @@ function AvailabilitySection() {
                     <span className="text-foreground/70">
                       {hasRange
                         ? nights >= 3
-                          ? "Έτοιμο για κράτηση"
-                          : "Ελάχιστο 3 διανυκτερεύσεις"
-                        : "Επιλέξτε ημερομηνίες για να συνεχίσετε"}
+                          ? t.availability.readyToBook
+                          : t.availability.minNights
+                        : t.availability.pickToContinue}
                     </span>
                   </div>
 
@@ -1542,14 +1486,14 @@ function AvailabilitySection() {
                     data-magnetic
                     className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
                   >
-                    Κάνε κράτηση
+                    {t.availability.bookCta}
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
 
                 <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
                   <Lock className="h-3 w-3" />
-                  Δεν θα χρεωθείτε ακόμα
+                  {t.availability.noChargeYet}
                 </p>
               </div>
             </div>
@@ -1583,28 +1527,7 @@ function AvailabilitySection() {
 
 
 
-const REVIEWS = [
-  {
-    text: "Υπέροχη βίλα, πολύ άνετοι χώροι και εξαιρετική πισίνα. Ιδανική επιλογή για οικογένεια.",
-    source: "Επισκέπτης Booking.com",
-    platform: "booking",
-  },
-  {
-    text: "Η τοποθεσία ήταν ήρεμη και η διαμονή μας πολύ ξεκούραστη. Όλα ήταν άψογα.",
-    source: "Επισκέπτης Airbnb",
-    platform: "airbnb",
-  },
-  {
-    text: "Πολύ καλή επικοινωνία και όμορφος εξωτερικός χώρος. Σίγουρα θα το επιλέξουμε ξανά.",
-    source: "Επισκέπτης Google",
-    platform: "google",
-  },
-  {
-    text: "Καθαριότητα, άνεση και ιδιωτικότητα. Η καλύτερη επιλογή για ήρεμες διακοπές στα Χανιά.",
-    source: "Επισκέπτης Booking.com",
-    platform: "booking",
-  },
-] as const;
+const REVIEW_PLATFORMS = ["booking", "airbnb", "google", "booking"] as const;
 
 function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google" }) {
   const base = "flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-sm";
@@ -1631,25 +1554,28 @@ function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google"
 }
 
 function Reviews() {
+  const { t } = useI18n();
   return (
     <section id="reviews" className="section-y bg-[hsl(35_35%_96%)]">
       <div className="container-villa">
         <div className="flex items-center justify-center gap-3">
           <span className="h-px w-8 bg-primary" />
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            Εμπειρίες Επισκεπτών
+            {t.reviews.eyebrow}
           </span>
           <span className="h-px w-8 bg-primary" />
         </div>
         <h2 className="mt-6 text-center font-serif text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-          Τι λένε οι <span className="text-primary">επισκέπτες</span> μας
+          {t.reviews.titleA}
+          <span className="text-primary">{t.reviews.titleB}</span>
+          {t.reviews.titleC}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
-          Η φιλοξενία και η άνεση της Ekaterini VIP Villa δημιουργούν εμπειρίες που μένουν αξέχαστες.
+          {t.reviews.subtitle}
         </p>
 
         <div data-lux-stagger className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {REVIEWS.map((r, i) => (
+          {t.reviews.items.map((r, i) => (
             <article
               key={i}
               className="group flex flex-col rounded-2xl bg-white p-7 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] ring-1 ring-black/[0.03] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.15)]"
@@ -1668,10 +1594,10 @@ function Reviews() {
                 {r.text}
               </p>
               <div className="mt-6 border-t border-border/60 pt-5 flex items-center gap-3">
-                <PlatformBadge platform={r.platform} />
+                <PlatformBadge platform={REVIEW_PLATFORMS[i] ?? "booking"} />
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-foreground truncate">{r.source}</div>
-                  <div className="text-xs text-muted-foreground">Επαληθευμένη κριτική</div>
+                  <div className="text-xs text-muted-foreground">{t.reviews.verified}</div>
                 </div>
               </div>
             </article>
@@ -1726,7 +1652,7 @@ function LocationSection() {
             <div className="min-w-0">
               <div className="font-medium text-foreground">{t.location.address}</div>
               <span className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-accent transition group-hover:gap-2">
-                Άνοιγμα στο Google Maps
+                {t.location.openMaps}
                 <span aria-hidden>→</span>
               </span>
             </div>
@@ -1753,7 +1679,7 @@ function LocationSection() {
               <MapPin className="h-3.5 w-3.5" />
             </span>
             <span className="text-xs font-medium text-foreground">
-              Ekaterini VIP Villa — Πλάκα Αποκορώνου
+              {t.location.mapLabel}
             </span>
           </div>
           <iframe
@@ -1773,12 +1699,7 @@ function LocationSection() {
 
 function BookingSection() {
   const { t } = useI18n();
-  const perks = [
-    "Άμεση απάντηση σε αίτημα κράτησης",
-    "Ευέλικτες ημερομηνίες check-in / check-out",
-    "Χωρίς κρυφές χρεώσεις",
-    "Προσωπική εξυπηρέτηση στα Ελληνικά & Αγγλικά",
-  ];
+  const perks = t.booking.perks;
   return (
     <section id="booking" className="section-y bg-[oklch(0.22_0.02_260)] text-white">
       <div className="container-villa">
@@ -1790,11 +1711,11 @@ function BookingSection() {
               <span className="h-px w-8 bg-accent" />
             </span>
             <h2 className="mt-5 font-serif text-3xl leading-tight md:text-5xl">
-              Ζητήστε τη δική σας <span className="text-accent">διαμονή</span>
+              {t.booking.titleA}
+              <span className="text-accent">{t.booking.titleB}</span>
             </h2>
             <p className="mt-6 max-w-xl leading-relaxed text-white/75">
-              Στείλτε μας τις ημερομηνίες που σας ενδιαφέρουν και τον αριθμό των επισκεπτών.
-              Θα σας απαντήσουμε σύντομα με διαθεσιμότητα και προσφορά.
+              {t.booking.subtitle}
             </p>
 
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -1810,27 +1731,27 @@ function BookingSection() {
           </div>
 
           <div className="rounded-3xl border border-white/15 bg-white/[0.04] p-8 shadow-2xl backdrop-blur md:p-10">
-            <div className="font-serif text-2xl md:text-3xl">Έτοιμοι να κλείσετε;</div>
+            <div className="font-serif text-2xl md:text-3xl">{t.booking.readyTitle}</div>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
+              {t.booking.readySubtitle}
             </p>
             <div className="mt-8 space-y-3">
               <a
                 href="#booking-bar"
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
               >
-                Αίτημα Κράτησης
+                {t.booking.requestCta}
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="tel:+306940133837"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                Κλήση: +30 6940 133 837
+                {t.booking.callCta}
               </a>
             </div>
             <div className="mt-6 text-center text-xs text-white/60">
-              Απαντάμε στα Ελληνικά και στα Αγγλικά
+              {t.booking.langNote}
             </div>
           </div>
         </div>
@@ -1845,22 +1766,22 @@ function ContactSection() {
   const { t } = useI18n();
   const items = [
     {
-      label: "Email",
+      label: t.contact.email,
       value: "info@katerinavipvilla.gr",
       href: "mailto:info@katerinavipvilla.gr",
     },
     {
-      label: "Τηλέφωνο",
+      label: t.contact.phone,
       value: "+30 6940 133 837",
       href: "tel:+306940133837",
     },
     {
-      label: "Τηλέφωνο",
+      label: t.contact.phone,
       value: "+30 6948 014 277",
       href: "tel:+306948014277",
     },
     {
-      label: "Διεύθυνση",
+      label: t.contact.address,
       value: "Plaka Apokoronos, 73008 Chania, Crete",
       href: "https://www.google.com/maps/search/?api=1&query=Plaka+Apokoronos+Chania+Crete",
     },
@@ -1877,7 +1798,8 @@ function ContactSection() {
         </div>
 
         <h2 className="mx-auto mt-6 max-w-3xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ας <span className="text-accent">μιλήσουμε</span>
+          {t.contact.titleA}
+          <span className="text-accent">{t.contact.titleB}</span>
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center leading-relaxed text-foreground/70">
           {t.contact.text}
@@ -1915,13 +1837,10 @@ function ContactSection() {
 /* ---------- Footer ---------- */
 
 function Footer() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const year = new Date().getFullYear();
   const links = NAV_IDS.filter((i) => i !== "home").map((id) => ({ id, l: t.nav[id] }));
-  const amenitiesList =
-    lang === "el"
-      ? ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]
-      : ["Pool", "Wi-Fi", "Parking", "BBQ", "Garden"];
+  const amenitiesList = t.footer.amenities;
   return (
     <footer data-lux-reveal className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
       <div className="container-villa py-16">

@@ -13,14 +13,23 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
 
+function getLang(): "el" | "en" {
+  if (typeof window === "undefined") return "el";
+  const v = window.localStorage.getItem("lang");
+  return v === "en" ? "en" : "el";
+}
+
 function NotFoundComponent() {
+  const lang = getLang();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-serif text-foreground">404</h1>
-        <p className="mt-4 text-muted-foreground">Η σελίδα δεν βρέθηκε.</p>
+        <p className="mt-4 text-muted-foreground">
+          {lang === "en" ? "Page not found." : "Η σελίδα δεν βρέθηκε."}
+        </p>
         <Link to="/" className="mt-6 inline-block rounded-full bg-primary px-5 py-2 text-sm text-primary-foreground">
-          Αρχική
+          {lang === "en" ? "Home" : "Αρχική"}
         </Link>
       </div>
     </div>
@@ -29,18 +38,21 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
+  const lang = getLang();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 text-center">
       <div>
-        <h1 className="font-serif text-2xl">Κάτι πήγε στραβά</h1>
+        <h1 className="font-serif text-2xl">
+          {lang === "en" ? "Something went wrong" : "Κάτι πήγε στραβά"}
+        </h1>
         <button
           onClick={() => { router.invalidate(); reset(); }}
           className="mt-4 rounded-full bg-primary px-5 py-2 text-sm text-primary-foreground"
         >
-          Δοκιμάστε ξανά
+          {lang === "en" ? "Try again" : "Δοκιμάστε ξανά"}
         </button>
       </div>
     </div>

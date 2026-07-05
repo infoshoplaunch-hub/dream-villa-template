@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
 import { ArrowLeft, ChevronLeft, ChevronRight, X, Loader2, Maximize2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -39,6 +40,7 @@ type PhotoWithUrl = PhotoRow & { url: string };
 function GalleryPage() {
   useLuxReveal();
   useLuxMagnetic();
+  const { t } = useI18n();
   const query = useQuery({
     queryKey: ["gallery_photos_public"],
     queryFn: async (): Promise<PhotoWithUrl[]> => {
@@ -101,10 +103,10 @@ function GalleryPage() {
             className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-accent transition"
           >
             <ArrowLeft className="h-4 w-4" />
-            Επιστροφή στην αρχική
+            {t.galleryPage.back}
           </Link>
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Gallery
+            {t.galleryPage.label}
           </span>
         </div>
       </header>
@@ -112,25 +114,25 @@ function GalleryPage() {
       <main className="container-villa py-14 md:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="font-serif text-4xl leading-tight text-foreground md:text-5xl">
-            Gallery
+            {t.galleryPage.title}
           </h1>
           <p className="mt-4 text-sm text-foreground/70 md:text-base">
-            Μια περιήγηση στους χώρους, την πισίνα και τη θέα της βίλας μας.
+            {t.galleryPage.subtitle}
           </p>
         </div>
 
         <div className="mt-12 md:mt-16">
           {query.isLoading ? (
             <div className="flex items-center justify-center py-24 text-foreground/60">
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Φόρτωση...
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" /> {t.galleryPage.loading}
             </div>
           ) : query.isError ? (
             <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-8 text-center text-destructive">
-              Δεν ήταν δυνατή η φόρτωση των φωτογραφιών.
+              {t.galleryPage.error}
             </div>
           ) : photos.length === 0 ? (
             <div className="rounded-2xl border border-border/60 bg-muted/30 p-12 text-center text-foreground/60">
-              Δεν υπάρχουν ακόμη φωτογραφίες.
+              {t.galleryPage.empty}
             </div>
           ) : (
             <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4 [column-fill:_balance]">
@@ -165,7 +167,7 @@ function GalleryPage() {
         >
           <button
             onClick={close}
-            aria-label="Κλείσιμο"
+            aria-label={t.galleryPage.close}
             className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
           >
             <X className="h-6 w-6" />
@@ -177,7 +179,7 @@ function GalleryPage() {
                   e.stopPropagation();
                   prev();
                 }}
-                aria-label="Προηγούμενη"
+                aria-label={t.galleryPage.prev}
                 className="absolute left-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -187,7 +189,7 @@ function GalleryPage() {
                   e.stopPropagation();
                   next();
                 }}
-                aria-label="Επόμενη"
+                aria-label={t.galleryPage.next}
                 className="absolute right-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
               >
                 <ChevronRight className="h-6 w-6" />
