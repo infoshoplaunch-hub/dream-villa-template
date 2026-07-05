@@ -1699,12 +1699,7 @@ function LocationSection() {
 
 function BookingSection() {
   const { t } = useI18n();
-  const perks = [
-    "Άμεση απάντηση σε αίτημα κράτησης",
-    "Ευέλικτες ημερομηνίες check-in / check-out",
-    "Χωρίς κρυφές χρεώσεις",
-    "Προσωπική εξυπηρέτηση στα Ελληνικά & Αγγλικά",
-  ];
+  const perks = t.booking.perks;
   return (
     <section id="booking" className="section-y bg-[oklch(0.22_0.02_260)] text-white">
       <div className="container-villa">
@@ -1716,11 +1711,11 @@ function BookingSection() {
               <span className="h-px w-8 bg-accent" />
             </span>
             <h2 className="mt-5 font-serif text-3xl leading-tight md:text-5xl">
-              Ζητήστε τη δική σας <span className="text-accent">διαμονή</span>
+              {t.booking.titleA}
+              <span className="text-accent">{t.booking.titleB}</span>
             </h2>
             <p className="mt-6 max-w-xl leading-relaxed text-white/75">
-              Στείλτε μας τις ημερομηνίες που σας ενδιαφέρουν και τον αριθμό των επισκεπτών.
-              Θα σας απαντήσουμε σύντομα με διαθεσιμότητα και προσφορά.
+              {t.booking.subtitle}
             </p>
 
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -1736,27 +1731,27 @@ function BookingSection() {
           </div>
 
           <div className="rounded-3xl border border-white/15 bg-white/[0.04] p-8 shadow-2xl backdrop-blur md:p-10">
-            <div className="font-serif text-2xl md:text-3xl">Έτοιμοι να κλείσετε;</div>
+            <div className="font-serif text-2xl md:text-3xl">{t.booking.readyTitle}</div>
             <p className="mt-3 text-sm leading-relaxed text-white/70">
-              Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
+              {t.booking.readySubtitle}
             </p>
             <div className="mt-8 space-y-3">
               <a
                 href="#booking-bar"
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
               >
-                Αίτημα Κράτησης
+                {t.booking.requestCta}
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="tel:+306940133837"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                Κλήση: +30 6940 133 837
+                {t.booking.callCta}
               </a>
             </div>
             <div className="mt-6 text-center text-xs text-white/60">
-              Απαντάμε στα Ελληνικά και στα Αγγλικά
+              {t.booking.langNote}
             </div>
           </div>
         </div>
