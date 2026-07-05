@@ -814,7 +814,6 @@ export const AMENITY_EN: Record<string, string> = {
   "Πυροσβεστήρες": "Fire extinguishers",
   "Πρόσβαση με κλειδί": "Key access",
   // Beach
-  "Παραλία": "Beach",
   "Καναπές-κρεβάτι": "Sofa bed",
   "Λάπτοπ": "Laptop",
   "Μουσική": "Music",
