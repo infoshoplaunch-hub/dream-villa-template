@@ -732,7 +732,7 @@ function VillaSection() {
         </div>
 
         {/* Block 1 — image left / text right */}
-        <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
+        <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-2 md:items-center md:gap-14">
           <div className="relative">
             <img
               src={villaExteriorDayImg}
@@ -748,18 +748,18 @@ function VillaSection() {
               Ιδιωτικότητα, άνεση και{" "}
               <span className="text-accent">αυθεντική κρητική φιλοξενία</span>
             </h2>
-            <p className="mt-6 leading-relaxed text-foreground/80">
+            <p className="mt-5 leading-relaxed text-foreground/80">
               Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης,
               και προσφέρει έναν ιδανικό συνδυασμό άνεσης, ιδιωτικότητας και χαλάρωσης.
             </p>
-            <p className="mt-4 leading-relaxed text-foreground/80">
+            <p className="mt-3 leading-relaxed text-foreground/80">
               Με 3 υπνοδωμάτια, ιδιωτική πισίνα, πλήρως εξοπλισμένη κουζίνα, BBQ, κήπο και
               δωρεάν ιδιωτικό πάρκινγκ, η βίλα είναι ιδανική για οικογένειες και παρέες
               έως 7 ατόμων.
             </p>
             <a
               href="#amenities"
-              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
             >
               Μάθετε Περισσότερα
             </a>
@@ -767,7 +767,8 @@ function VillaSection() {
         </div>
 
         {/* Block 2 — text left / image right */}
-        <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-2 md:items-center md:gap-16">
+        <div className="mt-12 grid gap-8 md:mt-20 md:grid-cols-2 md:items-center md:gap-14">
+
           <div className="order-2 md:order-1">
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
               Γιατί να επιλέξετε την Ekaterini{" "}
