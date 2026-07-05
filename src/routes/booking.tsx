@@ -185,9 +185,10 @@ function BookingPage() {
 
                 <button
                   type="submit"
-                  className="group mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
+                  data-magnetic
+                  className="btn-lux btn-lux-primary mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
                 >
-                  <Send className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <Send className="h-4 w-4" />
                   Αποστολή Αιτήματος Κράτησης
                 </button>
                 <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
