@@ -415,7 +415,7 @@ function Hero() {
             Ekaterini <span className="text-accent">VIP</span> Villa
           </h1>
           <p
-            className="hero-fade-up mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
+            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
             style={{ animationDelay: "0.35s" }}
           >
             {t.hero.title}
