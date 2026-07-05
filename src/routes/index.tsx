@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useLuxReveal } from "@/hooks/use-lux-reveal";
+import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
 
 
 
@@ -60,6 +60,7 @@ const NAV_IDS = ["home", "villa", "rooms", "location", "booking", "contact"] as 
 
 function Landing() {
   useLuxReveal();
+  useLuxMagnetic();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -211,7 +212,8 @@ function Header() {
           <LangSwitch onDark={onDark} />
           <a
             href="#booking-bar"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
+            className="btn-lux btn-lux-primary hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft"
+            data-magnetic
           >
             {t.nav.book}
             <ArrowRight className="h-4 w-4" />
@@ -255,7 +257,7 @@ function Header() {
             <a
               href="#booking-bar"
               onClick={() => setOpen(false)}
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
+              className="btn-lux btn-lux-primary mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
               <ArrowRight className="h-4 w-4" />
@@ -429,19 +431,21 @@ function Hero() {
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#booking-bar"
-              className="hero-fade-up group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_26px_55px_-18px_rgba(214,120,50,0.85)] hover:brightness-110"
+              className="btn-lux btn-lux-primary hero-fade-up inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
               style={{ animationDelay: "0.7s" }}
+              data-magnetic
             >
               {t.hero.cta1}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4" />
             </a>
             <a
               href="#villa"
-              className="hero-fade-up group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[0_20px_45px_-20px_rgba(255,255,255,0.35)]"
+              className="btn-lux btn-lux-secondary hero-fade-up inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md"
               style={{ animationDelay: "0.85s" }}
+              data-magnetic
             >
               {t.hero.cta2}
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -641,10 +645,11 @@ function BookingBar() {
           <button
             type="button"
             onClick={submit}
-            className="group flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] transition hover:brightness-110 md:px-10"
+            data-magnetic
+            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
             Κράτηση
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -770,7 +775,7 @@ function VillaSection() {
             </p>
             <a
               href="#amenities"
-              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
               Μάθετε Περισσότερα
             </a>
@@ -804,7 +809,7 @@ function VillaSection() {
 
             <Link
               to="/gallery"
-              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
               Δείτε τη Βίλα
             </Link>
@@ -946,10 +951,10 @@ function RoomsSection() {
         <div className="mt-8 flex justify-center">
           <Link
             to="/gallery"
-            className="group inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent transition hover:bg-accent hover:text-accent-foreground"
+            className="btn-lux btn-lux-secondary inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent hover:bg-accent hover:text-accent-foreground"
           >
             Δείτε όλες τις φωτογραφίες
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
@@ -1158,7 +1163,7 @@ function AmenitiesSection() {
             <DialogTrigger asChild>
               <button
                 type="button"
-                className="inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+                className="btn-lux btn-lux-secondary inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
               >
                 Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
               </button>
@@ -1365,7 +1370,8 @@ function AvailabilitySection() {
                 <button
                   type="button"
                   onClick={submit}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#b25c3d] active:translate-y-0"
+                  className="btn-lux btn-lux-primary mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
+                  data-magnetic
                 >
                   Κάνε την Κράτηση Σου
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -1512,7 +1518,8 @@ function AvailabilitySection() {
                   <button
                     type="button"
                     onClick={submit}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#b25c3d] active:translate-y-0"
+                    data-magnetic
+                    className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
                   >
                     Κάνε κράτηση
                     <ArrowRight className="h-4 w-4" />

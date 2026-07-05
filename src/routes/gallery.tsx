@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useLuxReveal } from "@/hooks/use-lux-reveal";
-import { ArrowLeft, ChevronLeft, ChevronRight, X, Loader2 } from "lucide-react";
+import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
+import { ArrowLeft, ChevronLeft, ChevronRight, X, Loader2, Maximize2 } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -38,6 +38,7 @@ type PhotoWithUrl = PhotoRow & { url: string };
 
 function GalleryPage() {
   useLuxReveal();
+  useLuxMagnetic();
   const query = useQuery({
     queryKey: ["gallery_photos_public"],
     queryFn: async (): Promise<PhotoWithUrl[]> => {
@@ -138,14 +139,17 @@ function GalleryPage() {
                   key={p.id}
                   type="button"
                   onClick={() => setLightbox(i)}
-                  className="group mb-4 block w-full overflow-hidden rounded-2xl bg-muted/40 shadow-soft transition hover:shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]"
+                  className="btn-lux-image group relative mb-4 block w-full overflow-hidden rounded-2xl bg-muted/40 shadow-soft transition-shadow duration-300 hover:shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]"
                 >
                   <img
                     src={p.url}
                     alt={p.caption ?? "Ekaterini VIP Villa"}
                     loading="lazy"
-                    className="h-auto w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                    className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                   />
+                  <span className="btn-lux-icon pointer-events-none absolute right-3 bottom-3 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-foreground shadow-soft">
+                    <Maximize2 className="h-4 w-4" />
+                  </span>
                 </button>
               ))}
             </div>

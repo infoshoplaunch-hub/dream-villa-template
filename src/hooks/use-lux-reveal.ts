@@ -69,3 +69,57 @@ export function useLuxReveal() {
     return () => io.disconnect();
   }, []);
 }
+
+/**
+ * Subtle magnetic hover for premium buttons.
+ * Attaches to every element carrying `[data-magnetic]`.
+ * Max travel: ±4px on both axes. Writes CSS vars `--mag-x` / `--mag-y`
+ * consumed by `.btn-lux` transform. Disabled under prefers-reduced-motion.
+ */
+export function useLuxMagnetic() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const MAX = 4;
+    const STRENGTH = 0.35;
+    const els = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-magnetic]"),
+    );
+
+    const clamp = (v: number) => Math.max(-MAX, Math.min(MAX, v));
+
+    const handlers: Array<{ el: HTMLElement; move: (e: PointerEvent) => void; leave: () => void }> = [];
+
+    els.forEach((el) => {
+      const move = (e: PointerEvent) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) * STRENGTH;
+        const dy = (e.clientY - (r.top + r.height / 2)) * STRENGTH;
+        el.style.setProperty("--mag-x", `${clamp(dx)}px`);
+        el.style.setProperty("--mag-y", `${clamp(dy)}px`);
+      };
+      const leave = () => {
+        el.style.setProperty("--mag-x", "0px");
+        el.style.setProperty("--mag-y", "0px");
+      };
+      el.addEventListener("pointermove", move);
+      el.addEventListener("pointerleave", leave);
+      handlers.push({ el, move, leave });
+    });
+
+    return () => {
+      handlers.forEach(({ el, move, leave }) => {
+        el.removeEventListener("pointermove", move);
+        el.removeEventListener("pointerleave", leave);
+        el.style.removeProperty("--mag-x");
+        el.style.removeProperty("--mag-y");
+      });
+    };
+  }, []);
+}
