@@ -236,6 +236,108 @@
   }
 }
 
+/* =============================================================
+   LUXURY REVEAL / HOVER SYSTEM (reusable, opt-in)
+   ============================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  /* --- Section-level reveal: applied automatically by useLuxReveal --- */
+  main [data-lux-section] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  main [data-lux-section].lux-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* --- Individual reveal element (fade-up) --- */
+  .lux-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--lux-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .lux-reveal.lux-in,
+  .lux-in > .lux-reveal,
+  .lux-in .lux-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* --- Stagger container: animates direct children in sequence --- */
+  [data-lux-stagger] > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  [data-lux-stagger].lux-in > * { opacity: 1; transform: none; }
+  [data-lux-stagger].lux-in > *:nth-child(1)  { transition-delay:  40ms; }
+  [data-lux-stagger].lux-in > *:nth-child(2)  { transition-delay: 130ms; }
+  [data-lux-stagger].lux-in > *:nth-child(3)  { transition-delay: 220ms; }
+  [data-lux-stagger].lux-in > *:nth-child(4)  { transition-delay: 310ms; }
+  [data-lux-stagger].lux-in > *:nth-child(5)  { transition-delay: 400ms; }
+  [data-lux-stagger].lux-in > *:nth-child(6)  { transition-delay: 490ms; }
+  [data-lux-stagger].lux-in > *:nth-child(7)  { transition-delay: 580ms; }
+  [data-lux-stagger].lux-in > *:nth-child(8)  { transition-delay: 670ms; }
+  [data-lux-stagger].lux-in > *:nth-child(9)  { transition-delay: 760ms; }
+  [data-lux-stagger].lux-in > *:nth-child(n+10) { transition-delay: 850ms; }
+}
+
+/* --- Reusable hover utilities (motion-safe, always available) --- */
+.lux-lift {
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.lux-lift:hover { transform: translateY(-4px); }
+
+/* Image zoom on hover — wrap image inside .lux-zoom (needs overflow:hidden) */
+.lux-zoom { overflow: hidden; }
+.lux-zoom > img,
+.lux-zoom .lux-zoom-img {
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.lux-zoom:hover > img,
+.lux-zoom:hover .lux-zoom-img { transform: scale(1.04); filter: brightness(1.03); }
+
+/* Button arrow slide — put .lux-arrow on the icon inside a .group or .lux-btn */
+.lux-arrow { transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1); }
+.group:hover .lux-arrow,
+.lux-btn:hover .lux-arrow { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  main [data-lux-section],
+  .lux-reveal,
+  [data-lux-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .lux-lift, .lux-zoom > img, .lux-zoom .lux-zoom-img, .lux-arrow {
+    transition: none !important;
+  }
+}
+
+
+
 
 
 
