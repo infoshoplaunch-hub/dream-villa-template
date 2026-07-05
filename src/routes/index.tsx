@@ -1923,9 +1923,10 @@ function Footer() {
       ? ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]
       : ["Pool", "Wi-Fi", "Parking", "BBQ", "Garden"];
   return (
-    <footer className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
+    <footer data-lux-reveal className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
       <div className="container-villa py-16">
-        <div className="grid gap-10 md:grid-cols-4">
+        <div data-lux-stagger className="grid gap-10 md:grid-cols-4">
+
           {/* Brand */}
           <div>
             <div className="font-serif text-2xl">
