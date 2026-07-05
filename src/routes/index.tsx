@@ -808,7 +808,7 @@ function VillaSection() {
 
             <Link
               to="/gallery"
-              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
               Δείτε τη Βίλα
             </Link>
