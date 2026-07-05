@@ -920,6 +920,12 @@ function AvailabilitySection() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [range, setRange] = useState<{ from?: Date; to?: Date } | undefined>();
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [openGuests, setOpenGuests] = useState(false);
+
+  const total = adults + children;
+  const MAX = 7;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -936,7 +942,22 @@ function AvailabilitySection() {
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
 
-  const check = () => {
+  const bump = (
+    setter: React.Dispatch<React.SetStateAction<number>>,
+    current: number,
+    delta: number,
+    min: number,
+  ) => {
+    const next = current + delta;
+    if (next < min) return;
+    if (delta > 0 && total + delta > MAX) {
+      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      return;
+    }
+    setter(next);
+  };
+
+  const submit = () => {
     if (!range?.from || !range?.to) {
       toast.error("Παρακαλώ επιλέξτε ημερομηνία άφιξης και αναχώρησης.");
       return;
@@ -956,62 +977,141 @@ function AvailabilitySection() {
       search: {
         check_in: format(range.from, "yyyy-MM-dd"),
         check_out: format(range.to, "yyyy-MM-dd"),
-        adults: 2,
-        children: 0,
-        total_guests: 2,
+        adults,
+        children,
+        total_guests: total,
       },
     });
   };
 
+  const fmtDate = (d?: Date) => (d ? format(d, "d/M/yyyy") : "Επιλέξτε");
+  const fieldLabel = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
+
   return (
     <section id="availability" className="section-y bg-background">
       <div className="container-villa">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="font-serif text-3xl leading-tight text-foreground md:text-4xl">
-            Επιλέξτε ημερομηνία άφιξης
-          </h2>
-          <p className="mt-2 text-sm text-foreground/70 md:text-base">
-            Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις
-          </p>
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:gap-12">
+            {/* Left: calendar */}
+            <div className="min-w-0">
+              <h2 className="font-serif text-3xl leading-tight text-foreground md:text-4xl">
+                Επιλέξτε ημερομηνία άφιξης
+              </h2>
+              <p className="mt-2 text-sm text-foreground/70 md:text-base">
+                Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις
+              </p>
 
-          <div className="mt-8 rounded-3xl border border-border/70 bg-card/40 p-4 md:p-8">
-            <div className="flex justify-center">
-              <Calendar
-                mode="range"
-                selected={range as any}
-                onSelect={(r: any) => setRange(r)}
-                numberOfMonths={isMobile ? 1 : 2}
-                min={3}
-                disabled={(d) => d < today || isBlocked(d)}
-                modifiers={{ blocked: blockedDates }}
-                modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-                locale={el}
-                className="p-0 pointer-events-auto"
-              />
+              <div className="mt-8">
+                <Calendar
+                  mode="range"
+                  selected={range as any}
+                  onSelect={(r: any) => setRange(r)}
+                  numberOfMonths={isMobile ? 1 : 2}
+                  min={3}
+                  disabled={(d) => d < today || isBlocked(d)}
+                  modifiers={{ blocked: blockedDates }}
+                  modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
+                  locale={el}
+                  className="p-0 pointer-events-auto [--cell-size:2.75rem] text-[15px]"
+                />
+
+                <div className="mt-6 border-t border-border/50 pt-5">
+                  <button
+                    type="button"
+                    onClick={() => setRange(undefined)}
+                    className="text-sm font-medium text-foreground/70 underline underline-offset-4 hover:text-accent"
+                  >
+                    Εκκαθάριση ημερομηνιών
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-6 flex flex-col-reverse items-stretch gap-4 border-t border-border/50 pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <button
-                type="button"
-                onClick={() => setRange(undefined)}
-                className="text-sm font-medium text-foreground/70 underline underline-offset-4 hover:text-accent"
-              >
-                Εκκαθάριση ημερομηνιών
-              </button>
-              <button
-                type="button"
-                onClick={check}
-                className="inline-flex items-center justify-center rounded-full bg-accent px-8 py-3 text-sm font-semibold text-accent-foreground shadow-soft transition hover:bg-accent/90"
-              >
-                Έλεγχος διαθεσιμότητας
-              </button>
-            </div>
+            {/* Right: booking card */}
+            <aside className="md:sticky md:top-24 md:self-start">
+              <div className="rounded-2xl border border-border/70 bg-card p-5 shadow-soft">
+                <div className="grid grid-cols-2 divide-x divide-border/60 rounded-xl border border-border/60">
+                  <div className="px-4 py-3">
+                    <div className={fieldLabel}>Άφιξη</div>
+                    <div className={`mt-1 text-sm font-semibold ${range?.from ? "text-foreground" : "text-foreground/50"}`}>
+                      {fmtDate(range?.from)}
+                    </div>
+                  </div>
+                  <div className="px-4 py-3">
+                    <div className={fieldLabel}>Αναχώρηση</div>
+                    <div className={`mt-1 text-sm font-semibold ${range?.to ? "text-foreground" : "text-foreground/50"}`}>
+                      {fmtDate(range?.to)}
+                    </div>
+                  </div>
+                </div>
+
+                <Popover open={openGuests} onOpenChange={setOpenGuests}>
+                  <PopoverTrigger asChild>
+                    <button
+                      type="button"
+                      className="mt-3 flex w-full items-center justify-between rounded-xl border border-border/60 px-4 py-3 text-left transition hover:bg-accent/5"
+                    >
+                      <span className="min-w-0">
+                        <span className={`block ${fieldLabel}`}>Επισκέπτες</span>
+                        <span className="mt-1 block text-sm font-semibold text-foreground">
+                          {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                        </span>
+                      </span>
+                      <UsersIcon className="h-4 w-4 shrink-0 text-foreground/60" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-72 p-4" align="end">
+                    <div className="space-y-4">
+                      {[
+                        { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
+                        { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
+                      ].map((row) => (
+                        <div key={row.label} className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-foreground">{row.label}</span>
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => bump(row.setter, row.value, -1, row.min)}
+                              className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
+                              disabled={row.value <= row.min}
+                            >
+                              <Minus className="h-3.5 w-3.5" />
+                            </button>
+                            <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
+                            <button
+                              type="button"
+                              onClick={() => bump(row.setter, row.value, 1, row.min)}
+                              className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
+                            >
+                              <Plus className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                      <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                <button
+                  type="button"
+                  onClick={submit}
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-base font-semibold text-accent-foreground shadow-soft transition hover:bg-accent/90"
+                >
+                  Κάνε κράτηση
+                </button>
+                <p className="mt-3 text-center text-xs text-foreground/60">
+                  Δεν θα χρεωθείτε ακόμα
+                </p>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 
 
