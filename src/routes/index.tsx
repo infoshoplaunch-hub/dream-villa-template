@@ -51,6 +51,15 @@ const villaExteriorDayImg = villaExteriorDayAsset.url;
 import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
 const villaLivingRoomImg = villaLivingRoomAsset.url;
 
+const VIBER_CONTACT_LINK = "viber://chat?number=+306999999999";
+
+function ViberIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12.012 0C5.372 0 0 5.373 0 11.988c0 2.17.585 4.284 1.692 6.13L.276 23.723l5.748-1.898c1.7.9 3.7 1.4 5.988 1.538 6.64 0 12.012-5.373 12.012-11.988C24.024 5.373 18.652 0 12.012 0zm6.568 16.56c-.277.78-1.51 1.434-2.116 1.51-.555.075-1.085.252-3.657-.78-3.1-1.235-5.09-4.41-5.24-4.61-.15-.202-1.26-1.664-1.26-3.176 0-1.512.793-2.243 1.083-2.546.29-.302.63-.378.84-.378.21 0 .42 0 .6.013.21.013.487-.075.756.555.277.655.932 2.28 1.008 2.445.076.164.126.354.024.58-.1.227-.15.366-.3.555-.15.19-.315.403-.453.555-.15.164-.3.34-.126.656.176.315.793 1.31 1.7 2.118 1.17 1.032 2.152 1.36 2.467 1.512.315.15.504.125.69-.09.19-.214.805-1.01 1.02-1.36.214-.35.428-.29.717-.156.29.134 1.85 1.035 2.165 1.225.314.19.53.29.605.45.075.16.05.788-.226 1.57z" />
+    </svg>
+  );
+}
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -448,6 +457,18 @@ function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
+
+          {/* Mobile-only Viber CTA */}
+          <a
+            href={VIBER_CONTACT_LINK}
+            className="btn-lux md:hidden mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+          >
+            <ViberIcon className="h-4 w-4" />
+            Επικοινωνία μέσω Viber
+          </a>
+          <p className="md:hidden mt-2 text-center text-xs text-white/70">
+            Άμεση απάντηση για διαθεσιμότητα και κρατήσεις
+          </p>
         </div>
       </div>
 
