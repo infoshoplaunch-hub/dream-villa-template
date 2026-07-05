@@ -991,8 +991,8 @@ function AvailabilitySection() {
 
   return (
     <section id="availability" className="section-y bg-background">
-      <div className="container-villa">
-        <div className="mx-auto max-w-[1180px]">
+      <div className="px-4 md:px-6 lg:px-8">
+        
           <div className="rounded-[32px] bg-[#FAF7F1] p-6 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.18)] md:p-12 lg:p-14">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-14">
               {/* Left: calendar */}
@@ -1126,7 +1126,6 @@ function AvailabilitySection() {
                 </div>
               </aside>
             </div>
-          </div>
         </div>
       </div>
     </section>
