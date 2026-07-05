@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLuxReveal } from "@/hooks/use-lux-reveal";
+
 
 
 import { format, parseISO, isSameDay } from "date-fns";
@@ -57,6 +59,8 @@ export const Route = createFileRoute("/")({
 const NAV_IDS = ["home", "villa", "rooms", "location", "booking", "contact"] as const;
 
 function Landing() {
+  useLuxReveal();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -1139,7 +1143,9 @@ function AmenitiesSection() {
         {/* 4 premium category cards */}
         <div
           ref={ref}
+          data-lux-stagger
           className={`mx-auto mt-12 grid max-w-6xl gap-6 md:mt-14 md:grid-cols-2 md:gap-8 ${inView ? "amenity-in-view" : ""}`}
+
         >
           {AMENITY_GROUPS.map((group, i) => (
             <AmenityCard key={group.title} group={group} index={i} />
@@ -1551,7 +1557,7 @@ function AvailabilitySection() {
 
           {/* ===== Trust strip ===== */}
           <div className="mt-12 border-t border-border/60 pt-8 md:mt-16 md:pt-10">
-            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            <ul data-lux-stagger className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
               {trustStrip.map(({ label, icon: Icon }) => (
                 <li
                   key={label}
@@ -1642,7 +1648,7 @@ function Reviews() {
           Η φιλοξενία και η άνεση της Ekaterini VIP Villa δημιουργούν εμπειρίες που μένουν αξέχαστες.
         </p>
 
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div data-lux-stagger className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {REVIEWS.map((r, i) => (
             <article
               key={i}
@@ -1917,9 +1923,10 @@ function Footer() {
       ? ["Πισίνα", "Wi-Fi", "Parking", "BBQ", "Κήπος"]
       : ["Pool", "Wi-Fi", "Parking", "BBQ", "Garden"];
   return (
-    <footer className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
+    <footer data-lux-reveal className="border-t border-border bg-[hsl(35_35%_96%)] text-foreground">
       <div className="container-villa py-16">
-        <div className="grid gap-10 md:grid-cols-4">
+        <div data-lux-stagger className="grid gap-10 md:grid-cols-4">
+
           {/* Brand */}
           <div>
             <div className="font-serif text-2xl">
