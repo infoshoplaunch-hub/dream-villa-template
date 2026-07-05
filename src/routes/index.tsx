@@ -823,14 +823,6 @@ function AmenitiesSection() {
   return (
     <section id="amenities" className="section-y bg-background">
       <div className="container-villa">
-        <div className="flex items-center justify-center gap-4">
-          <span className="h-px w-10 bg-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Παροχές
-          </span>
-          <span className="h-px w-10 bg-accent" />
-        </div>
-
         <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
           Ό,τι χρειάζεστε για <span className="text-accent">ήρεμες</span> διακοπές
         </h2>
