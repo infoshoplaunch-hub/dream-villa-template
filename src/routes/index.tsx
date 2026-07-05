@@ -453,7 +453,7 @@ function Hero() {
 
       {/* Premium booking search bar with glassmorphism */}
       <div
-        className="absolute inset-x-0 bottom-6 z-10 md:bottom-10 hero-fade-up"
+        className="absolute inset-x-0 bottom-8 z-10 md:bottom-10 hero-fade-up"
         style={{ animationDelay: "1s" }}
       >
         <div className="container-villa">
