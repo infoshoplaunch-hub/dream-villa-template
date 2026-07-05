@@ -211,7 +211,8 @@ function Header() {
           <LangSwitch onDark={onDark} />
           <a
             href="#booking-bar"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
+            className="btn-lux btn-lux-primary hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft"
+            data-magnetic
           >
             {t.nav.book}
             <ArrowRight className="h-4 w-4" />
