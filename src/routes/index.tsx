@@ -720,7 +720,7 @@ function VillaSection() {
   ];
 
   return (
-    <section id="villa" className="section-y bg-[oklch(0.97_0.012_80)]">
+    <section id="villa" className="section-y-flow-top surface-warm-to-b">
       <div className="container-villa">
         {/* Eyebrow label */}
         <div className="flex items-center justify-center gap-4">
