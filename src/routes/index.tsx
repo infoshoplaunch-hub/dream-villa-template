@@ -370,7 +370,7 @@ function Hero() {
 
       {/* Floating golden particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {particles.map((p, i) => (
+        {particles.map((p: typeof particles[number], i: number) => (
           <span
             key={i}
             className="hero-particle absolute rounded-full"
