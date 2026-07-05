@@ -535,7 +535,7 @@ function BookingBar() {
   };
 
   const fieldBase =
-    "flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-accent/5";
+    "flex w-full items-center gap-3 px-5 py-3 md:py-4 text-left transition hover:bg-accent/5";
   const label = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
