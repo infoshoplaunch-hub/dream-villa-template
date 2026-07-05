@@ -237,14 +237,14 @@ function Header() {
             >
               {t.nav.gallery}
             </Link>
-            <a
-              href="mailto:info@katerinavipvilla.gr"
+            <Link
+              to="/booking"
               onClick={() => setOpen(false)}
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </nav>
         </div>
       )}
