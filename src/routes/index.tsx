@@ -720,7 +720,7 @@ function VillaSection() {
   ];
 
   return (
-    <section id="villa" className="section-y bg-[oklch(0.97_0.012_80)]">
+    <section id="villa" className="section-y-flow-top surface-warm-to-b">
       <div className="container-villa">
         {/* Eyebrow label */}
         <div className="flex items-center justify-center gap-4">
@@ -732,7 +732,7 @@ function VillaSection() {
         </div>
 
         {/* Block 1 — image left / text right */}
-        <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
+        <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-2 md:items-center md:gap-14">
           <div className="relative">
             <img
               src={villaExteriorDayImg}
@@ -748,18 +748,18 @@ function VillaSection() {
               Ιδιωτικότητα, άνεση και{" "}
               <span className="text-accent">αυθεντική κρητική φιλοξενία</span>
             </h2>
-            <p className="mt-6 leading-relaxed text-foreground/80">
+            <p className="mt-5 leading-relaxed text-foreground/80">
               Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης,
               και προσφέρει έναν ιδανικό συνδυασμό άνεσης, ιδιωτικότητας και χαλάρωσης.
             </p>
-            <p className="mt-4 leading-relaxed text-foreground/80">
+            <p className="mt-3 leading-relaxed text-foreground/80">
               Με 3 υπνοδωμάτια, ιδιωτική πισίνα, πλήρως εξοπλισμένη κουζίνα, BBQ, κήπο και
               δωρεάν ιδιωτικό πάρκινγκ, η βίλα είναι ιδανική για οικογένειες και παρέες
               έως 7 ατόμων.
             </p>
             <a
               href="#amenities"
-              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
             >
               Μάθετε Περισσότερα
             </a>
@@ -767,21 +767,22 @@ function VillaSection() {
         </div>
 
         {/* Block 2 — text left / image right */}
-        <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-2 md:items-center md:gap-16">
+        <div className="mt-12 grid gap-8 md:mt-20 md:grid-cols-2 md:items-center md:gap-14">
+
           <div className="order-2 md:order-1">
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
               Γιατί να επιλέξετε την Ekaterini{" "}
               <span className="text-accent">VIP</span> Villa;
             </h2>
-            <p className="mt-6 leading-relaxed text-foreground/80">
+            <p className="mt-5 leading-relaxed text-foreground/80">
               Εδώ δεν κάνετε απλώς μια διαμονή. Έχετε τον δικό σας ιδιωτικό χώρο στην Κρήτη,
               με πισίνα, εξωτερικούς χώρους και άνεση για να απολαύσετε τις διακοπές σας
               χωρίς πίεση και χωρίς περιορισμούς.
             </p>
 
-            <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
+            <ul className="mt-6 divide-y divide-border/70 border-y border-border/70">
               {bullets.map((b) => (
-                <li key={b} className="flex items-center gap-4 py-4">
+                <li key={b} className="flex items-center gap-4 py-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent text-accent">
                     <Check className="h-4 w-4" strokeWidth={2.5} />
                   </span>
@@ -792,10 +793,11 @@ function VillaSection() {
 
             <Link
               to="/gallery"
-              className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+              className="mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
             >
               Δείτε τη Βίλα
             </Link>
+
           </div>
           <div className="order-1 md:order-2">
             <img
@@ -903,8 +905,11 @@ const VILLA_MEDIA: MediaItemType[] = [
 
 function RoomsSection() {
   return (
-    <section id="rooms" className="section-y bg-[oklch(0.97_0.012_80)]">
+    <section id="rooms" className="section-y-flow-bottom surface-warm">
       <div className="container-villa">
+        {/* subtle divider connecting from the Villa story above */}
+        <div aria-hidden className="mx-auto mb-10 h-px w-24 bg-accent/40 md:mb-14" />
+
         {/* Eyebrow */}
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
@@ -915,19 +920,19 @@ function RoomsSection() {
         </div>
 
         {/* Title */}
-        <h2 className="mx-auto mt-6 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
+        <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
           Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
         </h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
           Σύρετε τις εικόνες για αναδιάταξη ή πατήστε πάνω τους για μεγέθυνση.
         </p>
 
-        <div className="mt-12 md:mt-16">
+        <div className="mt-8 md:mt-12">
           <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-8 flex justify-center">
           <Link
             to="/gallery"
             className="group inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent transition hover:bg-accent hover:text-accent-foreground"
@@ -936,6 +941,7 @@ function RoomsSection() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
+
       </div>
     </section>
   );
