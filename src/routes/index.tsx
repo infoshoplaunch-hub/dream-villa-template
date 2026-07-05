@@ -1369,7 +1369,8 @@ function AvailabilitySection() {
                 <button
                   type="button"
                   onClick={submit}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#b25c3d] active:translate-y-0"
+                  className="btn-lux btn-lux-primary mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#C86B4A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
+                  data-magnetic
                 >
                   Κάνε την Κράτηση Σου
                   <ArrowRight className="ml-2 h-4 w-4" />
