@@ -751,12 +751,8 @@ function SectionHead({
 /* ---------- Villa ---------- */
 
 function VillaSection() {
-  const bullets = [
-    "Ιδανική για οικογένειες και παρέες",
-    "Ιδιωτική πισίνα και εξωτερικοί χώροι",
-    "Κοντά στη θάλασσα και στα Χανιά",
-    "Άμεση επικοινωνία με τη διαχείριση",
-  ];
+  const { t } = useI18n();
+  const bullets = t.villa.bullets;
 
   return (
     <section id="villa" className="section-y-flow-top surface-warm-to-b">
@@ -765,7 +761,7 @@ function VillaSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Η Βίλα
+            {t.villa.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
@@ -775,7 +771,7 @@ function VillaSection() {
           <div className="relative">
             <img
               src={villaExteriorDayImg}
-              alt="Ekaterini VIP Villa exterior with pool"
+              alt={t.villa.imgAltExterior}
               width={1600}
               height={1067}
               loading="lazy"
@@ -784,23 +780,20 @@ function VillaSection() {
           </div>
           <div>
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
-              Ιδιωτικότητα, άνεση και{" "}
-              <span className="text-accent">αυθεντική κρητική φιλοξενία</span>
+              {t.villa.block1TitleA}
+              <span className="text-accent">{t.villa.block1TitleB}</span>
             </h2>
             <p className="mt-5 leading-relaxed text-foreground/80">
-              Η Ekaterini VIP Villa βρίσκεται στην Πλάκα Αποκορώνου, στα Χανιά της Κρήτης,
-              και προσφέρει έναν ιδανικό συνδυασμό άνεσης, ιδιωτικότητας και χαλάρωσης.
+              {t.villa.block1P1}
             </p>
             <p className="mt-3 leading-relaxed text-foreground/80">
-              Με 3 υπνοδωμάτια, ιδιωτική πισίνα, πλήρως εξοπλισμένη κουζίνα, BBQ, κήπο και
-              δωρεάν ιδιωτικό πάρκινγκ, η βίλα είναι ιδανική για οικογένειες και παρέες
-              έως 7 ατόμων.
+              {t.villa.block1P2}
             </p>
             <a
               href="#amenities"
               className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
-              Μάθετε Περισσότερα
+              {t.villa.learnMore}
             </a>
           </div>
         </div>
@@ -810,13 +803,12 @@ function VillaSection() {
 
           <div className="order-2 md:order-1">
             <h2 className="font-serif text-3xl leading-tight text-foreground md:text-5xl">
-              Γιατί να επιλέξετε την Ekaterini{" "}
-              <span className="text-accent">VIP</span> Villa;
+              {t.villa.block2TitleA}
+              <span className="text-accent">{t.villa.block2TitleB}</span>
+              {t.villa.block2TitleC}
             </h2>
             <p className="mt-5 leading-relaxed text-foreground/80">
-              Εδώ δεν κάνετε απλώς μια διαμονή. Έχετε τον δικό σας ιδιωτικό χώρο στην Κρήτη,
-              με πισίνα, εξωτερικούς χώρους και άνεση για να απολαύσετε τις διακοπές σας
-              χωρίς πίεση και χωρίς περιορισμούς.
+              {t.villa.block2P}
             </p>
 
             <ul className="mt-6 divide-y divide-border/70 border-y border-border/70">
@@ -834,14 +826,14 @@ function VillaSection() {
               to="/gallery"
               className="btn-lux btn-lux-secondary mt-6 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent hover:bg-accent hover:text-accent-foreground"
             >
-              Δείτε τη Βίλα
+              {t.villa.seeVilla}
             </Link>
 
           </div>
           <div className="order-1 md:order-2">
             <img
               src={villaLivingRoomImg}
-              alt="Ekaterini VIP Villa living room with sea view"
+              alt={t.villa.imgAltLiving}
               width={1600}
               height={1067}
               loading="lazy"
