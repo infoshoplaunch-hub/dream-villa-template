@@ -409,7 +409,7 @@ function Hero() {
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-80 pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-4xl text-white">
           <h1
-            className="hero-fade-up mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
+            className="hero-fade-up mt-4 md:mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
             style={{ animationDelay: "0.15s" }}
           >
             Ekaterini <span className="text-accent">VIP</span> Villa
