@@ -143,7 +143,7 @@
 /* Booking calendar premium styling */
 .booking-calendar .rdp-months,
 .booking-calendar [data-slot="months"] {
-  gap: 3rem;
+  gap: 2rem;
   width: 100%;
   justify-content: space-between;
 }

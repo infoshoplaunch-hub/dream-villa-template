@@ -994,7 +994,7 @@ function AvailabilitySection() {
       <div className="px-4 md:px-6 lg:px-8">
         
           <div className="rounded-[32px] bg-[#FAF7F1] p-6 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.18)] md:p-12 lg:p-14">
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
+            <div className="grid grid-cols-1 gap-10 items-start lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-8">
               {/* Left: calendar */}
               <div className="min-w-0">
                 <h2 className="font-serif text-3xl leading-tight text-[#17212B] md:text-[42px] md:leading-[1.1]">
@@ -1027,7 +1027,7 @@ function AvailabilitySection() {
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
                     locale={el}
-                    className="p-0 pointer-events-auto w-full [--cell-size:2.75rem] lg:[--cell-size:3rem] text-[15px]"
+                    className="p-0 pointer-events-auto w-full [--cell-size:2.75rem] lg:[--cell-size:2.5rem] text-[15px]"
                   />
 
                   <div className="mt-8 border-t border-[#17212B]/10 pt-5">
@@ -1044,7 +1044,7 @@ function AvailabilitySection() {
               </div>
 
               {/* Right: booking card */}
-              <aside className="lg:sticky lg:top-24 lg:self-start">
+              <aside className="lg:self-center">
                 <div className="rounded-3xl bg-white p-6 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.25)] ring-1 ring-black/[0.04]">
                   <div className="grid grid-cols-2 divide-x divide-[#17212B]/10 overflow-hidden rounded-2xl ring-1 ring-[#17212B]/10">
                     <div className="px-4 py-3">
