@@ -490,6 +490,7 @@ function Hero() {
 /* ---------- Booking Bar (Hero) ---------- */
 
 function BookingBar() {
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const [checkIn, setCheckIn] = useState<Date | undefined>();
   const [checkOut, setCheckOut] = useState<Date | undefined>();
@@ -515,8 +516,9 @@ function BookingBar() {
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
 
+  const dateLocale = lang === "el" ? el : undefined;
   const fmt = (d?: Date) =>
-    d ? format(d, "EEE d MMM", { locale: el }) : "Επιλέξτε ημερομηνία";
+    d ? format(d, "EEE d MMM", { locale: dateLocale }) : t.bookingBar.pickDate;
 
   const bump = (
     setter: React.Dispatch<React.SetStateAction<number>>,
@@ -527,7 +529,7 @@ function BookingBar() {
     const next = current + delta;
     if (next < min) return;
     if (delta > 0 && total + delta > MAX) {
-      toast.error("Η βίλα μπορεί να φιλοξενήσει έως 7 επισκέπτες.");
+      toast.error(t.bookingBar.errMaxGuests);
       return;
     }
     setter(next);
@@ -535,12 +537,12 @@ function BookingBar() {
 
   const submit = () => {
     if (!checkIn || !checkOut) {
-      toast.error("Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης.");
+      toast.error(t.bookingBar.errDates);
       return;
     }
     const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
     if (hasBlocked) {
-      toast.error("Το επιλεγμένο διάστημα περιλαμβάνει μη διαθέσιμες ημερομηνίες.");
+      toast.error(t.bookingBar.errBlocked);
       return;
     }
     navigate({
@@ -569,7 +571,7 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Άφιξη</span>
+                <span className={`block ${label}`}>{t.bookingBar.arrival}</span>
                 <span className={`block ${value} ${!checkIn && "text-foreground/50"}`}>
                   {fmt(checkIn)}
                 </span>
@@ -588,7 +590,7 @@ function BookingBar() {
               disabled={(d) => d < today || isBlocked(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-              locale={el}
+              locale={dateLocale}
               initialFocus
               className="p-3 pointer-events-auto"
             />
@@ -601,7 +603,7 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <CalendarIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Αναχώρηση</span>
+                <span className={`block ${label}`}>{t.bookingBar.departure}</span>
                 <span className={`block ${value} ${!checkOut && "text-foreground/50"}`}>
                   {fmt(checkOut)}
                 </span>
@@ -619,7 +621,7 @@ function BookingBar() {
               disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-              locale={el}
+              locale={dateLocale}
               initialFocus
               className="p-3 pointer-events-auto"
             />
@@ -632,31 +634,31 @@ function BookingBar() {
             <button type="button" className={fieldBase}>
               <UsersIcon className="h-5 w-5 shrink-0 text-accent" />
               <span className="min-w-0 flex-1">
-                <span className={`block ${label}`}>Επισκέπτες</span>
+                <span className={`block ${label}`}>{t.bookingBar.guests}</span>
                 <span className={`block ${value}`}>
-                  {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                  {total} {total === 1 ? t.bookingBar.guestSingular : t.bookingBar.guestPlural}
                 </span>
               </span>
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4" align="start">
             <GuestRow
-              label="Ενήλικες"
-              sub="Από 13 ετών"
+              label={t.bookingBar.adults}
+              sub={t.bookingBar.adultsSub}
               value={adults}
               onDec={() => bump(setAdults, adults, -1, 1)}
               onInc={() => bump(setAdults, adults, +1, 1)}
             />
             <div className="my-3 h-px bg-border" />
             <GuestRow
-              label="Παιδιά"
-              sub="0–12 ετών"
+              label={t.bookingBar.children}
+              sub={t.bookingBar.childrenSub}
               value={children}
               onDec={() => bump(setChildren, children, -1, 0)}
               onInc={() => bump(setChildren, children, +1, 0)}
             />
             <div className="mt-4 text-xs text-foreground/60">
-              Μέγιστο {MAX} επισκέπτες συνολικά.
+              {t.bookingBar.maxNote}
             </div>
           </PopoverContent>
         </Popover>
@@ -669,7 +671,7 @@ function BookingBar() {
             data-magnetic
             className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-3 md:py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
-            Κράτηση
+            {t.bookingBar.cta}
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
