@@ -1331,7 +1331,7 @@ function AvailabilitySection() {
         <div className="container-villa">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-10">
             {/* ============ LEFT COLUMN ============ */}
-            <div className="amenity-fade-up space-y-6">
+            <div className="space-y-6">
               <div>
                 <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-accent">
                   <span className="h-px w-8 bg-accent" />
@@ -1396,7 +1396,7 @@ function AvailabilitySection() {
             </div>
 
             {/* ============ RIGHT COLUMN ============ */}
-            <div className="amenity-fade-up space-y-6" style={{ animationDelay: "120ms" }}>
+            <div className="space-y-6">
               {/* Calendar card */}
               <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
                 <div className="flex items-baseline justify-between gap-4">
