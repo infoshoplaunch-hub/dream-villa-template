@@ -256,7 +256,7 @@ function Header() {
             <a
               href="#booking-bar"
               onClick={() => setOpen(false)}
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
+              className="btn-lux btn-lux-primary mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
               <ArrowRight className="h-4 w-4" />
