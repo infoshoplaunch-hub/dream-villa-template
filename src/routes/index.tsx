@@ -859,82 +859,28 @@ import villa10 from "@/assets/villa/EKATERINI-10.jpg.asset.json";
 import villa1 from "@/assets/villa/EKATERINI-1.jpg.asset.json";
 import InteractiveBentoGallery, { type MediaItemType } from "@/components/ui/interactive-bento-gallery";
 
-const VILLA_MEDIA: MediaItemType[] = [
-  {
-    id: 1,
-    type: "image",
-    title: "Βεράντα με θέα",
-    desc: "Πανοραμική θέα στη θάλασσα της Κρήτης.",
-    url: villa12.url,
-    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
-  },
-  {
-    id: 2,
-    type: "image",
-    title: "Master υπνοδωμάτιο",
-    desc: "Άνετο δωμάτιο με θέα στον ορίζοντα.",
-    url: villa17.url,
-    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
-  },
-  {
-    id: 3,
-    type: "image",
-    title: "Σαλόνι με θέα",
-    desc: "Φωτεινός χώρος για χαλάρωση.",
-    url: villa7.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 4,
-    type: "image",
-    title: "Καθιστικό & τραπεζαρία",
-    desc: "Ενιαίος χώρος διημέρευσης.",
-    url: villa3.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 5,
-    type: "image",
-    title: "Πλήρως εξοπλισμένη κουζίνα",
-    desc: "Όλα όσα χρειάζεστε για μαγείρεμα.",
-    url: villa4.url,
-    span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2",
-  },
-  {
-    id: 6,
-    type: "image",
-    title: "Κουζίνα & τραπεζαρία",
-    desc: "Ζεστό ξύλινο ντεκόρ.",
-    url: villa6.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 7,
-    type: "image",
-    title: "Δίκλινο υπνοδωμάτιο",
-    desc: "Ιδανικό για παρέα ή παιδιά.",
-    url: villa9.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
-  {
-    id: 8,
-    type: "image",
-    title: "Δίκλινο υπνοδωμάτιο",
-    desc: "Φωτεινό δωμάτιο με πρόσβαση στη βεράντα.",
-    url: villa10.url,
-    span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2",
-  },
-  {
-    id: 9,
-    type: "image",
-    title: "Μπάνιο",
-    desc: "Μπανιέρα υδρομασάζ & πλυντήριο.",
-    url: villa1.url,
-    span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1",
-  },
+const VILLA_MEDIA_SPECS: { id: number; url: string; span: string }[] = [
+  { id: 1, url: villa12.url, span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2" },
+  { id: 2, url: villa17.url, span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2" },
+  { id: 3, url: villa7.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 4, url: villa3.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 5, url: villa4.url, span: "md:col-span-2 md:row-span-2 col-span-2 row-span-2" },
+  { id: 6, url: villa6.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 7, url: villa9.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
+  { id: 8, url: villa10.url, span: "md:col-span-1 md:row-span-2 col-span-1 row-span-2" },
+  { id: 9, url: villa1.url, span: "md:col-span-1 md:row-span-1 col-span-1 row-span-1" },
 ];
 
 function RoomsSection() {
+  const { t } = useI18n();
+  const media: MediaItemType[] = VILLA_MEDIA_SPECS.map((s, i) => ({
+    id: s.id,
+    type: "image",
+    title: t.rooms.media[i]?.title ?? "",
+    desc: t.rooms.media[i]?.desc ?? "",
+    url: s.url,
+    span: s.span,
+  }));
   return (
     <section id="rooms" className="section-y-flow-bottom surface-warm">
       <div className="container-villa">
@@ -945,22 +891,24 @@ function RoomsSection() {
         <div className="flex items-center justify-center gap-4">
           <span className="h-px w-10 bg-accent" />
           <span className="text-xs font-semibold uppercase tracking-[0.35em] text-accent">
-            Οι Χώροι Μας
+            {t.rooms.eyebrow}
           </span>
           <span className="h-px w-10 bg-accent" />
         </div>
 
         {/* Title */}
         <h2 className="mx-auto mt-5 max-w-4xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ανακαλύψτε τους <span className="text-accent">χώρους</span> της βίλας
+          {t.rooms.titleA}
+          <span className="text-accent">{t.rooms.titleB}</span>
+          {t.rooms.titleC}
         </h2>
 
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-foreground/70 md:text-base">
-          Σύρετε τις εικόνες για αναδιάταξη ή πατήστε πάνω τους για μεγέθυνση.
+          {t.rooms.subtitle}
         </p>
 
         <div className="mt-8 md:mt-12">
-          <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
+          <InteractiveBentoGallery mediaItems={media} />
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -968,7 +916,7 @@ function RoomsSection() {
             to="/gallery"
             className="btn-lux btn-lux-secondary inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent hover:bg-accent hover:text-accent-foreground"
           >
-            Δείτε όλες τις φωτογραφίες
+            {t.rooms.seeAll}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
