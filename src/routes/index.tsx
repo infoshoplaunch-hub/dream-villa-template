@@ -194,13 +194,13 @@ function Header() {
 
         <div className="flex items-center gap-3">
           <LangSwitch onDark={onDark} />
-          <Link
-            to="/booking"
+          <a
+            href="#booking-bar"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
           >
             {t.nav.book}
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
@@ -237,14 +237,14 @@ function Header() {
             >
               {t.nav.gallery}
             </Link>
-            <Link
-              to="/booking"
+            <a
+              href="#booking-bar"
               onClick={() => setOpen(false)}
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </nav>
         </div>
       )}
@@ -284,13 +284,13 @@ function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <Link
-              to="/booking"
+            <a
+              href="#booking-bar"
               className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
               {t.hero.cta1}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            </a>
             <a
               href="#villa"
               className="group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
@@ -387,7 +387,7 @@ function BookingBar() {
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
   return (
-    <div className="mx-auto max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
+    <div id="booking-bar" className="mx-auto max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
       <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
         {/* Check-in */}
         <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
@@ -1110,13 +1110,13 @@ function BookingSection() {
               Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
             </p>
             <div className="mt-8 space-y-3">
-              <Link
-                to="/booking"
+              <a
+                href="#booking-bar"
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
               >
                 Αίτημα Κράτησης
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </a>
               <a
                 href="tel:+306940133837"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
@@ -1293,11 +1293,11 @@ function Footer() {
 function StickyBookCTA() {
   const { t } = useI18n();
   return (
-    <Link
-      to="/booking"
+    <a
+      href="#booking-bar"
       className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-soft md:hidden"
     >
       {t.nav.book}
-    </Link>
+    </a>
   );
 }
