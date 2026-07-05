@@ -457,6 +457,18 @@ function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
+
+          {/* Mobile-only Viber CTA */}
+          <a
+            href={VIBER_CONTACT_LINK}
+            className="btn-lux md:hidden mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+          >
+            <ViberIcon className="h-4 w-4" />
+            Επικοινωνία μέσω Viber
+          </a>
+          <p className="md:hidden mt-2 text-center text-xs text-white/70">
+            Άμεση απάντηση για διαθεσιμότητα και κρατήσεις
+          </p>
         </div>
       </div>
 
