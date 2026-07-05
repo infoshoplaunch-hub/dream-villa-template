@@ -1766,22 +1766,22 @@ function ContactSection() {
   const { t } = useI18n();
   const items = [
     {
-      label: "Email",
+      label: t.contact.email,
       value: "info@katerinavipvilla.gr",
       href: "mailto:info@katerinavipvilla.gr",
     },
     {
-      label: "Τηλέφωνο",
+      label: t.contact.phone,
       value: "+30 6940 133 837",
       href: "tel:+306940133837",
     },
     {
-      label: "Τηλέφωνο",
+      label: t.contact.phone,
       value: "+30 6948 014 277",
       href: "tel:+306948014277",
     },
     {
-      label: "Διεύθυνση",
+      label: t.contact.address,
       value: "Plaka Apokoronos, 73008 Chania, Crete",
       href: "https://www.google.com/maps/search/?api=1&query=Plaka+Apokoronos+Chania+Crete",
     },
@@ -1798,7 +1798,8 @@ function ContactSection() {
         </div>
 
         <h2 className="mx-auto mt-6 max-w-3xl text-center font-serif text-3xl leading-tight text-foreground md:text-5xl">
-          Ας <span className="text-accent">μιλήσουμε</span>
+          {t.contact.titleA}
+          <span className="text-accent">{t.contact.titleB}</span>
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center leading-relaxed text-foreground/70">
           {t.contact.text}
