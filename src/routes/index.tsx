@@ -1396,7 +1396,7 @@ function AvailabilitySection() {
             </div>
 
             {/* ============ RIGHT COLUMN ============ */}
-            <div className="amenity-fade-up space-y-6" style={{ animationDelay: "120ms" }}>
+            <div className="space-y-6">
               {/* Calendar card */}
               <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
                 <div className="flex items-baseline justify-between gap-4">
