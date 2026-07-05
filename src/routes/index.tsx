@@ -1293,11 +1293,11 @@ function Footer() {
 function StickyBookCTA() {
   const { t } = useI18n();
   return (
-    <a
-      href="mailto:info@katerinavipvilla.gr"
+    <Link
+      to="/booking"
       className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-soft md:hidden"
     >
       {t.nav.book}
-    </a>
+    </Link>
   );
 }
