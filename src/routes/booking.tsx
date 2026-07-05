@@ -220,11 +220,12 @@ function BookingPage() {
 
                 <button
                   type="submit"
+                  disabled={submitting}
                   data-magnetic
-                  className="btn-lux btn-lux-primary mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
+                  className="btn-lux btn-lux-primary mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Send className="h-4 w-4" />
-                  {t.bookingPage.submit}
+                  {submitting ? (lang === "en" ? "Sending..." : "Αποστολή...") : t.bookingPage.submit}
                 </button>
                 <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
                   <Lock className="h-3.5 w-3.5" /> {t.bookingPage.noChargeStep}
