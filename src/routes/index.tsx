@@ -788,6 +788,16 @@ function RoomsSection() {
         <div className="mt-12 md:mt-16">
           <InteractiveBentoGallery mediaItems={VILLA_MEDIA} />
         </div>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            to="/gallery"
+            className="group inline-flex items-center gap-2 rounded-full border border-accent px-8 py-4 text-sm font-semibold text-accent transition hover:bg-accent hover:text-accent-foreground"
+          >
+            Δείτε όλες τις φωτογραφίες
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </div>
       </div>
     </section>
   );
