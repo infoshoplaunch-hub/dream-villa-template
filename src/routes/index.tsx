@@ -1304,34 +1304,6 @@ function AvailabilitySection() {
 
   return (
     <section id="availability" className="bg-background">
-      {/* ===== Top banner ===== */}
-      <div className="relative w-full overflow-hidden">
-        <div className="relative h-[280px] w-full md:h-[340px]">
-          <img
-            src={villaExteriorDayImg}
-            alt="Ekaterini VIP Villa"
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/60" />
-          <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
-            <div className="hero-fade-up max-w-2xl text-white">
-              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.4em] text-white/85">
-                <span className="h-px w-8 bg-white/60" />
-                Κράτηση
-                <span className="h-px w-8 bg-white/60" />
-              </span>
-              <h2 className="mt-4 font-serif text-3xl leading-tight md:text-5xl">
-                Σχεδιάστε την Απόδρασή σας
-              </h2>
-              <p className="mt-3 text-sm text-white/85 md:text-base">
-                Η ιδιωτική σας βίλα πολυτελείας σας περιμένει στην Κρήτη.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* ===== Booking content ===== */}
       <div className="section-y-flow-top">
         <div className="container-villa">
