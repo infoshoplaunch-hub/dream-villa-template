@@ -651,6 +651,187 @@ const en: typeof el = {
 export const translations = { el, en };
 export type Dict = typeof el;
 
+// Greek → English translations for amenity category titles and item labels.
+// Used to translate the full amenities dialog (src/data/amenities.ts) at render time.
+export const AMENITY_EN: Record<string, string> = {
+  // Category titles
+  "Μπάνιο": "Bathroom",
+  "Υπνοδωμάτιο": "Bedroom",
+  "Κουζίνα": "Kitchen",
+  "Σαλόνι": "Living Room",
+  "Πολυμέσα & Τεχνολογία": "Media & Tech",
+  "Παροχές Δωματίου": "Room Features",
+  "Εξωτερικοί χώροι": "Outdoor Spaces",
+  "Πισίνα & Ευεξία": "Pool & Wellness",
+  "Φαγητό & Ποτό": "Food & Drink",
+  "Δραστηριότητες": "Activities",
+  "Εξωτερικά & Θέα": "Views & Outdoors",
+  "Χώρος στάθμευσης": "Parking",
+  "Χαρακτηριστικά κτηρίου": "Building Features",
+  "Μετακινήσεις": "Transport",
+  "Υπηρεσίες ρεσεψιόν": "Reception Services",
+  "Οικογένεια & Παιδιά": "Family & Kids",
+  "Διάφορα": "Miscellaneous",
+  "Ασφάλεια & προστασία": "Safety & Security",
+  "Παραλία": "Beach",
+  "Προσβασιμότητα": "Accessibility",
+  "Γλώσσες επικοινωνίας": "Languages",
+  // Popular / preview labels
+  "Εξωτερική πισίνα": "Outdoor pool",
+  "Δωρεάν χώρος στάθμευσης": "Free parking",
+  "Δωρεάν Wi-Fi": "Free Wi-Fi",
+  "Μπροστά στην παραλία": "Beachfront",
+  "Δωμάτια για μη καπνίζοντες": "Non-smoking rooms",
+  "Οικογενειακά δωμάτια": "Family rooms",
+  "Ιδιωτική πισίνα": "Private pool",
+  "Κλιματισμός": "Air conditioning",
+  "Ιδιωτικό μπάνιο": "Private bathroom",
+  "Μπαλκόνι": "Balcony",
+  "Τηλεόραση επίπεδης οθόνης": "Flat-screen TV",
+  "Πλήρως εξοπλισμένη κουζίνα": "Fully equipped kitchen",
+  "BBQ": "BBQ",
+  "Θέα στη θάλασσα": "Sea view",
+  // Bathroom
+  "Χαρτί υγείας": "Toilet paper",
+  "Πετσέτες": "Towels",
+  "Πρόσθετο μπάνιο": "Additional bathroom",
+  "Τουαλέτα ξένων": "Guest toilet",
+  "Μπανιέρα ή ντους": "Bathtub or shower",
+  "Τουαλέτα": "Toilet",
+  "Δωρεάν προϊόντα περιποίησης": "Free toiletries",
+  "Στεγνωτήρας μαλλιών": "Hair dryer",
+  "Μπανιέρα": "Bathtub",
+  "Ντους": "Shower",
+  // Bedroom
+  "Λευκά είδη": "Linens",
+  "Ντουλάπα": "Wardrobe",
+  "Ξυπνητήρι": "Alarm clock",
+  "Μεγάλα κρεβάτια (>2 μέτρα)": "Extra-long beds (>2 m)",
+  // Kitchen
+  "Κοινόχρηστη κουζίνα": "Shared kitchen",
+  "Ψηλό καρεκλάκι για παιδιά": "High chair",
+  "Τραπέζι φαγητού": "Dining table",
+  "Καφετιέρα": "Coffee machine",
+  "Προϊόντα καθαρισμού": "Cleaning products",
+  "Φρυγανιέρα": "Toaster",
+  "Εστίες": "Stovetop",
+  "Φούρνος": "Oven",
+  "Κουζινικά σκεύη": "Kitchenware",
+  "Ηλεκτρικός βραστήρας": "Electric kettle",
+  "Πλυντήριο ρούχων": "Washing machine",
+  "Πλυντήριο πιάτων": "Dishwasher",
+  "Φούρνος μικροκυμάτων": "Microwave",
+  "Ψυγείο": "Refrigerator",
+  "Μικρή κουζίνα": "Kitchenette",
+  // Living room
+  "Τραπεζαρία": "Dining area",
+  "Καναπές": "Sofa",
+  "Τζάκι": "Fireplace",
+  "Καθιστικό": "Seating area",
+  "Επιφάνεια εργασίας": "Desk",
+  // Media
+  "Παιχνιδοκονσόλα - PS2": "Games console - PS2",
+  "Παιχνιδοκονσόλα": "Games console",
+  "Υπολογιστής": "Computer",
+  "Καλωδιακά κανάλια": "Cable channels",
+  "Δορυφορικά κανάλια": "Satellite channels",
+  "Βίντεο": "VCR",
+  "CD Player": "CD player",
+  "DVD Player": "DVD player",
+  "Ραδιόφωνο": "Radio",
+  "Τηλεόραση": "Television",
+  // Room features
+  "Πρίζα κοντά στο κρεβάτι": "Socket near the bed",
+  "Ράντζο": "Cot",
+  "Απλώστρα ρούχων": "Clothes rack",
+  "Κουνουπιέρα": "Mosquito net",
+  "Ξύλινο ή παρκέ δάπεδο": "Wooden / parquet floor",
+  "Δάπεδο με πλακάκια / μάρμαρο": "Tile / marble floor",
+  "Ηχομόνωση": "Soundproofing",
+  "Ιδιωτική είσοδος": "Private entrance",
+  "Θέρμανση": "Heating",
+  "Σίδερο ρούχων": "Iron",
+  // Outdoor
+  "Χώρος για πικ-νικ": "Picnic area",
+  "Έπιπλα εξωτερικού χώρου": "Outdoor furniture",
+  "Τραπεζαρία εξωτερικού χώρου": "Outdoor dining area",
+  "Ηλιόλουστη βεράντα": "Sun terrace",
+  "Μπάρμπεκιου": "Barbecue",
+  "Εγκαταστάσεις BBQ": "BBQ facilities",
+  "Αυλή": "Yard",
+  "Βεράντα": "Terrace",
+  "Κήπος": "Garden",
+  // Pool
+  "Ανοιχτή όλο τον χρόνο": "Open all year",
+  "Πισίνα με θέα": "Pool with a view",
+  "Ρηχό σημείο πισίνας": "Shallow end",
+  "Παιχνίδια πισίνας": "Pool games",
+  "Πετσέτες πισίνας/παραλίας": "Pool/beach towels",
+  "Καρέκλες / ξαπλώστρες παραλίας": "Beach chairs / loungers",
+  "Υπαίθρια Ιαματικά Λουτρά": "Outdoor hot tub",
+  // Food & drink
+  "Φρούτα": "Fruit",
+  "Κρασί / σαμπάνια": "Wine / champagne",
+  "Διανομή ειδών παντοπωλείου": "Grocery delivery",
+  "Μεσημεριανό γεύμα σε πακέτο": "Packed lunch",
+  "Συσκευή για καφέ/τσάι": "Tea/coffee maker",
+  // Activities
+  "Υδάτινο πάρκο": "Water park",
+  "Ιππασία": "Horse riding",
+  "Κατάδυση": "Diving",
+  "Κωπηλασία με κανό": "Canoeing",
+  "Βελάκια": "Darts",
+  "Ιστιοσανίδα": "Windsurfing",
+  // Views
+  "Θέα σε σημείο ενδιαφέροντος": "Landmark view",
+  "Θέα στο βουνό": "Mountain view",
+  "Θέα στην πισίνα": "Pool view",
+  "Θέα στον κήπο": "Garden view",
+  "Θέα": "View",
+  // Parking
+  "Δωρεάν ιδιωτικός χώρος στάθμευσης": "Free private parking",
+  "Χώρος στάθμευσης σε γκαράζ": "Garage parking",
+  // Building / transport / reception
+  "Αυτόνομο": "Detached",
+  "Ενοικίαση αυτοκινήτου": "Car rental",
+  "Δυνατότητα παροχής τιμολογίου": "Invoice available",
+  "Ερμάρια": "Lockers",
+  "Γρήγορο check in/check out": "Fast check-in/check-out",
+  "24ωρη Ρεσεψιόν": "24-hour reception",
+  // Family
+  "Κάγκελα ασφαλείας για παιδιά": "Safety gates",
+  "Εξοπλισμός παιδικής χαράς": "Playground equipment",
+  "Εσωτερικός χώρος παιχνιδιού": "Indoor play area",
+  "Επιτραπέζια / παζλ": "Board games / puzzles",
+  "Βιβλία, DVD, μουσική για παιδιά": "Books, DVDs, music for kids",
+  "Παιδική χαρά": "Playground",
+  // Misc
+  "Απαγορεύεται το κάπνισμα σε όλους τους χώρους": "No smoking anywhere",
+  "Ηχομονωμένα δωμάτια": "Soundproof rooms",
+  "Ίντερνετ Wi-Fi δωρεάν σε όλους τους χώρους": "Free Wi-Fi in all areas",
+  "Fan": "Fan",
+  // Safety
+  "Πυροσβεστήρες": "Fire extinguishers",
+  "Πρόσβαση με κλειδί": "Key access",
+  // Beach
+  "Παραλία": "Beach",
+  "Καναπές-κρεβάτι": "Sofa bed",
+  "Λάπτοπ": "Laptop",
+  "Μουσική": "Music",
+  "Palm garden": "Palm garden",
+  // Accessibility
+  "Πάνω όροφοι προσβάσιμοι μόνο από σκάλα": "Upper floors accessible only by stairs",
+  // Languages
+  "Ελληνικά": "Greek",
+  "Αγγλικά": "English",
+};
+
+export function translateAmenity(text: string, lang: Lang): string {
+  if (lang === "el") return text;
+  return AMENITY_EN[text] ?? text;
+}
+
+
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: Dict };
 const I18nCtx = createContext<Ctx | null>(null);
 
