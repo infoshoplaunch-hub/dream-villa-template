@@ -1,59 +1,33 @@
-## Ανασχεδιασμός Section "Παροχές" σε στυλ Booking.com
+## Νέο Section: "Επιλέξτε ημερομηνίες διαμονής"
 
-Αντικαθιστούμε το τρέχον section με 3 εικονίδια με μια πλήρη, κατηγοριοποιημένη λίστα παροχών όπως στις φωτογραφίες που έστειλες.
+Ξεχωριστό section στη home page, ανάμεσα στο Amenities και σε ό,τι ακολουθεί, με ημερολόγιο δύο μηνών σε στυλ Booking.com (όπως στη φωτογραφία).
 
-### Τι θα φαίνεται στη σελίδα (προεπισκόπηση)
+### Τι θα φαίνεται
 
-**Block 1 — "Οι πιο δημοφιλείς παροχές"** (highlight card)
-Grid με 6 badges + εικονίδια:
-- Εξωτερική πισίνα
-- Δωρεάν χώρος στάθμευσης
-- Δωρεάν Wi-Fi
-- Μπροστά στην παραλία
-- Δωμάτια για μη καπνίζοντες
-- Οικογενειακά δωμάτια
-
-**Block 2 — "Τι προσφέρει αυτός ο χώρος"** (όπως η 1η φωτογραφία)
-Τίτλος + 2-column grid με 8-10 βασικές παροχές και εικονίδια (Πισίνα, Wi-Fi, Χώρος στάθμευσης, Κλιματισμός, Ιδιωτικό μπάνιο, Μπαλκόνι, Τηλεόραση, Κουζίνα, BBQ, Θέα στη θάλασσα).
-
-Κάτω από το grid: κουμπί **"Εμφάνιση και των 80+ παροχών"** → ανοίγει modal (Dialog).
-
-**Block 3 — Modal (όπως η 2η φωτογραφία)**
-Full list κατηγοριοποιημένη σε sections με εικονίδια δίπλα σε κάθε παροχή:
-- Μπάνιο
-- Υπνοδωμάτιο
-- Κουζίνα
-- Σαλόνι
-- Πολυμέσα & Τεχνολογία
-- Παροχές Δωματίου
-- Εξωτερικοί χώροι
-- Κοινόχρηστοι χώροι
-- Εξωτερική πισίνα
-- Ευεξία
-- Φαγητό & Ποτό
-- Δραστηριότητες
-- Εξωτερικά & Θέα
-- Χαρακτηριστικά κτηρίου
-- Μετακινήσεις
-- Υπηρεσίες ρεσεψιόν
-- Οικογένεια / Παιδιά
-- Διάφορα
-- Ασφάλεια & προστασία
-- Παραλία
-- Γλώσσες επικοινωνίας
-- Προσβασιμότητα
-
-Κλείσιμο με X πάνω δεξιά, scrollable content.
+- Τίτλος: **"Επιλέξτε ημερομηνία άφιξης"**
+- Υπότιτλος: **"Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"**
+- Δύο μήνες δίπλα-δίπλα (τρέχων + επόμενος) με βέλη πλοήγησης ‹ ›
+- Range selection: 1ο κλικ = άφιξη, 2ο κλικ = αναχώρηση, με highlighted range ανάμεσα
+- Blocked dates (από τη βάση `blocked_dates`) εμφανίζονται disabled/strikethrough
+- Παρελθοντικές ημερομηνίες disabled
+- Κάτω αριστερά: link **"Εκκαθάριση ημερομηνιών"** (reset)
+- Κάτω από το calendar: κουμπί **"Έλεγχος διαθεσιμότητας"** που μεταφέρει τις επιλεγμένες ημερομηνίες στη φόρμα κράτησης (BookingBar / /booking route)
+- Responsive: 2 μήνες desktop, 1 μήνας mobile
 
 ### Τεχνική υλοποίηση
 
-- Επεξεργασία μόνο του `#amenities` section στο `src/routes/index.tsx` (γραμμή ~623).
-- Νέο data file `src/data/amenities.ts` με structured array: `{ category, items: [{ label, icon }] }` για τη λίστα που έστειλες.
-- Χρήση `lucide-react` icons (Waves, Wifi, Car, Wind, Bath, Tv, UtensilsCrossed, Flame, TreePine, MountainSnow, κ.λπ.) με fallback σε γενικό dot όταν δεν υπάρχει ταιριαστό.
-- Modal με shadcn `Dialog` (ήδη εγκατεστημένο).
-- Design tokens: κρατάμε το υπάρχον warm cream/terracotta theme — καμία σκληροκωδικοποιημένη χρώμα.
-- Responsive: 1 στήλη mobile, 2 στήλες desktop για το preview grid· 2 στήλες mobile, 3 desktop μέσα στο modal.
+- Νέο section στο `src/routes/index.tsx` με id `#calendar` (ή `#dates`)
+- Χρήση του υπάρχοντος `Calendar` (shadcn / react-day-picker) με:
+  - `mode="range"`
+  - `numberOfMonths={2}` (responsive: 1 σε mobile via `useIsMobile`)
+  - `disabled={[{ before: today }, ...blockedDates]}`
+  - `min={3}` για ελάχιστη διάρκεια
+- Fetch blocked dates: αν υπάρχει ήδη server fn/query (έλεγχος στο codebase), reuse. Αλλιώς δημιουργία `getBlockedDates` serverFn που διαβάζει `blocked_dates` (public read μέσω anon policy ή server fn).
+- State με `useState<DateRange>` — sync με URL search params ώστε το "Έλεγχος διαθεσιμότητας" να κάνει `navigate({ to: '/booking', search: { checkin, checkout } })`.
+- Styling με design tokens (warm cream/terracotta), custom classes για range highlight ώστε να δείχνει όπως το screenshot.
+- Προσθήκη link στο main nav "Ημερομηνίες" → `#calendar` (αν υπάρχει nav με anchors).
 
 ### Τι δεν αλλάζει
-- Ό,τι άλλο στη σελίδα (Hero, BookingBar, Rooms, κ.λπ.).
-- Λειτουργικότητα κρατήσεων.
+
+- BookingBar, /booking route, υπάρχοντα sections.
+- Business logic κρατήσεων.
