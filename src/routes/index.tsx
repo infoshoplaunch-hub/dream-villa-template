@@ -652,12 +652,12 @@ function VillaSection() {
               ))}
             </ul>
 
-            <a
-              href="#gallery"
+            <Link
+              to="/gallery"
               className="mt-8 inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
             >
               Δείτε τη Βίλα
-            </a>
+            </Link>
           </div>
           <div className="order-1 md:order-2">
             <img
