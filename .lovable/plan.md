@@ -1,52 +1,42 @@
+# Αυτόματα email για αιτήματα κράτησης
 
-## Στόχος
+## Τι λείπει σήμερα
 
-Όταν κάποιος υποβάλλει αίτημα κράτησης από το site:
-1. Αποθηκεύεται στη βάση ως `pending`
-2. Στέλνεται email στον ιδιοκτήτη (`info@katerinavipvilla.gr`) με τα στοιχεία του αιτήματος
-3. Στέλνεται email επιβεβαίωσης λήψης στον επισκέπτη
+Η φόρμα στο `/booking` ανοίγει απλώς `mailto:` — κανένα αίτημα δεν αποθηκεύεται, κανένα email δεν φεύγει αυτόματα. Το email domain `notify.ekaterinivipvila.gr` είναι στημένο, αλλά δεν υπάρχουν templates ούτε endpoints.
 
-Το αίτημα παραμένει `pending` μέχρι ο ιδιοκτήτης να επιβεβαιώσει χειροκίνητα από το /admin.
+## Τι θα φτιάξω
 
-## Βήματα υλοποίησης
-
-**1. Email infrastructure (Lovable Emails)**
-- Ρύθμιση email domain μέσω Lovable (default sender – χωρίς DNS setup)
-- Δημιουργία queue/tables για αξιόπιστη αποστολή με retry
-- Αποθήκευση `OWNER_EMAIL = info@katerinavipvilla.gr` ως secret
-
-**2. Έλεγχος διαθεσιμότητας πριν την υποβολή**
-- Στη σελίδα `/booking`: πριν σταλεί το αίτημα, ελέγχονται οι επιλεγμένες ημερομηνίες έναντι:
-  - `blocked_dates` (admin calendar)
-  - Ήδη `confirmed` κρατήσεων
-- Αν κάποια ημερομηνία δεν είναι διαθέσιμη → σφάλμα, δεν προχωράει
-
-**3. Public server route για υποβολή αιτήματος**
-- Νέο route `/api/public/booking-request` (POST)
-- Zod validation (όνομα, email, τηλέφωνο, ημερομηνίες, άτομα, μήνυμα)
-- Insert στον πίνακα `bookings` με status `pending`
-- Trigger 2 emails μέσω της Lovable email queue
-
-**4. Email templates (React Email, EL + EN)**
-- `booking-request-owner.tsx` → προς ιδιοκτήτη
+### 1. Email templates (React Email, EL/EN, branded)
+- `booking-request-owner` → σε εσάς (`info@katerinavipvilla.gr`)
   - Θέμα: «Νέο αίτημα κράτησης — [όνομα], [check-in] → [check-out]»
-  - Περιεχόμενο: πλήρη στοιχεία επισκέπτη, ημερομηνίες, άτομα, μήνυμα, link προς /admin
-- `booking-request-guest.tsx` → προς επισκέπτη
+  - Περιεχόμενο: πλήρη στοιχεία επισκέπτη (όνομα, email, τηλέφωνο), ημερομηνίες, διανυκτερεύσεις, ενήλικες/παιδιά, μήνυμα, κουμπί προς `/admin`
+- `booking-request-guest` → στον επισκέπτη
   - Θέμα: «Λάβαμε το αίτημα κράτησής σας — Ekaterini VIP Villa»
-  - Περιεχόμενο: ευχαριστίες, σύνοψη αιτήματος, ξεκάθαρη σημείωση ότι είναι αίτημα και θα επιβεβαιωθεί μέσω email/τηλεφώνου, στοιχεία επικοινωνίας
-- Γλώσσα email = τρέχουσα γλώσσα του site (EL/EN)
-- Branding: χρώματα/typography της villa
+  - Περιεχόμενο: ευχαριστίες, σύνοψη αιτήματος, ξεκάθαρη σημείωση ότι είναι **αίτημα** και θα επιβεβαιωθεί μέσω email ή τηλεφώνου, στοιχεία επικοινωνίας
+  - Γλώσσα (EL/EN) ανάλογα με την τρέχουσα γλώσσα του site
 
-**5. Ενημέρωση φόρμας booking**
-- Το `src/routes/booking.tsx` δεν θα ανοίγει πλέον `mailto:` — θα καλεί το νέο endpoint
-- Success state: «Λάβαμε το αίτημά σας — θα επικοινωνήσουμε σύντομα»
-- Error handling για μη διαθέσιμες ημερομηνίες
+### 2. Public server route `/api/public/booking-request` (POST)
+- Zod validation (όνομα, email, τηλέφωνο, ημερομηνίες, άτομα, μήνυμα)
+- Έλεγχος διαθεσιμότητας έναντι `blocked_dates` και υπάρχουσων `confirmed` κρατήσεων — αν κάποια ημερομηνία δεν είναι διαθέσιμη → 409 error
+- Insert στον πίνακα `bookings` με status `pending`
+- Ενεργοποίηση των 2 email μέσω της υπάρχουσας email queue
 
-**6. Admin panel**
-- Οι υπάρχουσες κρατήσεις εμφανίζονται ήδη με status. Καμία αλλαγή στη λειτουργία επιβεβαίωσης.
+### 3. Ενημέρωση της φόρμας `/booking`
+- Το submit καλεί το νέο endpoint αντί για `mailto:`
+- Loading state στο κουμπί
+- Error handling για μη διαθέσιμες ημερομηνίες («Οι ημερομηνίες δεν είναι πια διαθέσιμες»)
+- Success state όπως ήδη υπάρχει
+
+### 4. Scaffold email send infrastructure
+- Κλήση του transactional email scaffold (δημιουργεί `/lovable/email/transactional/send` route + templates registry)
+- Εγγραφή των 2 templates
+- Ο owner alerting γίνεται μέσω δεύτερης εσωτερικής κλήσης στο ίδιο endpoint με service role — δεν εκτίθεται το `send` route σε public καλέσεις χωρίς auth
 
 ## Τι ΔΕΝ αλλάζει
-- Design, layout, branding, χρώματα
-- Admin functionality
-- Booking widget / calendar UI
-- Blocked dates λογική
+- Design, χρώματα, layout, branding
+- Admin panel & flow επιβεβαίωσης (παραμένει χειροκίνητο)
+- Booking widget, calendar, blocked dates λογική
+- RLS policies του `bookings`
+
+## Αποτέλεσμα
+Επισκέπτης υποβάλλει αίτημα → αποθηκεύεται ως `pending` → εσείς λαμβάνετε email στο `info@katerinavipvilla.gr` → ο επισκέπτης λαμβάνει email επιβεβαίωσης λήψης → επιβεβαιώνετε χειροκίνητα από το `/admin`.
