@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLuxReveal } from "@/hooks/use-lux-reveal";
+
 
 
 import { format, parseISO, isSameDay } from "date-fns";
