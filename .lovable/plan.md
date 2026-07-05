@@ -1,30 +1,22 @@
 ## Στόχος
+Να κατευθύνουμε τους επισκέπτες από την αρχική στη νέα σελίδα `/gallery` μέσω δύο σημείων.
 
-Νέα καρτέλα **Gallery** στο μενού, όπου εμφανίζονται όλες οι φωτογραφίες της βίλας. Θα μπορείς να ανεβάζεις/σβήνεις φωτογραφίες μόνος σου από το `/admin` panel, χωρίς να χρειάζεται να τις στέλνεις εδώ κάθε φορά.
+## Αλλαγές
 
-## Τι θα δει ο επισκέπτης
+### 1. Section «Γιατί να μας διαλέξετε» — κουμπί «Δείτε τη Βίλα»
+`src/routes/index.tsx` (γύρω στη γραμμή 655): αντικατάσταση του `<a href="#gallery">` με TanStack `<Link to="/gallery">`, διατηρώντας το ίδιο styling (outline pill με accent χρώμα).
 
-- Νέος σύνδεσμος **"Gallery"** στο κεντρικό μενού (header) δίπλα στα υπάρχοντα.
-- Σελίδα `/gallery` με:
-  - Hero τίτλο "Gallery — Ekaterini VIP Villa"
-  - Responsive grid (masonry-style) με όλες τις φωτογραφίες
-  - Click σε φωτογραφία → lightbox με μεγέθυνση & πλοήγηση (πρόηγ./επόμ.)
-  - Lazy loading για γρήγορη φόρτωση
-- Οι φωτογραφίες θα φορτώνονται δυναμικά από τη βάση, ταξινομημένες με τη σειρά που τις ανέβασες (νεότερες πρώτα).
+### 2. Νέο CTA κάτω από το Bento Gallery
+Στο section που φιλοξενεί το `<InteractiveBentoGallery>` (γύρω στη γραμμή 789), προσθήκη κάτω από το component ενός centered CTA:
 
-## Τι θα κάνεις εσύ από το /admin
+- Κείμενο: «Δείτε όλες τις φωτογραφίες» (EN: «View all photos») — μέσω `t.gallery` string στο `src/lib/i18n.tsx` (νέο κλειδί `viewAllCta`).
+- Στοιχείο: `<Link to="/gallery">` με το ίδιο pill styling του hero cta2 (accent border, hover fill) + `ArrowRight` icon.
+- Wrapper: `mt-10 flex justify-center`.
 
-Νέα καρτέλα **"Gallery"** μέσα στο admin panel με:
-- **Upload**: drag & drop ή επιλογή αρχείων (πολλαπλή). Δέχεται JPG/PNG/WebP.
-- **Λίστα** με όλες τις φωτογραφίες σε thumbnails.
-- **Διαγραφή** με ένα click.
-- Προαιρετικό πεδίο "λεζάντα" για κάθε φωτογραφία.
+### 3. i18n
+Στο `src/lib/i18n.tsx` προσθήκη πεδίου `viewAllCta` στο `gallery` object και για τις δύο γλώσσες (el: «Δείτε όλες τις φωτογραφίες», en: «View all photos»), καθώς και στο TS type.
 
-## Τεχνικά (σύντομο)
-
-- Νέο route: `src/routes/gallery.tsx` (public) με δικό του `head()` για SEO.
-- Νέο route: `src/routes/_authenticated/admin.gallery.tsx` για τη διαχείριση.
-- Πίνακας `gallery_photos` (storage_path, caption, sort_order) + RLS: public read, admin-only write.
-- Storage bucket `gallery` (public) για τα binary αρχεία.
-- Το υπάρχον section "Οι Χώροι Μας" στην αρχική **παραμένει ως έχει** — δεν αγγίζουμε τη hardcoded bento gallery.
-- Link "Gallery" προστίθεται στο header nav.
+## Εκτός σκοπού
+- Δεν αλλάζουμε το hero cta2 (μένει να σκρολάρει στο `#villa`).
+- Δεν πειράζουμε τα play icons του bento — παραμένουν για preview των εικόνων/βίντεο in-place.
+- Δεν αλλάζουμε το nav link «Gallery» (ήδη οδηγεί στο `/gallery`).
