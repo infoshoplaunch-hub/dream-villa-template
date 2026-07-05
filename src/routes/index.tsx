@@ -446,15 +446,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* Scroll to explore */}
-      <a
-        href="#villa"
-        aria-label="Scroll to explore"
-        className="hero-scroll-indicator absolute bottom-2 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/70 hover:text-white md:flex"
-      >
-        <span className="text-[10px] font-medium uppercase tracking-[0.28em]">Scroll</span>
-        <span className="block h-6 w-px bg-white/60" />
-      </a>
     </section>
   );
 }
