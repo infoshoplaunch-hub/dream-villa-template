@@ -428,7 +428,7 @@ function Hero() {
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-6 md:mt-10 flex flex-wrap gap-4">
             <a
               href="#booking-bar"
               className="btn-lux btn-lux-primary hero-fade-up inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
