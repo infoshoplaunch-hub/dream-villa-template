@@ -1679,7 +1679,7 @@ function LocationSection() {
               <MapPin className="h-3.5 w-3.5" />
             </span>
             <span className="text-xs font-medium text-foreground">
-              Ekaterini VIP Villa — Πλάκα Αποκορώνου
+              {t.location.mapLabel}
             </span>
           </div>
           <iframe
