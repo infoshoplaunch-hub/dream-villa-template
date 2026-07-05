@@ -311,7 +311,7 @@ function Hero() {
   );
 
   return (
-    <section id="home" className="relative min-h-[110svh] md:min-h-[100svh] w-full overflow-hidden bg-black">
+    <section id="home" className="relative min-h-[100svh] w-full overflow-hidden bg-black">
       {/* Parallax background wrapper */}
       <div ref={bgRef} className="absolute inset-0 will-change-transform">
         <div className="hero-kenburns absolute inset-0">
