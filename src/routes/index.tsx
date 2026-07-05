@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useLuxReveal } from "@/hooks/use-lux-reveal";
+import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
 
 
 
