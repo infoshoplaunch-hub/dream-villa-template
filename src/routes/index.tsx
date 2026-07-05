@@ -1110,13 +1110,13 @@ function BookingSection() {
               Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
             </p>
             <div className="mt-8 space-y-3">
-              <a
-                href="mailto:info@katerinavipvilla.gr?subject=Αίτημα Κράτησης - Ekaterini VIP Villa"
+              <Link
+                to="/booking"
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
               >
                 Αίτημα Κράτησης
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
               <a
                 href="tel:+306940133837"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
