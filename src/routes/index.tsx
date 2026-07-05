@@ -284,13 +284,13 @@ function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a
-              href="mailto:info@katerinavipvilla.gr"
+            <Link
+              to="/booking"
               className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
               {t.hero.cta1}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
+            </Link>
             <a
               href="#villa"
               className="group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
