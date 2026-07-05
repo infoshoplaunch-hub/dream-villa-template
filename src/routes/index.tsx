@@ -1554,25 +1554,28 @@ function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google"
 }
 
 function Reviews() {
+  const { t } = useI18n();
   return (
     <section id="reviews" className="section-y bg-[hsl(35_35%_96%)]">
       <div className="container-villa">
         <div className="flex items-center justify-center gap-3">
           <span className="h-px w-8 bg-primary" />
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            Εμπειρίες Επισκεπτών
+            {t.reviews.eyebrow}
           </span>
           <span className="h-px w-8 bg-primary" />
         </div>
         <h2 className="mt-6 text-center font-serif text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-          Τι λένε οι <span className="text-primary">επισκέπτες</span> μας
+          {t.reviews.titleA}
+          <span className="text-primary">{t.reviews.titleB}</span>
+          {t.reviews.titleC}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
-          Η φιλοξενία και η άνεση της Ekaterini VIP Villa δημιουργούν εμπειρίες που μένουν αξέχαστες.
+          {t.reviews.subtitle}
         </p>
 
         <div data-lux-stagger className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {REVIEWS.map((r, i) => (
+          {t.reviews.items.map((r, i) => (
             <article
               key={i}
               className="group flex flex-col rounded-2xl bg-white p-7 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] ring-1 ring-black/[0.03] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.15)]"
@@ -1591,10 +1594,10 @@ function Reviews() {
                 {r.text}
               </p>
               <div className="mt-6 border-t border-border/60 pt-5 flex items-center gap-3">
-                <PlatformBadge platform={r.platform} />
+                <PlatformBadge platform={REVIEW_PLATFORMS[i] ?? "booking"} />
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-foreground truncate">{r.source}</div>
-                  <div className="text-xs text-muted-foreground">Επαληθευμένη κριτική</div>
+                  <div className="text-xs text-muted-foreground">{t.reviews.verified}</div>
                 </div>
               </div>
             </article>
