@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MapPin,
   Menu,
@@ -260,62 +260,205 @@ function Header() {
 
 function Hero() {
   const { t } = useI18n();
+  const bgRef = useRef<HTMLDivElement | null>(null);
+
+  // Parallax: bg image moves slower than content on scroll.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (bgRef.current) {
+          bgRef.current.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+        }
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Golden particles
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 18 }).map((_, i) => ({
+        left: `${(i * 53) % 100}%`,
+        top: `${60 + ((i * 17) % 35)}%`,
+        size: 2 + ((i * 7) % 4),
+        opacity: 0.15 + ((i * 13) % 25) / 100,
+        dx: `${-30 + ((i * 11) % 60)}px`,
+        dur: `${12 + ((i * 3) % 10)}s`,
+        delay: `${(i * 0.7) % 8}s`,
+      })),
+    [],
+  );
+
   return (
     <section id="home" className="relative min-h-[100svh] w-full overflow-hidden bg-black">
-      <img
-        src={heroImg}
-        alt="Ekaterini VIP Villa στην Κρήτη"
-        width={1920}
-        height={1280}
-        className="absolute inset-0 h-full w-full object-cover"
+      {/* Parallax background wrapper */}
+      <div ref={bgRef} className="absolute inset-0 will-change-transform">
+        <div className="hero-kenburns absolute inset-0">
+          <img
+            src={heroImg}
+            alt="Ekaterini VIP Villa στην Κρήτη"
+            width={1920}
+            height={1280}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Left dark gradient for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/15" />
+      {/* Warm golden sunset glow on the right */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 70% at 90% 40%, rgba(255,170,90,0.28) 0%, rgba(255,140,60,0.12) 35%, transparent 70%)",
+        }}
       />
-      {/* Cinematic overlays: darker on left, breathable on right; bottom fade to seat highlights bar */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
-      <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/80 to-transparent" />
+      {/* Soft vignette */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+        }}
+      />
+      {/* Subtle radial light behind headline */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: "-5%",
+          top: "25%",
+          width: "70%",
+          height: "55%",
+          background:
+            "radial-gradient(closest-side, rgba(255,220,180,0.18), transparent 70%)",
+          filter: "blur(20px)",
+        }}
+      />
+      {/* Gentle lens flare from the sunset */}
+      <div
+        className="hero-flare absolute pointer-events-none"
+        style={{
+          right: "6%",
+          top: "22%",
+          width: "260px",
+          height: "260px",
+          background:
+            "radial-gradient(closest-side, rgba(255,205,140,0.55), rgba(255,170,80,0.15) 45%, transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+      {/* Pool shimmer reflection band */}
+      <div className="absolute inset-x-0 bottom-[18%] h-24 overflow-hidden pointer-events-none">
+        <div
+          className="hero-shimmer absolute inset-y-0 w-1/2"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)",
+            mixBlendMode: "screen",
+          }}
+        />
+      </div>
+
+      {/* Floating golden particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {particles.map((p: typeof particles[number], i: number) => (
+          <span
+            key={i}
+            className="hero-particle absolute rounded-full"
+            style={{
+              left: p.left,
+              top: p.top,
+              width: p.size,
+              height: p.size,
+              background: "rgba(255,205,140,0.9)",
+              boxShadow: "0 0 6px rgba(255,190,120,0.6)",
+              ["--p-opacity" as string]: p.opacity,
+              ["--p-dx" as string]: p.dx,
+              ["--p-dur" as string]: p.dur,
+              ["--p-delay" as string]: p.delay,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Bottom fade to blend into next section */}
+      <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background via-black/70 to-transparent pointer-events-none" />
 
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-52 pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-4xl text-white">
-
-          <h1 className="mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
+          <h1
+            className="hero-fade-up mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
+            style={{ animationDelay: "0.15s" }}
+          >
             Ekaterini <span className="text-accent">VIP</span> Villa
           </h1>
-          <p className="mt-5 font-serif text-2xl leading-snug text-white/90 md:text-3xl">
+          <p
+            className="hero-fade-up mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
+            style={{ animationDelay: "0.35s" }}
+          >
             {t.hero.title}
           </p>
 
-          <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/75 md:text-base">
+          <p
+            className="hero-fade-up mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
+            style={{ animationDelay: "0.5s" }}
+          >
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#booking-bar"
-              className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
+              className="hero-fade-up group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_26px_55px_-18px_rgba(214,120,50,0.85)] hover:brightness-110"
+              style={{ animationDelay: "0.7s" }}
             >
               {t.hero.cta1}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
             <a
               href="#villa"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
+              className="hero-fade-up group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[0_20px_45px_-20px_rgba(255,255,255,0.35)]"
+              style={{ animationDelay: "0.85s" }}
             >
               {t.hero.cta2}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Premium booking search bar */}
-      <div className="absolute inset-x-0 bottom-6 z-10 md:bottom-10">
+      {/* Premium booking search bar with glassmorphism */}
+      <div
+        className="absolute inset-x-0 bottom-6 z-10 md:bottom-10 hero-fade-up"
+        style={{ animationDelay: "1s" }}
+      >
         <div className="container-villa">
           <BookingBar />
         </div>
       </div>
 
+      {/* Scroll to explore */}
+      <a
+        href="#villa"
+        aria-label="Scroll to explore"
+        className="hero-scroll-indicator absolute bottom-2 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/70 hover:text-white md:flex"
+      >
+        <span className="text-[10px] font-medium uppercase tracking-[0.28em]">Scroll</span>
+        <span className="block h-6 w-px bg-white/60" />
+      </a>
     </section>
   );
 }
+
 
 /* ---------- Booking Bar (Hero) ---------- */
 
