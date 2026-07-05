@@ -182,7 +182,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-kenburns, .hero-fade-down, .hero-fade-up,
-  .hero-flare, .hero-shimmer, .hero-scroll-indicator, .hero-particle {
+  .hero-flare, .hero-shimmer, .hero-particle {
     animation: none !important;
     transform: none !important;
   }
