@@ -142,7 +142,15 @@
 
 /* Booking calendar premium styling */
 .booking-calendar .rdp-months,
-.booking-calendar [data-slot="months"] { gap: 2.5rem; }
+.booking-calendar [data-slot="months"] {
+  gap: 3rem;
+  width: 100%;
+  justify-content: space-between;
+}
+.booking-calendar .rdp-month,
+.booking-calendar [data-slot="month"] { flex: 1 1 0; min-width: 0; }
+.booking-calendar .rdp-month_grid,
+.booking-calendar [data-slot="month-grid"] { width: 100%; }
 
 .booking-calendar button[data-slot="calendar-nav-button"],
 .booking-calendar .rdp-button_previous,
