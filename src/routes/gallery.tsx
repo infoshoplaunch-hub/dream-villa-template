@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLuxReveal, useLuxMagnetic } from "@/hooks/use-lux-reveal";
 import { ArrowLeft, ChevronLeft, ChevronRight, X, Loader2, Maximize2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
