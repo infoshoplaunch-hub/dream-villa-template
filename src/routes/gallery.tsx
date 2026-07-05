@@ -21,8 +21,10 @@ export const Route = createFileRoute("/gallery")({
         content: "Φωτογραφίες από τη βίλα, τους χώρους και τη θέα.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://dream-villa-template.lovable.app/gallery" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/gallery" }],
   }),
   component: GalleryPage,
 });
@@ -141,6 +143,7 @@ function GalleryPage() {
                   key={p.id}
                   type="button"
                   onClick={() => setLightbox(i)}
+                  aria-label={p.caption ? `Άνοιγμα φωτογραφίας: ${p.caption}` : `Άνοιγμα φωτογραφίας ${i + 1} σε πλήρη προβολή`}
                   className="btn-lux-image group relative mb-4 block w-full overflow-hidden rounded-2xl bg-muted/40 shadow-soft transition-shadow duration-300 hover:shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]"
                 >
                   <img

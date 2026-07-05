@@ -9,6 +9,9 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Σύνδεση Διαχειριστή — Ekaterini VIP Villa" },
+      { name: "description", content: "Σύνδεση διαχειριστή για τη διαχείριση κρατήσεων της Ekaterini VIP Villa." },
+      { property: "og:title", content: "Σύνδεση Διαχειριστή — Ekaterini VIP Villa" },
+      { property: "og:description", content: "Ιδιωτική περιοχή διαχείρισης — απαιτείται σύνδεση." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

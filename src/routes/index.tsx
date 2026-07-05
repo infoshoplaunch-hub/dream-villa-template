@@ -62,6 +62,12 @@ function ViberIcon({ className }: { className?: string }) {
 }
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { property: "og:url", content: "https://dream-villa-template.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/" }],
+  }),
   component: Landing,
 });
 
@@ -703,14 +709,16 @@ function GuestRow({
         <button
           type="button"
           onClick={onDec}
+          aria-label={`Μείωση ${label}`}
           className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
         >
           <Minus className="h-3.5 w-3.5" />
         </button>
-        <span className="w-5 text-center text-sm font-semibold text-foreground">{value}</span>
+        <span className="w-5 text-center text-sm font-semibold text-foreground" aria-live="polite">{value}</span>
         <button
           type="button"
           onClick={onInc}
+          aria-label={`Αύξηση ${label}`}
           className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/70 transition hover:border-accent hover:text-accent"
         >
           <Plus className="h-3.5 w-3.5" />
@@ -1443,15 +1451,17 @@ function AvailabilitySection() {
                                 <button
                                   type="button"
                                   onClick={() => bump(row.setter, row.value, -1, row.min)}
+                                  aria-label={`Μείωση ${row.label}`}
                                   className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
                                   disabled={row.value <= row.min}
                                 >
                                   <Minus className="h-3.5 w-3.5" />
                                 </button>
-                                <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
+                                <span className="w-6 text-center text-sm font-semibold" aria-live="polite">{row.value}</span>
                                 <button
                                   type="button"
                                   onClick={() => bump(row.setter, row.value, 1, row.min)}
+                                  aria-label={`Αύξηση ${row.label}`}
                                   className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
                                 >
                                   <Plus className="h-3.5 w-3.5" />

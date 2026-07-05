@@ -43,8 +43,12 @@ export const Route = createFileRoute("/booking")({
     meta: [
       { title: "Κράτηση — Ekaterini VIP Villa" },
       { name: "description", content: "Ολοκληρώστε το αίτημα κράτησής σας στην Ekaterini VIP Villa." },
+      { property: "og:title", content: "Κράτηση — Ekaterini VIP Villa" },
+      { property: "og:description", content: "Ολοκληρώστε το αίτημα κράτησής σας στην Ekaterini VIP Villa." },
+      { property: "og:url", content: "https://dream-villa-template.lovable.app/booking" },
       { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/booking" }],
   }),
   component: BookingPage,
 });
