@@ -805,29 +805,19 @@ function RoomsSection() {
 
 /* ---------- Amenities ---------- */
 
-const AMENITIES = [
-  {
-    title: "Χώρος Στάθμευσης",
-    description: "",
-    Icon: ParkingIcon,
-    bg: "bg-[oklch(0.94_0.02_80)]",
-    color: "text-[oklch(0.55_0.06_115)]",
-  },
-  {
-    title: "Δωρεάν Wi-Fi",
-    description: "",
-    Icon: WifiIcon,
-    bg: "bg-[oklch(0.955_0.012_85)]",
-    color: "text-[oklch(0.45_0.08_235)]",
-  },
-  {
-    title: "Ιδιωτική Πισίνα",
-    description: "",
-    Icon: PoolIcon,
-    bg: "bg-[oklch(0.86_0.04_75)]",
-    color: "text-[oklch(0.32_0.06_240)]",
-  },
-] as const;
+import {
+  POPULAR_AMENITIES,
+  PREVIEW_AMENITIES,
+  AMENITY_CATEGORIES,
+  TOTAL_AMENITIES_COUNT,
+} from "@/data/amenities";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 function AmenitiesSection() {
   return (
@@ -849,32 +839,86 @@ function AmenitiesSection() {
           Η Ekaterini VIP Villa προσφέρει όλες τις ανέσεις για μια άνετη και ξένοιαστη διαμονή.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3 md:mt-16">
-          {AMENITIES.map((a, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center text-center"
-            >
-              <div
-                className={`flex h-16 w-16 items-center justify-center rounded-full ${a.bg}`}
+        {/* Most popular */}
+        <div className="mx-auto mt-12 max-w-5xl rounded-3xl border border-border/70 bg-card/60 p-6 md:p-10">
+          <h3 className="font-serif text-xl text-foreground md:text-2xl">
+            Οι πιο δημοφιλείς παροχές
+          </h3>
+          <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {POPULAR_AMENITIES.map(({ label, icon: Icon }) => (
+              <li key={label} className="flex items-center gap-3 text-foreground/85">
+                <Icon className="h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
+                <span className="text-sm md:text-base">{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Preview list */}
+        <div className="mx-auto mt-12 max-w-5xl">
+          <h3 className="font-serif text-2xl text-foreground md:text-3xl">
+            Τι προσφέρει αυτός ο χώρος
+          </h3>
+          <ul className="mt-6 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2">
+            {PREVIEW_AMENITIES.map(({ label, icon: Icon }) => (
+              <li
+                key={label}
+                className="flex items-center gap-3 border-b border-border/50 pb-3 text-foreground/85"
               >
-                <a.Icon className={`h-7 w-7 ${a.color}`} />
-              </div>
-              <h3 className="mt-5 font-serif text-xl font-bold text-foreground md:text-2xl">
-                {a.title}
-              </h3>
-              {a.description && (
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {a.description}
-                </p>
-              )}
-            </div>
-          ))}
+                <Icon className="h-5 w-5 shrink-0 text-foreground/70" strokeWidth={1.75} />
+                <span className="text-sm md:text-base">{label}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8">
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center rounded-full border border-accent px-7 py-3 text-sm font-medium text-accent transition hover:bg-accent hover:text-accent-foreground"
+                >
+                  Εμφάνιση και των {TOTAL_AMENITIES_COUNT} παροχών
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="font-serif text-2xl text-foreground md:text-3xl">
+                    Τι προσφέρει αυτός ο χώρος
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="mt-2 space-y-8">
+                  {AMENITY_CATEGORIES.map((cat) => (
+                    <section key={cat.title}>
+                      <h4 className="font-serif text-lg font-semibold text-foreground">
+                        {cat.title}
+                      </h4>
+                      <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+                        {cat.items.map(({ label, icon: Icon }) => (
+                          <li
+                            key={label}
+                            className="flex items-center gap-3 border-b border-border/40 pb-2 text-foreground/85"
+                          >
+                            <Icon
+                              className="h-[18px] w-[18px] shrink-0 text-foreground/70"
+                              strokeWidth={1.75}
+                            />
+                            <span className="text-sm">{label}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 /* ---------- Reviews ---------- */
 
