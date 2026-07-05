@@ -11,6 +11,8 @@ import {
   Users as UsersIcon,
   Minus,
   Plus,
+  Lock,
+  ChevronDown,
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -990,139 +992,147 @@ function AvailabilitySection() {
   return (
     <section id="availability" className="section-y bg-background">
       <div className="container-villa">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:gap-12">
-            {/* Left: calendar */}
-            <div className="min-w-0">
-              <h2 className="font-serif text-3xl leading-tight text-foreground md:text-4xl">
-                Επιλέξτε ημερομηνία άφιξης
-              </h2>
-              {(() => {
-                const nights =
-                  range?.from && range?.to
-                    ? Math.round(
-                        (range.to.getTime() - range.from.getTime()) / 86400000,
-                      )
-                    : 0;
-                return (
-                  <p className="mt-2 text-sm text-foreground/70 md:text-base">
-                    {range?.from && range?.to
-                      ? `${nights} διανυκτερεύσεις`
-                      : "Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"}
-                  </p>
-                );
-              })()}
+        <div className="mx-auto max-w-[1180px]">
+          <div className="rounded-[32px] bg-[#FAF7F1] p-6 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.18)] md:p-12 lg:p-14">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-14">
+              {/* Left: calendar */}
+              <div className="min-w-0">
+                <h2 className="font-serif text-3xl leading-tight text-[#17212B] md:text-[42px] md:leading-[1.1]">
+                  Επιλέξτε ημερομηνία άφιξης
+                </h2>
+                {(() => {
+                  const nights =
+                    range?.from && range?.to
+                      ? Math.round(
+                          (range.to.getTime() - range.from.getTime()) / 86400000,
+                        )
+                      : 0;
+                  return (
+                    <p className="mt-3 text-sm text-[#17212B]/60 md:text-base">
+                      {range?.from && range?.to
+                        ? `${nights} διανυκτερεύσεις`
+                        : "Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"}
+                    </p>
+                  );
+                })()}
 
-              <div className="mt-8">
-                <Calendar
-                  mode="range"
-                  selected={range as any}
-                  onSelect={(r: any) => setRange(r)}
-                  numberOfMonths={isMobile ? 1 : 2}
-                  min={3}
-                  disabled={(d) => d < today || isBlocked(d)}
-                  modifiers={{ blocked: blockedDates }}
-                  modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
-                  locale={el}
-                  className="p-0 pointer-events-auto [--cell-size:2.75rem] text-[15px]"
-                />
+                <div className="mt-8 booking-calendar">
+                  <Calendar
+                    mode="range"
+                    selected={range as any}
+                    onSelect={(r: any) => setRange(r)}
+                    numberOfMonths={isMobile ? 1 : 2}
+                    min={3}
+                    disabled={(d) => d < today || isBlocked(d)}
+                    modifiers={{ blocked: blockedDates }}
+                    modifiersClassNames={{ blocked: "line-through opacity-40" }}
+                    locale={el}
+                    className="p-0 pointer-events-auto [--cell-size:2.6rem] text-[15px]"
+                  />
 
-                <div className="mt-6 border-t border-border/50 pt-5">
-                  <button
-                    type="button"
-                    onClick={() => setRange(undefined)}
-                    className="text-sm font-medium text-foreground/70 underline underline-offset-4 hover:text-accent"
-                  >
-                    Εκκαθάριση ημερομηνιών
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: booking card */}
-            <aside className="md:sticky md:top-24 md:self-start">
-              <div className="rounded-2xl border border-border/70 bg-card p-5 shadow-soft">
-                <div className="grid grid-cols-2 divide-x divide-border/60 rounded-xl border border-border/60">
-                  <div className="px-4 py-3">
-                    <div className={fieldLabel}>Άφιξη</div>
-                    <div className={`mt-1 text-sm font-semibold ${range?.from ? "text-foreground" : "text-foreground/50"}`}>
-                      {fmtDate(range?.from)}
-                    </div>
-                  </div>
-                  <div className="px-4 py-3">
-                    <div className={fieldLabel}>Αναχώρηση</div>
-                    <div className={`mt-1 text-sm font-semibold ${range?.to ? "text-foreground" : "text-foreground/50"}`}>
-                      {fmtDate(range?.to)}
-                    </div>
-                  </div>
-                </div>
-
-                <Popover open={openGuests} onOpenChange={setOpenGuests}>
-                  <PopoverTrigger asChild>
+                  <div className="mt-8 border-t border-[#17212B]/10 pt-5">
                     <button
                       type="button"
-                      className="mt-3 flex w-full items-center justify-between rounded-xl border border-border/60 px-4 py-3 text-left transition hover:bg-accent/5"
+                      onClick={() => setRange(undefined)}
+                      className="inline-flex items-center gap-2 text-sm font-medium text-[#17212B]/75 underline underline-offset-4 decoration-[#17212B]/30 hover:text-[#17212B] hover:decoration-[#17212B]"
                     >
-                      <span className="min-w-0">
-                        <span className={`block ${fieldLabel}`}>Επισκέπτες</span>
-                        <span className="mt-1 block text-sm font-semibold text-foreground">
-                          {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
-                        </span>
-                      </span>
-                      <UsersIcon className="h-4 w-4 shrink-0 text-foreground/60" />
+                      <CalendarIcon className="h-4 w-4" />
+                      Εκκαθάριση ημερομηνιών
                     </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-72 p-4" align="end">
-                    <div className="space-y-4">
-                      {[
-                        { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
-                        { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
-                      ].map((row) => (
-                        <div key={row.label} className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-foreground">{row.label}</span>
-                          <div className="flex items-center gap-3">
-                            <button
-                              type="button"
-                              onClick={() => bump(row.setter, row.value, -1, row.min)}
-                              className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
-                              disabled={row.value <= row.min}
-                            >
-                              <Minus className="h-3.5 w-3.5" />
-                            </button>
-                            <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
-                            <button
-                              type="button"
-                              onClick={() => bump(row.setter, row.value, 1, row.min)}
-                              className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
-                            >
-                              <Plus className="h-3.5 w-3.5" />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                      <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-
-                <button
-                  type="button"
-                  onClick={submit}
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-base font-semibold text-accent-foreground shadow-soft transition hover:bg-accent/90"
-                >
-                  Κάνε κράτηση
-                </button>
-                <p className="mt-3 text-center text-xs text-foreground/60">
-                  Δεν θα χρεωθείτε ακόμα
-                </p>
+                  </div>
+                </div>
               </div>
-            </aside>
+
+              {/* Right: booking card */}
+              <aside className="lg:sticky lg:top-24 lg:self-start">
+                <div className="rounded-3xl bg-white p-6 shadow-[0_20px_50px_-25px_rgba(23,33,43,0.25)] ring-1 ring-black/[0.04]">
+                  <div className="grid grid-cols-2 divide-x divide-[#17212B]/10 overflow-hidden rounded-2xl ring-1 ring-[#17212B]/10">
+                    <div className="px-4 py-3">
+                      <div className={fieldLabel}>Άφιξη</div>
+                      <div className={`mt-1 text-[15px] font-semibold ${range?.from ? "text-[#17212B]" : "text-[#17212B]/40"}`}>
+                        {fmtDate(range?.from)}
+                      </div>
+                    </div>
+                    <div className="px-4 py-3">
+                      <div className={fieldLabel}>Αναχώρηση</div>
+                      <div className={`mt-1 text-[15px] font-semibold ${range?.to ? "text-[#17212B]" : "text-[#17212B]/40"}`}>
+                        {fmtDate(range?.to)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Popover open={openGuests} onOpenChange={setOpenGuests}>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className="mt-3 flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left ring-1 ring-[#17212B]/10 transition hover:ring-[#17212B]/25"
+                      >
+                        <span className="min-w-0">
+                          <span className={`block ${fieldLabel}`}>Επισκέπτες</span>
+                          <span className="mt-1 block text-[15px] font-semibold text-[#17212B]">
+                            {total} {total === 1 ? "επισκέπτης" : "επισκέπτες"}
+                          </span>
+                        </span>
+                        <span className="flex shrink-0 items-center gap-1.5 text-[#17212B]/60">
+                          <UsersIcon className="h-4 w-4" />
+                          <ChevronDown className="h-4 w-4" />
+                        </span>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-72 p-4" align="end">
+                      <div className="space-y-4">
+                        {[
+                          { label: "Ενήλικες", value: adults, setter: setAdults, min: 1 },
+                          { label: "Παιδιά", value: children, setter: setChildren, min: 0 },
+                        ].map((row) => (
+                          <div key={row.label} className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-foreground">{row.label}</span>
+                            <div className="flex items-center gap-3">
+                              <button
+                                type="button"
+                                onClick={() => bump(row.setter, row.value, -1, row.min)}
+                                className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent disabled:opacity-40"
+                                disabled={row.value <= row.min}
+                              >
+                                <Minus className="h-3.5 w-3.5" />
+                              </button>
+                              <span className="w-6 text-center text-sm font-semibold">{row.value}</span>
+                              <button
+                                type="button"
+                                onClick={() => bump(row.setter, row.value, 1, row.min)}
+                                className="grid h-8 w-8 place-items-center rounded-full border border-border/60 text-foreground/70 transition hover:border-accent hover:text-accent"
+                              >
+                                <Plus className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                        <p className="text-xs text-foreground/60">Έως 7 επισκέπτες συνολικά.</p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+
+                  <button
+                    type="button"
+                    onClick={submit}
+                    className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#C86B4A] px-6 py-4 text-base font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] transition hover:bg-[#b25c3d] active:translate-y-px"
+                  >
+                    Κάνε κράτηση
+                  </button>
+                  <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-[#17212B]/55">
+                    <Lock className="h-3 w-3" />
+                    Δεν θα χρεωθείτε ακόμα
+                  </p>
+                </div>
+              </aside>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 
 
