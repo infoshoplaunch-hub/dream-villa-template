@@ -406,29 +406,29 @@ function Hero() {
       {/* Bottom fade to blend into next section */}
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background via-black/70 to-transparent pointer-events-none" />
 
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-52 pt-32 md:justify-center md:pb-56 md:pt-24">
+      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-80 pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-4xl text-white">
           <h1
-            className="hero-fade-up mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
+            className="hero-fade-up mt-4 md:mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
             style={{ animationDelay: "0.15s" }}
           >
             Ekaterini <span className="text-accent">VIP</span> Villa
           </h1>
           <p
-            className="hero-fade-up mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
+            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
             style={{ animationDelay: "0.35s" }}
           >
             {t.hero.title}
           </p>
 
           <p
-            className="hero-fade-up mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
+            className="hero-fade-up mt-5 md:mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
             style={{ animationDelay: "0.5s" }}
           >
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-6 md:mt-10 flex flex-wrap gap-4">
             <a
               href="#booking-bar"
               className="btn-lux btn-lux-primary hero-fade-up inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)]"
@@ -453,7 +453,7 @@ function Hero() {
 
       {/* Premium booking search bar with glassmorphism */}
       <div
-        className="absolute inset-x-0 bottom-6 z-10 md:bottom-10 hero-fade-up"
+        className="absolute inset-x-0 bottom-8 z-10 md:bottom-10 hero-fade-up"
         style={{ animationDelay: "1s" }}
       >
         <div className="container-villa">
@@ -535,12 +535,12 @@ function BookingBar() {
   };
 
   const fieldBase =
-    "flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-accent/5";
+    "flex w-full items-center gap-3 px-5 py-3 md:py-4 text-left transition hover:bg-accent/5";
   const label = "text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/55";
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
   return (
-    <div id="booking-bar" className="mx-auto max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
+    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
       <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
         {/* Check-in */}
         <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
@@ -641,12 +641,12 @@ function BookingBar() {
         </Popover>
 
         {/* CTA */}
-        <div className="p-3 md:p-2.5">
+        <div className="p-2 md:p-2.5">
           <button
             type="button"
             onClick={submit}
             data-magnetic
-            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
+            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-3 md:py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
             Κράτηση
             <ArrowRight className="h-4 w-4" />
