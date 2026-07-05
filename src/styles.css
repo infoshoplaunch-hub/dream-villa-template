@@ -336,6 +336,12 @@
   }
 }
 
+/* Smooth color transitions for common interactive text (nav, footer, links) */
+header a, footer a, nav a { transition: color 250ms cubic-bezier(0.22, 1, 0.36, 1); }
+/* Subtle scale on footer social/icon anchors if any */
+footer a:hover svg { transform: scale(1.08); transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+
 
 
 
