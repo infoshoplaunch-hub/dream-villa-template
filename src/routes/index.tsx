@@ -422,7 +422,7 @@ function Hero() {
           </p>
 
           <p
-            className="hero-fade-up mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
+            className="hero-fade-up mt-5 md:mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
             style={{ animationDelay: "0.5s" }}
           >
             {t.hero.subtitle}
