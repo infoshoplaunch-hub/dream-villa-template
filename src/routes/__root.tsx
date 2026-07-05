@@ -64,13 +64,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
+      { title: "Ekaterini VIP Villa | Luxury Villa with Private Pool in Chan" },
       {
         name: "description",
         content:
           "Ekaterini VIP Villa στην Πλάκα Αποκορώνου, Χανιά. Ιδιωτική πισίνα, 3 υπνοδωμάτια έως 7 άτομα, BBQ, κήπος και δωρεάν πάρκινγκ.",
       },
-      { property: "og:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
+      { property: "og:title", content: "Ekaterini VIP Villa | Luxury Villa with Private Pool in Chan" },
       {
         property: "og:description",
         content:
@@ -78,9 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Ekaterini VIP Villa — Πολυτελής Διαμονή στα Χανιά, Κρήτη" },
-      { name: "twitter:description", content: "Ιδιωτική πισίνα, άνετοι χώροι και όλες οι παροχές για ήρεμες διακοπές στην Κρήτη." },
+      { name: "twitter:title", content: "Ekaterini VIP Villa | Luxury Villa with Private Pool in Chan" },
+      { name: "twitter:description", content: "Stay at Ekaterini VIP Villa in Plaka Apokoronas, Chania. Private pool, sea views, 3 bedrooms, BBQ, free parking and luxury accommodation for up to 7 guests." },
       { property: "og:site_name", content: "Ekaterini VIP Villa" },
+      { name: "description", content: "Stay at Ekaterini VIP Villa in Plaka Apokoronas, Chania. Private pool, sea views, 3 bedrooms, BBQ, free parking and luxury accommodation for up to 7 guests." },
+      { property: "og:description", content: "Stay at Ekaterini VIP Villa in Plaka Apokoronas, Chania. Private pool, sea views, 3 bedrooms, BBQ, free parking and luxury accommodation for up to 7 guests." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f3cecd39-999c-4949-9101-c4615f75ed8c/id-preview-817e60b5--8fe778d1-b852-43a0-a195-98260f86676e.lovable.app-1783270373673.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f3cecd39-999c-4949-9101-c4615f75ed8c/id-preview-817e60b5--8fe778d1-b852-43a0-a195-98260f86676e.lovable.app-1783270373673.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
