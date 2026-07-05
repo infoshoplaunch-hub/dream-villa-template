@@ -241,7 +241,7 @@ function Header() {
         <div className="lg:hidden fixed inset-0 z-50 bg-background">
           <div className="container-villa flex items-center justify-between py-5">
             <img src={logoUrl} alt="Ekaterini VIP Villa" className="h-9 w-auto" />
-            <button onClick={() => setOpen(false)} aria-label="Close menu">
+            <button onClick={() => setOpen(false)} aria-label={t.nav.closeMenu}>
               <X className="h-6 w-6" />
             </button>
           </div>
