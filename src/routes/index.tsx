@@ -641,12 +641,12 @@ function BookingBar() {
         </Popover>
 
         {/* CTA */}
-        <div className="p-3 md:p-2.5">
+        <div className="p-2 md:p-2.5">
           <button
             type="button"
             onClick={submit}
             data-magnetic
-            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
+            className="btn-lux btn-lux-primary flex h-full w-full items-center justify-center gap-2 rounded-2xl bg-accent px-8 py-3 md:py-4 text-sm font-semibold text-accent-foreground shadow-[0_14px_30px_-12px_rgba(214,120,50,0.7)] md:px-10"
           >
             Κράτηση
             <ArrowRight className="h-4 w-4" />
