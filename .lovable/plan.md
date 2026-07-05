@@ -1,33 +1,52 @@
-## Νέο Section: "Επιλέξτε ημερομηνίες διαμονής"
+## Ανασχεδιασμός Section "Επιλέξτε ημερομηνία άφιξης" σε 2 στήλες (Booking.com style)
 
-Ξεχωριστό section στη home page, ανάμεσα στο Amenities και σε ό,τι ακολουθεί, με ημερολόγιο δύο μηνών σε στυλ Booking.com (όπως στη φωτογραφία).
+### Layout
 
-### Τι θα φαίνεται
+Αντικαθιστούμε το τρέχον centered layout με **2-column grid** (desktop), όπως στη φωτογραφία-δείγμα:
 
-- Τίτλος: **"Επιλέξτε ημερομηνία άφιξης"**
-- Υπότιτλος: **"Ελάχιστη διάρκεια διαμονής: 3 διανυκτερεύσεις"**
-- Δύο μήνες δίπλα-δίπλα (τρέχων + επόμενος) με βέλη πλοήγησης ‹ ›
-- Range selection: 1ο κλικ = άφιξη, 2ο κλικ = αναχώρηση, με highlighted range ανάμεσα
-- Blocked dates (από τη βάση `blocked_dates`) εμφανίζονται disabled/strikethrough
-- Παρελθοντικές ημερομηνίες disabled
-- Κάτω αριστερά: link **"Εκκαθάριση ημερομηνιών"** (reset)
-- Κάτω από το calendar: κουμπί **"Έλεγχος διαθεσιμότητας"** που μεταφέρει τις επιλεγμένες ημερομηνίες στη φόρμα κράτησης (BookingBar / /booking route)
-- Responsive: 2 μήνες desktop, 1 μήνας mobile
+```
+┌─────────────────────────────────────────────┬──────────────────────┐
+│  Επιλέξτε ημερομηνία άφιξης                 │  ┌────────────────┐  │
+│  Ελάχιστη διάρκεια διαμονής: 3 διαν/σεις    │  │ ΑΦΙΞΗ  ΑΝΑΧ.   │  │
+│                                             │  │ 9/7   16/7     │  │
+│  ‹  Ιούλιος 2026        Αύγουστος 2026  ›   │  │ ΕΠΙΣΚΕΠΤΕΣ     │  │
+│  Δε Τρ Τε Πε Πα Σα Κυ   Δε Τρ Τε Πε ...     │  │ 2 επισκέπτες ▾ │  │
+│  ...  (μεγαλύτερα κελιά)  ...               │  │                │  │
+│  ...                                        │  │ [ Κράτηση ]    │  │
+│                                             │  │ Δεν χρεώνεστε  │  │
+│  Εκκαθάριση ημερομηνιών                     │  │  ακόμα         │  │
+│                                             │  └────────────────┘  │
+└─────────────────────────────────────────────┴──────────────────────┘
+```
 
-### Τεχνική υλοποίηση
+- Desktop grid: `md:grid-cols-[1fr_360px]` (ημερολόγιο αριστερά, sticky booking card δεξιά).
+- Mobile: stacked (calendar πάνω, card κάτω).
+- Το wrapper πάει σε μεγαλύτερο max-width (`max-w-6xl`) και το ημερολόγιο αριστερά (χωρίς `justify-center`) ώστε να φαίνεται πιο κοντά στην αριστερή άκρη.
 
-- Νέο section στο `src/routes/index.tsx` με id `#calendar` (ή `#dates`)
-- Χρήση του υπάρχοντος `Calendar` (shadcn / react-day-picker) με:
-  - `mode="range"`
-  - `numberOfMonths={2}` (responsive: 1 σε mobile via `useIsMobile`)
-  - `disabled={[{ before: today }, ...blockedDates]}`
-  - `min={3}` για ελάχιστη διάρκεια
-- Fetch blocked dates: αν υπάρχει ήδη server fn/query (έλεγχος στο codebase), reuse. Αλλιώς δημιουργία `getBlockedDates` serverFn που διαβάζει `blocked_dates` (public read μέσω anon policy ή server fn).
-- State με `useState<DateRange>` — sync με URL search params ώστε το "Έλεγχος διαθεσιμότητας" να κάνει `navigate({ to: '/booking', search: { checkin, checkout } })`.
-- Styling με design tokens (warm cream/terracotta), custom classes για range highlight ώστε να δείχνει όπως το screenshot.
-- Προσθήκη link στο main nav "Ημερομηνίες" → `#calendar` (αν υπάρχει nav με anchors).
+### Μεγαλύτερο ημερολόγιο
 
-### Τι δεν αλλάζει
+Το shadcn `Calendar` υποστηρίζει `--cell-size` (default `2rem`). Το ανεβάζουμε μέσω className σε `2.75rem` και το padding του day σε πιο άνετο:
 
-- BookingBar, /booking route, υπάρχοντα sections.
-- Business logic κρατήσεων.
+```
+<Calendar className="[--cell-size:2.75rem] text-[15px] p-0 pointer-events-auto" ... />
+```
+
+Επίσης font sizes για weekday/caption μεγαλώνουν ελαφρώς μέσω wrapper class.
+
+### Δεξιό card
+
+Νέο `<aside>` με:
+- Δύο πεδία (Άφιξη / Αναχώρηση) — read-only summary από το επιλεγμένο range, με ημερομηνία σε format `d/M/yyyy`. Placeholder "Επιλέξτε" όταν δεν υπάρχει.
+- Guests selector (Popover + −/+ controls, max 7, ίδια λογική με το υπάρχον BookingBar). State: `adults`, `children`. Default 2 adults.
+- Big primary button **"Κάνε κράτηση"** (accent, rounded-full) — καλεί την ίδια validation με το τρέχον `check()` και κάνει `navigate({ to: "/booking", search: {...} })`.
+- Μικρό κείμενο "Δεν θα χρεωθείτε ακόμα" κάτω από το κουμπί.
+- Sticky σε desktop (`md:sticky md:top-24`).
+
+Το κουμπί "Έλεγχος διαθεσιμότητας" κάτω από το ημερολόγιο **αφαιρείται** — η ενέργεια μεταφέρεται στο δεξί card ως "Κάνε κράτηση". Παραμένει το link "Εκκαθάριση ημερομηνιών" κάτω αριστερά από το ημερολόγιο.
+
+### Τεχνικά
+
+- Αλλαγή μόνο στο `AvailabilitySection` (src/routes/index.tsx, ~line 916).
+- Χρήση των υπάρχοντων: `Calendar` (range mode), `Popover` για guests, `useQuery` για blocked_dates, `toast` για validation, `navigate` προς `/booking`.
+- Design tokens μόνο (accent/border/foreground) — καμία σκληροκωδικοποιημένη χρώμα.
+- Χωρίς αλλαγές σε άλλα sections, BookingBar, ή /booking route.
