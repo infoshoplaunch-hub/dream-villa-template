@@ -40,6 +40,7 @@ type PhotoWithUrl = PhotoRow & { url: string };
 function GalleryPage() {
   useLuxReveal();
   useLuxMagnetic();
+  const { t } = useI18n();
   const query = useQuery({
     queryKey: ["gallery_photos_public"],
     queryFn: async (): Promise<PhotoWithUrl[]> => {
