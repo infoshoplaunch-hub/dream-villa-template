@@ -139,3 +139,87 @@
   }
 }
 
+
+/* Booking calendar premium styling */
+.booking-calendar .rdp-months,
+.booking-calendar [data-slot="months"] { gap: 2.5rem; }
+
+.booking-calendar button[data-slot="calendar-nav-button"],
+.booking-calendar .rdp-button_previous,
+.booking-calendar .rdp-button_next {
+  border-radius: 9999px;
+  background: rgba(23,33,43,0.04);
+  border: none;
+  color: #17212B;
+}
+.booking-calendar button[data-slot="calendar-nav-button"]:hover,
+.booking-calendar .rdp-button_previous:hover,
+.booking-calendar .rdp-button_next:hover {
+  background: rgba(23,33,43,0.08);
+}
+
+.booking-calendar .rdp-caption_label,
+.booking-calendar [data-slot="calendar-caption-label"] {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #17212B;
+}
+
+.booking-calendar .rdp-weekday,
+.booking-calendar [data-slot="calendar-weekday"] {
+  color: rgba(23,33,43,0.5);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: none;
+}
+
+.booking-calendar .rdp-day_button,
+.booking-calendar [data-slot="calendar-day"] button {
+  border-radius: 9999px;
+  font-weight: 500;
+  color: #17212B;
+}
+
+.booking-calendar .rdp-day_button:hover {
+  background: rgba(23,33,43,0.06);
+}
+
+/* Range middle: warm peach */
+.booking-calendar .rdp-range_middle,
+.booking-calendar [data-range-middle="true"] {
+  background: #F2C4A8 !important;
+  color: #17212B !important;
+  border-radius: 0 !important;
+}
+.booking-calendar .rdp-range_middle .rdp-day_button {
+  background: transparent !important;
+  color: #17212B !important;
+}
+
+/* Range endpoints: dark brown pill */
+.booking-calendar .rdp-range_start .rdp-day_button,
+.booking-calendar .rdp-range_end .rdp-day_button,
+.booking-calendar [data-range-start="true"] button,
+.booking-calendar [data-range-end="true"] button,
+.booking-calendar [data-selected-single="true"] button {
+  background: #3B2419 !important;
+  color: #fff !important;
+  border-radius: 9999px !important;
+}
+
+.booking-calendar .rdp-range_start,
+.booking-calendar [data-range-start="true"] {
+  background: linear-gradient(to right, transparent 50%, #F2C4A8 50%) !important;
+}
+.booking-calendar .rdp-range_end,
+.booking-calendar [data-range-end="true"] {
+  background: linear-gradient(to left, transparent 50%, #F2C4A8 50%) !important;
+}
+
+.booking-calendar .rdp-day_outside .rdp-day_button,
+.booking-calendar .rdp-day_disabled .rdp-day_button,
+.booking-calendar [data-outside="true"] button,
+.booking-calendar [data-disabled="true"] button {
+  color: rgba(23,33,43,0.3);
+}
