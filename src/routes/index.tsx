@@ -1143,7 +1143,9 @@ function AmenitiesSection() {
         {/* 4 premium category cards */}
         <div
           ref={ref}
+          data-lux-stagger
           className={`mx-auto mt-12 grid max-w-6xl gap-6 md:mt-14 md:grid-cols-2 md:gap-8 ${inView ? "amenity-in-view" : ""}`}
+
         >
           {AMENITY_GROUPS.map((group, i) => (
             <AmenityCard key={group.title} group={group} index={i} />
