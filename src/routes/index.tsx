@@ -764,6 +764,9 @@ function AboutPlaceBlock() {
       </div>
     </div>
   );
+}
+
+
 
 /* ---------- Rooms ---------- */
 
