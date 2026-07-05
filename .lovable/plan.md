@@ -1,22 +1,20 @@
 ## Στόχος
-Να κατευθύνουμε τους επισκέπτες από την αρχική στη νέα σελίδα `/gallery` μέσω δύο σημείων.
+Όλα τα κουμπιά "Κάντε Κράτηση" και "Αίτημα Κράτησης" στην αρχική σελίδα να οδηγούν στη σελίδα `/booking` (ημερολόγιο άφιξης-αναχώρησης), αντί να ανοίγουν mailto.
 
 ## Αλλαγές
 
-### 1. Section «Γιατί να μας διαλέξετε» — κουμπί «Δείτε τη Βίλα»
-`src/routes/index.tsx` (γύρω στη γραμμή 655): αντικατάσταση του `<a href="#gallery">` με TanStack `<Link to="/gallery">`, διατηρώντας το ίδιο styling (outline pill με accent χρώμα).
+### `src/routes/index.tsx`
+- **Hero CTA1 "Κάντε Κράτηση"**: Αντικατάσταση `<a href="mailto:...">` με `<Link to="/booking">`.
+- **Header "Κάντε Κράτηση" (desktop + mobile menu)**: Αντικατάσταση `mailto` με `<Link to="/booking">`.
+- **BookingSection "Αίτημα Κράτησης"**: Αντικατάσταση `mailto` με `<Link to="/booking">`, διατήρηση ίδιου styling.
+- **Sticky mobile CTA**: Αντικατάσταση `mailto` με `<Link to="/booking">`.
 
-### 2. Νέο CTA κάτω από το Bento Gallery
-Στο section που φιλοξενεί το `<InteractiveBentoGallery>` (γύρω στη γραμμή 789), προσθήκη κάτω από το component ενός centered CTA:
+### `src/lib/i18n.tsx`
+Προσθήκη κειμένου `viewAllCta` ή ενημέρωση υπαρχόντων labels αν χρειάζεται.
 
-- Κείμενο: «Δείτε όλες τις φωτογραφίες» (EN: «View all photos») — μέσω `t.gallery` string στο `src/lib/i18n.tsx` (νέο κλειδί `viewAllCta`).
-- Στοιχείο: `<Link to="/gallery">` με το ίδιο pill styling του hero cta2 (accent border, hover fill) + `ArrowRight` icon.
-- Wrapper: `mt-10 flex justify-center`.
+## Τι ΔΕΝ αλλάζει
+- Το `BookingBar` στο hero ήδη πλοηγείται σωστά στο `/booking` με search params.
+- Το `/booking` ήδη υπάρχει και δέχεται `check_in`, `check_out`, `adults`, `children`.
 
-### 3. i18n
-Στο `src/lib/i18n.tsx` προσθήκη πεδίου `viewAllCta` στο `gallery` object και για τις δύο γλώσσες (el: «Δείτε όλες τις φωτογραφίες», en: «View all photos»), καθώς και στο TS type.
-
-## Εκτός σκοπού
-- Δεν αλλάζουμε το hero cta2 (μένει να σκρολάρει στο `#villa`).
-- Δεν πειράζουμε τα play icons του bento — παραμένουν για preview των εικόνων/βίντεο in-place.
-- Δεν αλλάζουμε το nav link «Gallery» (ήδη οδηγεί στο `/gallery`).
+## Εκτιμώμενο αποτέλεσμα
+Ο επισκέπτης πατάει οποιοδήποτε κουμπί κράτησης και πηγαίνει κατευθείαν στη σελίδα με το ημερολόγιο και τη φόρμα αιτήματος.

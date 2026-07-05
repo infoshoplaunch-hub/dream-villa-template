@@ -194,13 +194,13 @@ function Header() {
 
         <div className="flex items-center gap-3">
           <LangSwitch onDark={onDark} />
-          <a
-            href="mailto:info@katerinavipvilla.gr"
+          <Link
+            to="/booking"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-accent-foreground shadow-soft transition hover:brightness-110"
           >
             {t.nav.book}
             <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
@@ -237,14 +237,14 @@ function Header() {
             >
               {t.nav.gallery}
             </Link>
-            <a
-              href="mailto:info@katerinavipvilla.gr"
+            <Link
+              to="/booking"
               onClick={() => setOpen(false)}
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
             >
               {t.nav.book}
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </nav>
         </div>
       )}
@@ -284,13 +284,13 @@ function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a
-              href="mailto:info@katerinavipvilla.gr"
+            <Link
+              to="/booking"
               className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
             >
               {t.hero.cta1}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
+            </Link>
             <a
               href="#villa"
               className="group inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
@@ -1110,13 +1110,13 @@ function BookingSection() {
               Επικοινωνήστε απευθείας μαζί μας για διαθεσιμότητα και προσφορά — απαντάμε σε λίγες ώρες.
             </p>
             <div className="mt-8 space-y-3">
-              <a
-                href="mailto:info@katerinavipvilla.gr?subject=Αίτημα Κράτησης - Ekaterini VIP Villa"
+              <Link
+                to="/booking"
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] transition hover:brightness-110"
               >
                 Αίτημα Κράτησης
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
               <a
                 href="tel:+306940133837"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/5 px-8 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
@@ -1293,11 +1293,11 @@ function Footer() {
 function StickyBookCTA() {
   const { t } = useI18n();
   return (
-    <a
-      href="mailto:info@katerinavipvilla.gr"
+    <Link
+      to="/booking"
       className="fixed bottom-4 left-1/2 z-40 -translate-x-1/2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-soft md:hidden"
     >
       {t.nav.book}
-    </a>
+    </Link>
   );
 }
