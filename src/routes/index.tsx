@@ -60,6 +60,7 @@ const NAV_IDS = ["home", "villa", "rooms", "location", "booking", "contact"] as 
 
 function Landing() {
   useLuxReveal();
+  useLuxMagnetic();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
