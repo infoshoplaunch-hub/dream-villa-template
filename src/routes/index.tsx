@@ -11,6 +11,8 @@ import {
   Users as UsersIcon,
   Minus,
   Plus,
+  Lock,
+  ChevronDown,
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
