@@ -463,11 +463,11 @@ function Hero() {
               className="btn-lux md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
             >
               <ViberIcon className="h-4 w-4" />
-              Επικοινωνία μέσω Viber
+              {t.hero.viber}
             </a>
           </div>
           <p className="md:hidden mt-2 text-center text-xs text-white/70">
-            Άμεση απάντηση για διαθεσιμότητα και κρατήσεις
+            {t.hero.viberHelper}
           </p>
         </div>
       </div>
