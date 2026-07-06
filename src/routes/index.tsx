@@ -482,9 +482,6 @@ function Hero() {
             </a>
 
           </div>
-          <p className="md:hidden mt-2 text-center text-xs text-white/70">
-            {t.hero.viberHelper}
-          </p>
 
         </div>
       </div>
