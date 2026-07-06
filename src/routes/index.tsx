@@ -2148,7 +2148,15 @@ function Footer() {
             >
               info@katerinavipvilla.gr
             </a>
-            
+            <a
+              href="https://www.facebook.com/share/1HurCnSYmv/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="mt-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D98445] text-white shadow-sm transition-colors duration-200 hover:bg-[#C06A2E]"
+            >
+              <FacebookIcon className="h-5 w-5" />
+            </a>
           </div>
 
           {/* Navigation */}
