@@ -521,6 +521,14 @@ function BookingBar() {
   });
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+  const isOutOfSeason = (d: Date) => {
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    if (m < 4 || m > 10) return true;
+    if (m === 4 && day < 20) return true;
+    if (m === 10 && day > 20) return true;
+    return false;
+  };
 
   const dateLocale = lang === "el" ? el : undefined;
   const fmt = (d?: Date) =>
