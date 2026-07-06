@@ -191,7 +191,7 @@ function Header() {
     return () => io.disconnect();
   }, []);
 
-  const onDark = !scrolled;
+  const onDark = false;
   const allNav = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
   return (
