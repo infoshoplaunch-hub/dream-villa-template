@@ -1787,7 +1787,21 @@ function Reviews() {
           <span className="h-2 w-2 rounded-full bg-border" />
           <span className="h-2 w-2 rounded-full bg-border" />
         </div>
+
+        <div className="mt-12 flex flex-col items-center justify-center gap-3 text-center">
+          <p className="text-sm text-foreground/70">Μείνατε στη βίλα; Θα χαρούμε να ακούσουμε την εμπειρία σας.</p>
+          <button
+            onClick={() => setReviewOpen(true)}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-[0_10px_28px_-10px_rgba(217,138,69,0.6)] transition hover:brightness-110 hover:-translate-y-0.5"
+          >
+            <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">
+              <path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.3 2.7 1-5.9L1.5 7.7l5.9-.8L10 1.5Z" />
+            </svg>
+            Αφήστε την κριτική σας
+          </button>
+        </div>
       </div>
+      <ReviewSubmitDialog open={reviewOpen} onOpenChange={setReviewOpen} />
     </section>
   );
 }
