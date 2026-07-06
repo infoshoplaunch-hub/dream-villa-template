@@ -210,6 +210,7 @@ export const Route = createFileRoute('/api/public/booking-request')({
         }
 
         const nights = requestedNights.length
+        const pricing = computeBreakdownFromISO(data.check_in, data.check_out)
         const commonData = {
           guestName,
           email: data.email,
@@ -220,6 +221,11 @@ export const Route = createFileRoute('/api/public/booking-request')({
           adults: data.adults,
           children: data.children,
           message: data.message,
+          priceGroups: pricing.groups,
+          subtotal: pricing.subtotal,
+          discount: pricing.discount,
+          promoActive: pricing.promoActive,
+          total: pricing.total,
         }
 
         // Owner + guest emails (fail-soft: booking is saved even if email fails)
