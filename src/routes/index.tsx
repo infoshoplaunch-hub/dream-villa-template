@@ -521,6 +521,14 @@ function BookingBar() {
   });
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+  const isOutOfSeason = (d: Date) => {
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    if (m < 4 || m > 10) return true;
+    if (m === 4 && day < 20) return true;
+    if (m === 10 && day > 20) return true;
+    return false;
+  };
 
   const dateLocale = lang === "el" ? el : undefined;
   const fmt = (d?: Date) =>
@@ -544,6 +552,15 @@ function BookingBar() {
   const submit = () => {
     if (!checkIn || !checkOut) {
       toast.error(t.bookingBar.errDates);
+      return;
+    }
+    if (isOutOfSeason(checkIn) || isOutOfSeason(checkOut)) {
+      toast.error(t.bookingBar.errSeason);
+      return;
+    }
+    const nights = Math.round((checkOut.getTime() - checkIn.getTime()) / 86400000);
+    if (nights < 7) {
+      toast.error(t.bookingBar.errMinNights);
       return;
     }
     const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
@@ -593,7 +610,7 @@ function BookingBar() {
                 if (d && checkOut && d >= checkOut) setCheckOut(undefined);
                 setOpenCal(d ? "out" : null);
               }}
-              disabled={(d) => d < today || isBlocked(d)}
+              disabled={(d) => d < today || isBlocked(d) || isOutOfSeason(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={dateLocale}
@@ -624,7 +641,7 @@ function BookingBar() {
                 setCheckOut(d);
                 if (d) setOpenCal(null);
               }}
-              disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d)}
+              disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d) || isOutOfSeason(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={dateLocale}
@@ -1221,6 +1238,14 @@ function AvailabilitySection() {
   });
   const blockedDates = blockedQuery.data ?? [];
   const isBlocked = (d: Date) => blockedDates.some((b) => isSameDay(b, d));
+  const isOutOfSeason = (d: Date) => {
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    if (m < 4 || m > 10) return true;
+    if (m === 4 && day < 20) return true;
+    if (m === 10 && day > 20) return true;
+    return false;
+  };
 
   const bump = (
     setter: React.Dispatch<React.SetStateAction<number>>,
@@ -1242,8 +1267,12 @@ function AvailabilitySection() {
       toast.error(t.availability.errDates);
       return;
     }
+    if (isOutOfSeason(range.from) || isOutOfSeason(range.to)) {
+      toast.error(t.availability.errSeason);
+      return;
+    }
     const nights = Math.round((range.to.getTime() - range.from.getTime()) / 86400000);
-    if (nights < 3) {
+    if (nights < 7) {
       toast.error(t.availability.errMinNights);
       return;
     }
@@ -1373,8 +1402,8 @@ function AvailabilitySection() {
                     selected={range as any}
                     onSelect={(r: any) => setRange(r)}
                     numberOfMonths={isMobile ? 1 : 2}
-                    min={3}
-                    disabled={(d) => d < today || isBlocked(d)}
+                    min={7}
+                    disabled={(d) => d < today || isBlocked(d) || isOutOfSeason(d)}
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
                     locale={lang === "el" ? el : undefined}
@@ -1483,7 +1512,7 @@ function AvailabilitySection() {
                     />
                     <span className="text-foreground/70">
                       {hasRange
-                        ? nights >= 3
+                        ? nights >= 7
                           ? t.availability.readyToBook
                           : t.availability.minNights
                         : t.availability.pickToContinue}

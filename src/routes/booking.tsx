@@ -114,6 +114,20 @@ function BookingPage() {
         setSubmitting(false);
         return;
       }
+      if (res.status === 400) {
+        const payload = await res.json().catch(() => ({}));
+        if (payload?.error === "min_nights") {
+          toast.error(lang === "en" ? "Minimum stay is 7 nights." : "Η ελάχιστη διαμονή είναι 7 διανυκτερεύσεις.");
+        } else if (payload?.error === "out_of_season") {
+          toast.error(lang === "en"
+            ? "The villa is available from April 20 to October 20."
+            : "Η διαθεσιμότητα της βίλας είναι από 20 Απριλίου έως 20 Οκτωβρίου.");
+        } else {
+          toast.error(lang === "en" ? "Invalid booking details." : "Μη έγκυρα στοιχεία κράτησης.");
+        }
+        setSubmitting(false);
+        return;
+      }
       if (!res.ok) {
         toast.error(lang === "en" ? "Something went wrong. Please try again." : "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.");
         setSubmitting(false);
