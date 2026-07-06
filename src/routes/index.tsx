@@ -998,6 +998,7 @@ import {
   Wind,
   Users,
   Palmtree,
+  Info,
   type LucideIcon,
 } from "lucide-react";
 
