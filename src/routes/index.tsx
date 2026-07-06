@@ -481,21 +481,7 @@ function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
 
-
-            {/* Mobile-only Viber CTA */}
-            <a
-              href={VIBER_CONTACT_LINK}
-              aria-label="Viber"
-              className="md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_-12px_rgba(115,96,242,0.7)] transition-transform active:scale-[0.97]"
-              style={{ backgroundColor: "#7360F2" }}
-            >
-              <ViberIcon className="h-4 w-4" />
-              Viber
-            </a>
           </div>
-          <p className="md:hidden mt-2 text-center text-xs text-white/70">
-            {t.hero.viberHelper}
-          </p>
 
         </div>
       </div>
