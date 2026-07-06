@@ -155,7 +155,7 @@ const el = {
     calendarTitle: "Επιλέξτε ημερομηνίες",
     nightSingular: "διανυκτέρευση",
     nightPlural: "διανυκτερεύσεις",
-    minNights: "Ελάχιστο 3 διανυκτερεύσεις",
+    minNights: "Ελάχιστο 7 διανυκτερεύσεις",
     clearDates: "Εκκαθάριση ημερομηνιών",
     selected: "Επιλεγμένες",
     unavailable: "Μη διαθέσιμες",
