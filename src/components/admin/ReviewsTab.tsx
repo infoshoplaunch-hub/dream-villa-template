@@ -22,6 +22,10 @@ type ReviewRow = {
   id: string;
   guest_name: string;
   location: string | null;
+  email: string | null;
+  country: string | null;
+  stay_date: string | null;
+  title: string | null;
   rating: number;
   comment: string;
   status: ReviewStatus;
