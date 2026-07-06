@@ -1323,6 +1323,12 @@ function AvailabilitySection() {
   })();
   const canSubmit = hasRange && !validationError;
 
+  const breakdown =
+    range?.from && range?.to && !validationError
+      ? computeBreakdown(range.from, range.to)
+      : null;
+  const priceLocale = lang === "el" ? "el-GR" : "en-GB";
+
   const highlightIcons = [UsersIcon, PoolIcon, MountainSnowIcon, UtensilsCrossedIcon, ParkingIcon, WifiIcon];
   const highlights = t.availability.highlights.map((label, i) => ({ label, icon: highlightIcons[i] }));
 
