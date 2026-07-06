@@ -227,6 +227,12 @@
   animation-delay: var(--p-delay, 0s);
   will-change: transform, opacity;
 }
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); box-shadow: 0 30px 80px -30px rgba(15,23,42,0.25); }
+  50%      { transform: translateY(-4px); }
+}
+.hero-float { animation: hero-float 6s ease-in-out infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .hero-float { animation: none !important; } }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-kenburns, .hero-fade-down, .hero-fade-up,
