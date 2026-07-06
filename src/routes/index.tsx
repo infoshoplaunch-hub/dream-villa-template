@@ -1402,8 +1402,8 @@ function AvailabilitySection() {
                     selected={range as any}
                     onSelect={(r: any) => setRange(r)}
                     numberOfMonths={isMobile ? 1 : 2}
-                    min={3}
-                    disabled={(d) => d < today || isBlocked(d)}
+                    min={7}
+                    disabled={(d) => d < today || isBlocked(d) || isOutOfSeason(d)}
                     modifiers={{ blocked: blockedDates }}
                     modifiersClassNames={{ blocked: "line-through opacity-40" }}
                     locale={lang === "el" ? el : undefined}
