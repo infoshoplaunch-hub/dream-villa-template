@@ -217,7 +217,7 @@
   .amenity-fade-up { opacity: 1 !important; animation: none !important; transform: none !important; }
 }
 
-.hero-kenburns { animation: hero-kenburns 18s ease-in-out infinite; will-change: transform; }
+.hero-kenburns { animation: hero-kenburns 22s ease-in-out infinite; will-change: transform; }
 .hero-fade-down { animation: hero-fade-down 0.9s cubic-bezier(0.22,1,0.36,1) both; }
 .hero-fade-up   { animation: hero-fade-up   0.9s cubic-bezier(0.22,1,0.36,1) both; }
 .hero-flare     { animation: hero-flare-pulse 6s ease-in-out infinite; will-change: transform, opacity; }
