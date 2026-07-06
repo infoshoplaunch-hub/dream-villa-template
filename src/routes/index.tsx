@@ -2085,7 +2085,7 @@ function ContactSection() {
                   Viber
                 </div>
                 <div
-                  className="mt-1 text-foreground"
+                  className="mt-1 whitespace-nowrap text-foreground"
                   style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: "clamp(16px, 2.2vw, 17px)", letterSpacing: "0.4px" }}
                 >
                   {VIBER_NUMBER_DISPLAY}
