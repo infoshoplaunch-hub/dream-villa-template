@@ -39,7 +39,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-import heroAsset from "@/assets/villa-hero.jpg.asset.json";
+import heroAsset from "@/assets/villa/villa-hero-day.jpg.asset.json";
 const heroImg = heroAsset.url;
 import logoAsset from "@/assets/logo-villa.png.asset.json";
 import logoDarkAsset from "@/assets/logo-villa-dark.png.asset.json";
@@ -214,11 +214,12 @@ function Header() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
+                style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
                 className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
                   onDark
                     ? isActive
                       ? "text-white"
-                      : "text-white/75 hover:text-white"
+                      : "text-white/90 hover:text-white"
                     : isActive
                       ? "text-foreground"
                       : "text-foreground/70 hover:text-accent"
@@ -233,8 +234,9 @@ function Header() {
           })}
           <Link
             to="/gallery"
+            style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
             className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
-              onDark ? "text-white/75 hover:text-white" : "text-foreground/70 hover:text-accent"
+              onDark ? "text-white/90 hover:text-white" : "text-foreground/70 hover:text-accent"
             }`}
           >
             {t.nav.gallery}
@@ -358,48 +360,28 @@ function Hero() {
         </div>
       </div>
 
-      {/* Left dark gradient for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/15" />
-      {/* Warm golden sunset glow on the right */}
+      {/* Premium vertical gradient (top → bottom) */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(60% 70% at 90% 40%, rgba(255,170,90,0.28) 0%, rgba(255,140,60,0.12) 35%, transparent 70%)",
+            "linear-gradient(180deg, rgba(12,18,28,0.55) 0%, rgba(12,18,28,0.45) 45%, rgba(12,18,28,0.72) 100%)",
         }}
       />
-      {/* Soft vignette */}
+      {/* Left-side dark wash behind text; fades to transparent on the right */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+            "linear-gradient(90deg, rgba(10,15,25,0.60) 0%, rgba(10,15,25,0.35) 40%, rgba(10,15,25,0.05) 70%, rgba(10,15,25,0) 100%)",
         }}
       />
-      {/* Subtle radial light behind headline */}
+      {/* Soft vignette around the edges */}
       <div
-        className="absolute pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          left: "-5%",
-          top: "25%",
-          width: "70%",
-          height: "55%",
           background:
-            "radial-gradient(closest-side, rgba(255,220,180,0.18), transparent 70%)",
-          filter: "blur(20px)",
-        }}
-      />
-      {/* Gentle lens flare from the sunset */}
-      <div
-        className="hero-flare absolute pointer-events-none"
-        style={{
-          right: "6%",
-          top: "22%",
-          width: "260px",
-          height: "260px",
-          background:
-            "radial-gradient(closest-side, rgba(255,205,140,0.55), rgba(255,170,80,0.15) 45%, transparent 70%)",
-          filter: "blur(6px)",
+            "radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0,0,0,0.45) 100%)",
         }}
       />
       {/* Pool shimmer reflection band */}
@@ -408,7 +390,7 @@ function Hero() {
           className="hero-shimmer absolute inset-y-0 w-1/2"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)",
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)",
             mixBlendMode: "screen",
           }}
         />
@@ -442,21 +424,36 @@ function Hero() {
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-[22rem] pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-4xl text-white">
           <h1
-            className="hero-fade-up mt-4 md:mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
-            style={{ animationDelay: "0.15s" }}
+            className="hero-fade-up mt-4 md:mt-6 font-serif font-extrabold text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px]"
+            style={{
+              animationDelay: "0.15s",
+              color: "#FFFFFF",
+              textShadow: "0 4px 20px rgba(0,0,0,0.35)",
+            }}
           >
-            Ekaterini <span className="text-accent">VIP</span> Villa
+            Ekaterini <span style={{ color: "#D98A45" }}>VIP</span> Villa
           </h1>
           <p
-            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug text-white/95 md:text-3xl"
-            style={{ animationDelay: "0.35s" }}
+            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug md:text-3xl"
+            style={{
+              animationDelay: "0.35s",
+              color: "rgba(255,255,255,0.96)",
+              maxWidth: "700px",
+              textShadow: "0 2px 12px rgba(0,0,0,0.35)",
+            }}
           >
             {t.hero.title}
           </p>
 
           <p
-            className="hero-fade-up mt-5 md:mt-7 max-w-xl text-[15px] leading-[1.75] text-white/85 md:text-base"
-            style={{ animationDelay: "0.5s" }}
+            className="hero-fade-up mt-5 md:mt-7 text-[15px] md:text-base"
+            style={{
+              animationDelay: "0.5s",
+              color: "rgba(255,255,255,0.88)",
+              lineHeight: 1.8,
+              maxWidth: "600px",
+              textShadow: "0 1px 8px rgba(0,0,0,0.3)",
+            }}
           >
             {t.hero.subtitle}
           </p>
@@ -615,7 +612,7 @@ function BookingBar() {
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
   return (
-    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl rounded-3xl border border-white/40 bg-[hsl(35_40%_98%)]/98 shadow-[0_30px_70px_-25px_rgba(15,23,42,0.55)] backdrop-blur-xl">
+    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl rounded-3xl border border-white/60 bg-white shadow-[0_40px_90px_-20px_rgba(15,23,42,0.75)] backdrop-blur-xl">
       <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
         {/* Check-in */}
         <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
