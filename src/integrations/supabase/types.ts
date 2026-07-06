@@ -197,32 +197,44 @@ export type Database = {
       reviews: {
         Row: {
           comment: string
+          country: string | null
           created_at: string
+          email: string | null
           guest_name: string
           id: string
           location: string | null
           rating: number
           status: Database["public"]["Enums"]["review_status"]
+          stay_date: string | null
+          title: string | null
           updated_at: string
         }
         Insert: {
           comment: string
+          country?: string | null
           created_at?: string
+          email?: string | null
           guest_name: string
           id?: string
           location?: string | null
           rating: number
           status?: Database["public"]["Enums"]["review_status"]
+          stay_date?: string | null
+          title?: string | null
           updated_at?: string
         }
         Update: {
           comment?: string
+          country?: string | null
           created_at?: string
+          email?: string | null
           guest_name?: string
           id?: string
           location?: string | null
           rating?: number
           status?: Database["public"]["Enums"]["review_status"]
+          stay_date?: string | null
+          title?: string | null
           updated_at?: string
         }
         Relationships: []
