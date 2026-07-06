@@ -46,6 +46,11 @@ const Email = ({
   children: kids = 0,
   message,
   adminUrl = 'https://www.ekaterinivipvila.gr/admin',
+  priceGroups = [],
+  subtotal = 0,
+  discount = 0,
+  promoActive = false,
+  total = 0,
 }: Props) => (
   <Html lang="el" dir="ltr">
     <Head />
@@ -72,6 +77,27 @@ const Email = ({
           <Row label="Ενήλικες" value={String(adults)} />
           <Row label="Παιδιά" value={String(kids)} />
         </Section>
+
+        {priceGroups.length > 0 ? (
+          <Section style={card}>
+            <Heading as="h2" style={h2}>Ανάλυση τιμής</Heading>
+            {priceGroups.map((g, i) => (
+              <Row key={i} label={`${g.nights} × ${eur(g.rate)} ανά διανυκτέρευση`} value={eur(g.subtotal)} />
+            ))}
+            <Hr style={innerHr} />
+            <Row label="Υποσύνολο" value={eur(subtotal)} />
+            {promoActive && discount > 0 ? (
+              <Row label="Προωθητική έκπτωση (10%)" value={`−${eur(discount)}`} />
+            ) : null}
+            <Text style={totalRow}>
+              <span style={rowLabel}>Τελικό εκτιμώμενο σύνολο:</span>{' '}
+              <span style={totalValue}>{eur(total)}</span>
+            </Text>
+            {promoActive ? (
+              <Text style={promoFoot}>Έκπτωση 10% για κρατήσεις έως 31/12/2026.</Text>
+            ) : null}
+          </Section>
+        ) : null}
 
         {message ? (
           <Section style={card}>
