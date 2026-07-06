@@ -307,10 +307,10 @@ function Header() {
 /* ---------- Hero ---------- */
 
 function Hero() {
-  const { t } = useI18n();
-  const bgRef = useRef<HTMLDivElement | null>(null);
+  const { t, lang } = useI18n();
+  const imgRef = useRef<HTMLDivElement | null>(null);
 
-  // Parallax: bg image moves slower than content on scroll.
+  // Very subtle parallax on the hero image
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -320,8 +320,8 @@ function Hero() {
       ticking = true;
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        if (bgRef.current) {
-          bgRef.current.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+        if (imgRef.current) {
+          imgRef.current.style.transform = `translate3d(0, ${y * 0.08}px, 0)`;
         }
         ticking = false;
       });
@@ -330,183 +330,166 @@ function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Golden particles
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 18 }).map((_, i) => ({
-        left: `${(i * 53) % 100}%`,
-        top: `${60 + ((i * 17) % 35)}%`,
-        size: 2 + ((i * 7) % 4),
-        opacity: 0.15 + ((i * 13) % 25) / 100,
-        dx: `${-30 + ((i * 11) % 60)}px`,
-        dur: `${12 + ((i * 3) % 10)}s`,
-        delay: `${(i * 0.7) % 8}s`,
-      })),
-    [],
-  );
+  const eyebrow = lang === "el" ? "ΠΟΛΥΤΕΛΗΣ ΔΙΑΜΟΝΗ ΣΤΗΝ ΚΡΗΤΗ" : "LUXURY STAY IN CRETE";
 
   return (
-    <section id="home" className="relative min-h-[100svh] w-full overflow-hidden bg-black">
-      {/* Parallax background wrapper */}
-      <div ref={bgRef} className="absolute inset-0 will-change-transform">
-        <div className="hero-kenburns absolute inset-0">
-          <img
-            src={heroImg}
-            alt={t.hero.imgAlt}
-            width={1920}
-            height={1280}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Premium vertical gradient (top → bottom) */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(12,18,28,0.55) 0%, rgba(12,18,28,0.45) 45%, rgba(12,18,28,0.72) 100%)",
-        }}
-      />
-      {/* Left-side dark wash behind text; fades to transparent on the right */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(10,15,25,0.60) 0%, rgba(10,15,25,0.35) 40%, rgba(10,15,25,0.05) 70%, rgba(10,15,25,0) 100%)",
-        }}
-      />
-      {/* Soft vignette around the edges */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0,0,0,0.45) 100%)",
-        }}
-      />
-      {/* Pool shimmer reflection band */}
-      <div className="absolute inset-x-0 bottom-[18%] h-24 overflow-hidden pointer-events-none">
-        <div
-          className="hero-shimmer absolute inset-y-0 w-1/2"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)",
-            mixBlendMode: "screen",
-          }}
+    <section
+      id="home"
+      className="relative w-full overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(180deg, #FAF8F4 0%, #F6F1E9 55%, #F1EADE 100%)",
+      }}
+    >
+      {/* Soft decorative arch on the right (desktop only) */}
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-4rem] top-24 hidden lg:block opacity-[0.35]"
+        width="620"
+        height="820"
+        viewBox="0 0 620 820"
+        fill="none"
+      >
+        <path
+          d="M20 800 V 320 A 290 290 0 0 1 600 320 V 800"
+          stroke="#D9C7AE"
+          strokeWidth="1.2"
         />
-      </div>
+        <path
+          d="M70 800 V 340 A 240 240 0 0 1 550 340 V 800"
+          stroke="#E4D6BE"
+          strokeWidth="1"
+        />
+      </svg>
 
-      {/* Floating golden particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {particles.map((p: typeof particles[number], i: number) => (
-          <span
-            key={i}
-            className="hero-particle absolute rounded-full"
-            style={{
-              left: p.left,
-              top: p.top,
-              width: p.size,
-              height: p.size,
-              background: "rgba(255,205,140,0.9)",
-              boxShadow: "0 0 6px rgba(255,190,120,0.6)",
-              ["--p-opacity" as string]: p.opacity,
-              ["--p-dx" as string]: p.dx,
-              ["--p-dur" as string]: p.dur,
-              ["--p-delay" as string]: p.delay,
-            }}
-          />
-        ))}
-      </div>
+      {/* Warm blur blobs for depth */}
+      <div
+        className="pointer-events-none absolute -left-32 top-40 h-[420px] w-[420px] rounded-full opacity-60 blur-3xl"
+        style={{ background: "radial-gradient(closest-side, #F3E4CC, transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute right-10 bottom-40 h-[380px] w-[380px] rounded-full opacity-50 blur-3xl"
+        style={{ background: "radial-gradient(closest-side, #EED9BA, transparent)" }}
+      />
 
-      {/* Bottom fade to blend into next section */}
-      <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background via-black/70 to-transparent pointer-events-none" />
-
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-[22rem] pt-32 md:justify-center md:pb-56 md:pt-24">
-        <div className="max-w-4xl text-white">
-          <h1
-            className="hero-fade-up mt-4 md:mt-6 font-serif font-extrabold text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px]"
-            style={{
-              animationDelay: "0.15s",
-              color: "#FFFFFF",
-              textShadow: "0 4px 20px rgba(0,0,0,0.35)",
-            }}
-          >
-            Ekaterini <span style={{ color: "#D98A45" }}>VIP</span> Villa
-          </h1>
-          <p
-            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug md:text-3xl"
-            style={{
-              animationDelay: "0.35s",
-              color: "rgba(255,255,255,0.96)",
-              maxWidth: "700px",
-              textShadow: "0 2px 12px rgba(0,0,0,0.35)",
-            }}
-          >
-            {t.hero.title}
-          </p>
-
-          <p
-            className="hero-fade-up mt-5 md:mt-7 text-[15px] md:text-base"
-            style={{
-              animationDelay: "0.5s",
-              color: "rgba(255,255,255,0.88)",
-              lineHeight: 1.8,
-              maxWidth: "600px",
-              textShadow: "0 1px 8px rgba(0,0,0,0.3)",
-            }}
-          >
-            {t.hero.subtitle}
-          </p>
-
-          <div className="mt-6 md:mt-10 mb-8 md:mb-0 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
-            <a
-              href="#booking-bar"
-              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-transparent md:bg-accent md:py-4 md:text-accent-foreground md:shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] md:hover:bg-accent/90"
-              style={{ animationDelay: "0.7s" }}
-              data-magnetic
+      <div className="container-villa relative z-10 pt-28 pb-[26rem] md:pt-28 md:pb-64 lg:pt-32 lg:pb-72">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+          {/* LEFT — Content */}
+          <div className="max-w-xl">
+            <div
+              className="hero-fade-up flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em]"
+              style={{ color: "#C8722F", animationDelay: "0.05s" }}
             >
-              {t.hero.cta1}
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
-              href="#villa"
-              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-white/50 md:bg-white/5 md:py-4"
-              style={{ animationDelay: "0.85s" }}
-              data-magnetic
-            >
-              {t.hero.cta2}
-              <ArrowRight className="h-4 w-4" />
-            </a>
+              <span
+                aria-hidden="true"
+                className="inline-block h-px w-8"
+                style={{ background: "#C8722F" }}
+              />
+              {eyebrow}
+            </div>
 
+            <h1
+              className="hero-fade-up mt-5 font-serif font-extrabold leading-[1.02] tracking-tight text-[44px] sm:text-[56px] md:text-[68px] lg:text-[80px]"
+              style={{ color: "#1F2937", animationDelay: "0.15s" }}
+            >
+              Ekaterini <span style={{ color: "#D98A45" }}>VIP</span> Villa
+            </h1>
+
+            <p
+              className="hero-fade-up mt-5 font-serif text-xl leading-snug md:text-2xl"
+              style={{ color: "#1F2937", animationDelay: "0.3s" }}
+            >
+              {t.hero.title}
+            </p>
+
+            <p
+              className="hero-fade-up mt-4 text-[15px] md:text-base"
+              style={{ color: "#5B6472", lineHeight: 1.75, maxWidth: 520, animationDelay: "0.4s" }}
+            >
+              {t.hero.subtitle}
+            </p>
+
+            <div
+              className="hero-fade-up mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+              style={{ animationDelay: "0.55s" }}
+            >
+              <a
+                href="#booking-bar"
+                data-magnetic
+                className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_14px_34px_-14px_rgba(214,120,50,0.55)] transition-transform hover:-translate-y-0.5"
+              >
+                {t.hero.cta1}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#villa"
+                data-magnetic
+                className="btn-lux btn-lux-secondary inline-flex items-center justify-center gap-2 rounded-full border border-[#1F2937]/15 bg-white px-8 py-3.5 text-sm font-semibold text-[#1F2937] shadow-[0_8px_24px_-16px_rgba(15,23,42,0.25)] transition-transform hover:-translate-y-0.5"
+              >
+                {t.hero.cta2}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
 
+          {/* RIGHT — Villa presentation (arch-shaped image) */}
+          <div className="relative hidden lg:block">
+            <div
+              ref={imgRef}
+              className="relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden shadow-[0_40px_80px_-32px_rgba(31,41,55,0.35)] will-change-transform"
+              style={{
+                borderTopLeftRadius: "9999px",
+                borderTopRightRadius: "9999px",
+                borderBottomLeftRadius: "28px",
+                borderBottomRightRadius: "28px",
+              }}
+            >
+              <img
+                src={heroImg}
+                alt={t.hero.imgAlt}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(250,248,244,0.25) 100%)",
+                }}
+              />
+            </div>
+            {/* Soft ground shadow */}
+            <div
+              className="pointer-events-none absolute left-1/2 -bottom-6 h-6 w-3/4 -translate-x-1/2 rounded-[50%] opacity-40 blur-2xl"
+              style={{ background: "#B99A73" }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Premium booking search bar with glassmorphism */}
+      {/* Floating booking search bar */}
       <div
-        className="absolute inset-x-0 bottom-4 z-10 md:bottom-10 hero-fade-up"
-        style={{ animationDelay: "1s" }}
+        className="absolute inset-x-0 bottom-6 z-20 md:bottom-10 hero-fade-up"
+        style={{ animationDelay: "0.75s" }}
       >
         <div className="container-villa">
           <BookingBar />
-          <div className="mt-3 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
-            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
+          <div className="mt-4 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
+            <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#5B6472" }}>
               <Bed className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoMinNights}</span>
             </div>
-            <span className="hidden md:inline text-white/50">•</span>
-            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
-              <CalendarIcon className="h-4 w-4 text-accent" />
+            <span className="hidden md:inline" style={{ color: "#9CA3AF" }}>•</span>
+            <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#5B6472" }}>
+              <MapPin className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoSeason}</span>
             </div>
           </div>
         </div>
       </div>
-
     </section>
   );
 }
+
 
 
 /* ---------- Booking Bar (Hero) ---------- */
