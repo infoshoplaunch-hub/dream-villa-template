@@ -2138,4 +2138,71 @@ function Footer() {
   );
 }
 
+/* ---------- Floating WhatsApp (mobile) ---------- */
+
+function FloatingWhatsApp() {
+  const [visible, setVisible] = useState(false);
+  const [formFocused, setFormFocused] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const isFormField = (el: Element | null) => {
+      if (!el) return false;
+      const tag = el.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
+      if ((el as HTMLElement).isContentEditable) return true;
+      return !!el.closest?.("#booking, #contact, form");
+    };
+    const onFocusIn = () => {
+      const el = document.activeElement;
+      if (
+        el &&
+        (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT")
+      ) {
+        setFormFocused(isFormField(el));
+      }
+    };
+    const onFocusOut = () => setFormFocused(false);
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("focusout", onFocusOut);
+    };
+  }, []);
+
+  useEffect(() => {
+    const check = () => setMenuOpen(document.body.classList.contains("menu-open"));
+    check();
+    const mo = new MutationObserver(check);
+    mo.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+
+  const hidden = !visible || menuOpen || formFocused;
+
+  return (
+    <a
+      href={WHATSAPP_LINK}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="WhatsApp"
+      className={`md:hidden fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_16px_36px_-12px_rgba(37,211,102,0.75)] transition-all duration-300 active:scale-90 ${
+        hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
+      }`}
+      style={{ backgroundColor: "#25D366" }}
+    >
+      <WhatsAppIcon className="h-7 w-7" />
+    </a>
+  );
+}
+
+
 
