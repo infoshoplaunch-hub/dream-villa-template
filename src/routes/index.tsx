@@ -1533,10 +1533,21 @@ function AvailabilitySection() {
                   </div>
                 </div>
 
+                {validationError && (
+                  <div
+                    role="alert"
+                    aria-live="polite"
+                    className="mt-4 flex items-start gap-2.5 rounded-xl border border-[#C86B4A]/30 bg-[#FDF1EA] px-3.5 py-2.5 text-[13px] leading-snug text-[#8A3B22]"
+                  >
+                    <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#C86B4A]" />
+                    <span>{validationError}</span>
+                  </div>
+                )}
+
                 <div className="mt-5 flex flex-col gap-3 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="inline-flex items-center gap-2 text-xs">
                     <span
-                      className={`h-2 w-2 rounded-full ${hasRange ? "bg-emerald-500" : "bg-foreground/25"}`}
+                      className={`h-2 w-2 rounded-full ${canSubmit ? "bg-emerald-500" : "bg-foreground/25"}`}
                     />
                     <span className="text-foreground/70">
                       {hasRange
@@ -1550,8 +1561,9 @@ function AvailabilitySection() {
                   <button
                     type="button"
                     onClick={submit}
+                    disabled={!canSubmit}
                     data-magnetic
-                    className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d]"
+                    className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-[#C86B4A] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_-10px_rgba(200,107,74,0.6)] hover:bg-[#b25c3d] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#C86B4A]"
                   >
                     {t.availability.bookCta}
                     <ArrowRight className="h-4 w-4" />
