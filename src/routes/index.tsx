@@ -2050,8 +2050,15 @@ function ContactSection() {
                 <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
                   WhatsApp
                 </div>
-                <div className="mt-1 font-medium text-foreground">
+                <div
+                  className="mt-1 text-foreground"
+                  style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: "clamp(16px, 2.2vw, 17px)", letterSpacing: "0.4px" }}
+                >
                   {WHATSAPP_NUMBER_DISPLAY}
+                </div>
+                <div className="mt-1 flex items-center gap-1.5 text-xs text-foreground/60">
+                  <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#25D366" }} />
+                  Online
                 </div>
               </div>
               <a
@@ -2061,8 +2068,7 @@ function ContactSection() {
                 className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-soft transition-transform hover:scale-[1.03] active:scale-[0.97]"
                 style={{ backgroundColor: "#25D366" }}
               >
-                <WhatsAppIcon className="h-3.5 w-3.5" />
-                Στείλτε μήνυμα
+                Στείλτε μήνυμα →
               </a>
             </div>
 
@@ -2078,7 +2084,10 @@ function ContactSection() {
                 <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
                   Viber
                 </div>
-                <div className="mt-1 font-medium text-foreground">
+                <div
+                  className="mt-1 text-foreground"
+                  style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: "clamp(16px, 2.2vw, 17px)", letterSpacing: "0.4px" }}
+                >
                   {VIBER_NUMBER_DISPLAY}
                 </div>
               </div>
@@ -2087,8 +2096,7 @@ function ContactSection() {
                 className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-soft transition-transform hover:scale-[1.03] active:scale-[0.97]"
                 style={{ backgroundColor: "#7360F2" }}
               >
-                <ViberIcon className="h-3.5 w-3.5" />
-                Άνοιγμα Viber
+                Άνοιγμα Viber →
               </a>
             </div>
           </div>
