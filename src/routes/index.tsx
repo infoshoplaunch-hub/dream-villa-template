@@ -38,6 +38,7 @@ import { computeBreakdown, formatEUR } from "@/lib/pricing";
 import { Toaster } from "@/components/ui/sonner";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ReviewSubmitDialog } from "@/components/ReviewSubmitDialog";
 
 import heroAsset from "@/assets/villa/villa-hero-day.jpg.asset.json";
 const heroImg = heroAsset.url;
