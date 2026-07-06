@@ -188,3 +188,7 @@ const rowLabel = { color: '#6a6a6a', fontWeight: 500 }
 const rowValue = { color: '#1a1a1a', fontWeight: 600 }
 const hr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '24px 0 16px' }
 const sign = { fontSize: '13px', color: '#6a6a6a', margin: 0, whiteSpace: 'pre-line' as const }
+const innerHr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '10px 0' }
+const totalRow = { fontSize: '15px', margin: '10px 0 0', color: '#1a1a1a', fontWeight: 700 }
+const totalValue = { color: '#c47a3d', fontWeight: 700, fontSize: '16px' }
+const promoFoot = { fontSize: '12px', color: '#7a5b3a', margin: '10px 0 0', fontStyle: 'italic' as const }
