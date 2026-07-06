@@ -1707,6 +1707,29 @@ function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google"
 
 function Reviews() {
   const { t } = useI18n();
+  const approvedQuery = useQuery({
+    queryKey: ["reviews_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("reviews")
+        .select("id, guest_name, location, rating, comment")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(8);
+      if (error) throw error;
+      return data ?? [];
+    },
+    staleTime: 60_000,
+  });
+  const approved = approvedQuery.data ?? [];
+  const useDb = approved.length > 0;
+  const items = useDb
+    ? approved.map((r) => ({
+        text: r.comment,
+        source: r.location ? `${r.guest_name} · ${r.location}` : r.guest_name,
+        rating: r.rating,
+      }))
+    : t.reviews.items.map((r) => ({ text: r.text, source: r.source, rating: 5 }));
   return (
     <section id="reviews" className="section-y bg-[hsl(35_35%_96%)]">
       <div className="container-villa">
@@ -1727,7 +1750,7 @@ function Reviews() {
         </p>
 
         <div data-lux-stagger className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {t.reviews.items.map((r, i) => (
+          {items.map((r, i) => (
             <article
               key={i}
               className="group flex flex-col rounded-2xl bg-white p-7 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] ring-1 ring-black/[0.03] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.15)]"
@@ -1735,9 +1758,9 @@ function Reviews() {
               <svg viewBox="0 0 24 24" className="h-10 w-10 text-primary/70" fill="currentColor" aria-hidden="true">
                 <path d="M7 7h4v4H8c0 2 1 3 3 3v3c-4 0-6-2-6-6V7Zm9 0h4v4h-3c0 2 1 3 3 3v3c-4 0-6-2-6-6V7Z"/>
               </svg>
-              <div className="mt-5 flex gap-1 text-primary" aria-label="5 stars">
+              <div className="mt-5 flex gap-1 text-primary" aria-label={`${r.rating} stars`}>
                 {Array.from({ length: 5 }).map((_, s) => (
-                  <svg key={s} viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">
+                  <svg key={s} viewBox="0 0 20 20" className={`h-4 w-4 ${s < r.rating ? "" : "opacity-25"}`} fill="currentColor">
                     <path d="M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.3 2.7 1-5.9L1.5 7.7l5.9-.8L10 1.5Z"/>
                   </svg>
                 ))}
@@ -1746,7 +1769,7 @@ function Reviews() {
                 {r.text}
               </p>
               <div className="mt-6 border-t border-border/60 pt-5 flex items-center gap-3">
-                <PlatformBadge platform={REVIEW_PLATFORMS[i] ?? "booking"} />
+                {!useDb && <PlatformBadge platform={REVIEW_PLATFORMS[i] ?? "booking"} />}
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-foreground truncate">{r.source}</div>
                   <div className="text-xs text-muted-foreground">{t.reviews.verified}</div>
@@ -1755,6 +1778,7 @@ function Reviews() {
             </article>
           ))}
         </div>
+
 
         <div className="mt-10 flex items-center justify-center gap-2">
           <span className="h-2 w-2 rounded-full bg-primary" />
