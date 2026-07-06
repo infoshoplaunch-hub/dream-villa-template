@@ -576,11 +576,15 @@ footer a:hover svg { transform: scale(1.08); transition: transform 250ms cubic-b
   background: transparent !important;
 }
 
-/* Today's date: subtle orange outline */
+/* Today's date: remove default solid fill, show subtle orange outline */
+.booking-calendar [data-today="true"] {
+  background: transparent !important;
+}
 .booking-calendar [data-today="true"] button {
   box-shadow: inset 0 0 0 1.5px #D9894A;
+  color: #17212B !important;
 }
-.booking-calendar [data-today="true"][data-selected-single="true"] button,
+.booking-calendar [data-today="true"][data-selected="true"] button,
 .booking-calendar [data-today="true"][data-range-start="true"] button,
 .booking-calendar [data-today="true"][data-range-end="true"] button {
   box-shadow: inset 0 0 0 1.5px #fff;
