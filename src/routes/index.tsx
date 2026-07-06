@@ -191,23 +191,16 @@ function Header() {
     return () => io.disconnect();
   }, []);
 
-  const onDark = false;
+  const onDark = !scrolled;
   const allNav = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "py-3" : "py-4"
+        scrolled
+          ? "bg-background/90 backdrop-blur-md border-b border-border/60 py-3"
+          : "bg-transparent py-5"
       }`}
-      style={{
-        background: "rgba(255,255,255,0.75)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(255,255,255,0.6)",
-        boxShadow: scrolled
-          ? "0 8px 30px -12px rgba(15,23,42,0.12)"
-          : "0 4px 20px -12px rgba(15,23,42,0.08)",
-      }}
     >
       <div className="container-villa flex items-center justify-between gap-6">
         <a href="#home" className="flex items-center gap-2 shrink-0">
@@ -221,24 +214,30 @@ function Header() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
-                style={
-                  isActive
-                    ? { color: "#D98A45" }
-                    : { color: "#374151" }
-                }
-                className="relative py-2 text-[13px] font-medium tracking-wide transition-colors hover:opacity-80"
+                style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
+                className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
+                  onDark
+                    ? isActive
+                      ? "text-white"
+                      : "text-white/90 hover:text-white"
+                    : isActive
+                      ? "text-foreground"
+                      : "text-foreground/70 hover:text-accent"
+                }`}
               >
                 {n.label}
                 {isActive && (
-                  <span className="absolute left-1/2 -bottom-0.5 h-[2px] w-6 -translate-x-1/2 rounded-full" style={{ background: "#D98A45" }} />
+                  <span className="absolute left-1/2 -bottom-0.5 h-[2px] w-6 -translate-x-1/2 rounded-full bg-accent" />
                 )}
               </a>
             );
           })}
           <Link
             to="/gallery"
-            style={{ color: "#374151" }}
-            className="relative py-2 text-[13px] font-medium tracking-wide transition-colors hover:opacity-80"
+            style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
+            className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
+              onDark ? "text-white/90 hover:text-white" : "text-foreground/70 hover:text-accent"
+            }`}
           >
             {t.nav.gallery}
           </Link>
@@ -309,157 +308,161 @@ function Header() {
 
 function Hero() {
   const { t } = useI18n();
+  const bgRef = useRef<HTMLDivElement | null>(null);
+
+  // Parallax: bg image moves slower than content on scroll.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (bgRef.current) {
+          bgRef.current.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+        }
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Golden particles
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 18 }).map((_, i) => ({
+        left: `${(i * 53) % 100}%`,
+        top: `${60 + ((i * 17) % 35)}%`,
+        size: 2 + ((i * 7) % 4),
+        opacity: 0.15 + ((i * 13) % 25) / 100,
+        dx: `${-30 + ((i * 11) % 60)}px`,
+        dur: `${12 + ((i * 3) % 10)}s`,
+        delay: `${(i * 0.7) % 8}s`,
+      })),
+    [],
+  );
 
   return (
-    <section
-      id="home"
-      className="relative min-h-[100svh] w-full overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(160deg, #FAF8F4 0%, #F7F4EF 55%, #F4EFE7 100%)",
-      }}
-    >
-      {/* Soft radial light behind hero content */}
+    <section id="home" className="relative min-h-[100svh] w-full overflow-hidden bg-black">
+      {/* Parallax background wrapper */}
+      <div ref={bgRef} className="absolute inset-0 will-change-transform">
+        <div className="hero-kenburns absolute inset-0">
+          <img
+            src={heroImg}
+            alt={t.hero.imgAlt}
+            width={1920}
+            height={1280}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Premium vertical gradient (top → bottom) */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(60% 55% at 32% 42%, rgba(255,240,220,0.85) 0%, rgba(255,240,220,0) 70%)",
+            "linear-gradient(180deg, rgba(12,18,28,0.55) 0%, rgba(12,18,28,0.45) 45%, rgba(12,18,28,0.72) 100%)",
         }}
       />
-
-      {/* Blurred Mediterranean organic shapes */}
+      {/* Left-side dark wash behind text; fades to transparent on the right */}
       <div
-        className="absolute pointer-events-none rounded-full"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          top: "-8%",
-          left: "-6%",
-          width: "520px",
-          height: "520px",
           background:
-            "radial-gradient(closest-side, rgba(217,138,69,0.14), transparent 70%)",
-          filter: "blur(60px)",
+            "linear-gradient(90deg, rgba(10,15,25,0.60) 0%, rgba(10,15,25,0.35) 40%, rgba(10,15,25,0.05) 70%, rgba(10,15,25,0) 100%)",
         }}
       />
+      {/* Soft vignette around the edges */}
       <div
-        className="absolute pointer-events-none rounded-full"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          bottom: "-10%",
-          left: "22%",
-          width: "620px",
-          height: "620px",
           background:
-            "radial-gradient(closest-side, rgba(120,170,180,0.14), transparent 70%)",
-          filter: "blur(80px)",
+            "radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0,0,0,0.45) 100%)",
         }}
       />
-      <div
-        className="absolute pointer-events-none rounded-full"
-        style={{
-          top: "10%",
-          right: "-8%",
-          width: "480px",
-          height: "480px",
-          background:
-            "radial-gradient(closest-side, rgba(240,205,155,0.22), transparent 70%)",
-          filter: "blur(70px)",
-        }}
-      />
-
-      {/* Elegant architectural arch on the right */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 400 700"
-        preserveAspectRatio="xMaxYMid meet"
-        className="absolute right-0 top-1/2 hidden -translate-y-1/2 md:block"
-        style={{
-          height: "88%",
-          width: "auto",
-          opacity: 0.07,
-          color: "#1F2937",
-        }}
-      >
-        <path
-          d="M40 680 L40 220 A160 160 0 0 1 360 220 L360 680"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
+      {/* Pool shimmer reflection band */}
+      <div className="absolute inset-x-0 bottom-[18%] h-24 overflow-hidden pointer-events-none">
+        <div
+          className="hero-shimmer absolute inset-y-0 w-1/2"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent)",
+            mixBlendMode: "screen",
+          }}
         />
-        <path
-          d="M90 680 L90 240 A110 110 0 0 1 310 240 L310 680"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-      </svg>
+      </div>
+
+      {/* Floating golden particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {particles.map((p: typeof particles[number], i: number) => (
+          <span
+            key={i}
+            className="hero-particle absolute rounded-full"
+            style={{
+              left: p.left,
+              top: p.top,
+              width: p.size,
+              height: p.size,
+              background: "rgba(255,205,140,0.9)",
+              boxShadow: "0 0 6px rgba(255,190,120,0.6)",
+              ["--p-opacity" as string]: p.opacity,
+              ["--p-dx" as string]: p.dx,
+              ["--p-dur" as string]: p.dur,
+              ["--p-delay" as string]: p.delay,
+            }}
+          />
+        ))}
+      </div>
 
       {/* Bottom fade to blend into next section */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0))",
-        }}
-      />
+      <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background via-black/70 to-transparent pointer-events-none" />
 
       <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-[22rem] pt-32 md:justify-center md:pb-56 md:pt-24">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl text-white">
           <h1
-            className="hero-fade-up mt-4 md:mt-6 font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-[72px]"
+            className="hero-fade-up mt-4 md:mt-6 font-serif font-extrabold text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px]"
             style={{
               animationDelay: "0.15s",
-              color: "#1F2937",
-              fontWeight: 800,
-              letterSpacing: "-0.015em",
+              color: "#FFFFFF",
+              textShadow: "0 4px 20px rgba(0,0,0,0.35)",
             }}
           >
             Ekaterini <span style={{ color: "#D98A45" }}>VIP</span> Villa
           </h1>
           <p
-            className="hero-fade-up mt-5 md:mt-7 text-xl leading-snug md:text-2xl"
+            className="hero-fade-up mt-5 md:mt-8 font-serif text-2xl leading-snug md:text-3xl"
             style={{
               animationDelay: "0.35s",
-              color: "#2F3B45",
-              fontWeight: 600,
+              color: "rgba(255,255,255,0.96)",
               maxWidth: "700px",
+              textShadow: "0 2px 12px rgba(0,0,0,0.35)",
             }}
           >
             {t.hero.title}
           </p>
 
           <p
-            className="hero-fade-up mt-5 md:mt-6 text-[15px] md:text-base"
+            className="hero-fade-up mt-5 md:mt-7 text-[15px] md:text-base"
             style={{
               animationDelay: "0.5s",
-              color: "#5B6470",
+              color: "rgba(255,255,255,0.88)",
               lineHeight: 1.8,
-              maxWidth: "620px",
+              maxWidth: "600px",
+              textShadow: "0 1px 8px rgba(0,0,0,0.3)",
             }}
           >
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-7 md:mt-10 mb-8 md:mb-0 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
+          <div className="mt-6 md:mt-10 mb-8 md:mb-0 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
             <a
               href="#booking-bar"
-              className="hero-fade-up group inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 md:w-auto md:py-4"
-              style={{
-                animationDelay: "0.7s",
-                background: "#D98A45",
-                boxShadow: "0 14px 32px -12px rgba(217,138,69,0.55)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#C67A38";
-                e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 22px 40px -14px rgba(217,138,69,0.6)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#D98A45";
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 14px 32px -12px rgba(217,138,69,0.55)";
-              }}
+              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-transparent md:bg-accent md:py-4 md:text-accent-foreground md:shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] md:hover:bg-accent/90"
+              style={{ animationDelay: "0.7s" }}
               data-magnetic
             >
               {t.hero.cta1}
@@ -467,54 +470,43 @@ function Hero() {
             </a>
             <a
               href="#villa"
-              className="hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold transition-all duration-300 md:w-auto md:py-4"
-              style={{
-                animationDelay: "0.85s",
-                border: "1px solid #E5E7EB",
-                color: "#1F2937",
-                boxShadow: "0 6px 18px -10px rgba(15,23,42,0.15)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#D98A45";
-                e.currentTarget.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#E5E7EB";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
+              className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-white/50 md:bg-white/5 md:py-4"
+              style={{ animationDelay: "0.85s" }}
               data-magnetic
             >
               {t.hero.cta2}
               <ArrowRight className="h-4 w-4" />
             </a>
+
           </div>
+
         </div>
       </div>
 
-      {/* Premium floating booking bar */}
+      {/* Premium booking search bar with glassmorphism */}
       <div
-        className="absolute inset-x-0 bottom-4 z-10 md:bottom-10 hero-fade-up hero-float"
+        className="absolute inset-x-0 bottom-4 z-10 md:bottom-10 hero-fade-up"
         style={{ animationDelay: "1s" }}
       >
         <div className="container-villa">
           <BookingBar />
-          <div className="mt-4 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
-            <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#5B6470" }}>
-              <Bed className="h-4 w-4" style={{ color: "#D98A45" }} />
+          <div className="mt-3 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
+            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
+              <Bed className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoMinNights}</span>
             </div>
-            <span className="hidden md:inline" style={{ color: "#C9CFD6" }}>•</span>
-            <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#5B6470" }}>
-              <CalendarIcon className="h-4 w-4" style={{ color: "#D98A45" }} />
+            <span className="hidden md:inline text-white/50">•</span>
+            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
+              <CalendarIcon className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoSeason}</span>
             </div>
           </div>
         </div>
       </div>
+
     </section>
   );
 }
-
 
 
 /* ---------- Booking Bar (Hero) ---------- */
@@ -620,7 +612,7 @@ function BookingBar() {
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
   return (
-    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl bg-white backdrop-blur-xl" style={{ borderRadius: "28px", border: "1px solid #F1F1F1", boxShadow: "0 30px 80px -30px rgba(15,23,42,0.25), 0 10px 30px -15px rgba(15,23,42,0.12)" }}>
+    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl rounded-3xl border border-white/60 bg-white shadow-[0_40px_90px_-20px_rgba(15,23,42,0.75)] backdrop-blur-xl">
       <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
         {/* Check-in */}
         <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
