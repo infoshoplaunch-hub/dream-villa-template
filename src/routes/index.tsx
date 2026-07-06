@@ -52,7 +52,8 @@ const villaExteriorDayImg = villaExteriorDayAsset.url;
 import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
 const villaLivingRoomImg = villaLivingRoomAsset.url;
 
-const VIBER_CONTACT_LINK = "viber://chat?number=+306999999999";
+const VIBER_CONTACT_LINK = "viber://chat?number=%2B306940133837";
+const VIBER_NUMBER_DISPLAY = "+30 6940 133 837";
 const WHATSAPP_NUMBER_DISPLAY = "+30 697 157 3490";
 const WHATSAPP_LINK = "https://wa.me/306971573490";
 
