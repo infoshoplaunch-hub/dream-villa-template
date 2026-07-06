@@ -487,6 +487,8 @@ const en: typeof el = {
     clearDates: "Clear dates",
     selected: "Selected",
     unavailable: "Unavailable",
+    infoCardMinNights: "Minimum stay: 7 nights",
+    infoCardSeason: "The villa is available from 20 April to 20 October.",
     arrival: "Check-in",
     departure: "Check-out",
     nights: "Nights",
