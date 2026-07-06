@@ -1706,6 +1706,7 @@ function PlatformBadge({ platform }: { platform: "booking" | "airbnb" | "google"
 }
 
 function Reviews() {
+  const [reviewOpen, setReviewOpen] = useState(false);
   const { t } = useI18n();
   const approvedQuery = useQuery({
     queryKey: ["reviews_public"],
