@@ -167,6 +167,11 @@ function Header() {
   }, []);
 
   useEffect(() => {
+    document.body.classList.toggle("menu-open", open);
+    return () => document.body.classList.remove("menu-open");
+  }, [open]);
+
+  useEffect(() => {
     const sections = NAV_IDS.map((id) => document.getElementById(id)).filter(
       (el): el is HTMLElement => !!el,
     );
