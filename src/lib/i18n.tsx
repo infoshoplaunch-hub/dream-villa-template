@@ -46,6 +46,9 @@ const el = {
     errSeason: "Η διαθεσιμότητα της βίλας είναι από 20 Απριλίου έως 20 Οκτωβρίου.",
     heroInfoMinNights: "Ελάχιστη διαμονή: 7 διανυκτερεύσεις",
     heroInfoSeason: "Διαθεσιμότητα: 20 Απριλίου – 20 Οκτωβρίου",
+    nightSingular: "διανυκτέρευση",
+    nightPlural: "διανυκτερεύσεις",
+    estimatedTotal: "Εκτιμώμενο σύνολο",
   },
   villa: {
     eyebrow: "Η Βίλα",
