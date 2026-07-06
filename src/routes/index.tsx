@@ -191,16 +191,23 @@ function Header() {
     return () => io.disconnect();
   }, []);
 
-  const onDark = !scrolled;
+  const onDark = false;
   const allNav = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/90 backdrop-blur-md border-b border-border/60 py-3"
-          : "bg-transparent py-5"
+        scrolled ? "py-3" : "py-4"
       }`}
+      style={{
+        background: "rgba(255,255,255,0.75)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(255,255,255,0.6)",
+        boxShadow: scrolled
+          ? "0 8px 30px -12px rgba(15,23,42,0.12)"
+          : "0 4px 20px -12px rgba(15,23,42,0.08)",
+      }}
     >
       <div className="container-villa flex items-center justify-between gap-6">
         <a href="#home" className="flex items-center gap-2 shrink-0">
@@ -214,30 +221,24 @@ function Header() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
-                style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
-                className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
-                  onDark
-                    ? isActive
-                      ? "text-white"
-                      : "text-white/90 hover:text-white"
-                    : isActive
-                      ? "text-foreground"
-                      : "text-foreground/70 hover:text-accent"
-                }`}
+                style={
+                  isActive
+                    ? { color: "#D98A45" }
+                    : { color: "#374151" }
+                }
+                className="relative py-2 text-[13px] font-medium tracking-wide transition-colors hover:opacity-80"
               >
                 {n.label}
                 {isActive && (
-                  <span className="absolute left-1/2 -bottom-0.5 h-[2px] w-6 -translate-x-1/2 rounded-full bg-accent" />
+                  <span className="absolute left-1/2 -bottom-0.5 h-[2px] w-6 -translate-x-1/2 rounded-full" style={{ background: "#D98A45" }} />
                 )}
               </a>
             );
           })}
           <Link
             to="/gallery"
-            style={onDark ? { textShadow: "0 1px 8px rgba(0,0,0,0.4)" } : undefined}
-            className={`relative py-2 text-[13px] font-medium tracking-wide transition-colors ${
-              onDark ? "text-white/90 hover:text-white" : "text-foreground/70 hover:text-accent"
-            }`}
+            style={{ color: "#374151" }}
+            className="relative py-2 text-[13px] font-medium tracking-wide transition-colors hover:opacity-80"
           >
             {t.nav.gallery}
           </Link>
