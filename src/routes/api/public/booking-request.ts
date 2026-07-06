@@ -116,6 +116,34 @@ export const Route = createFileRoute('/api/public/booking-request')({
           )
         }
 
+        // Season bounds: April 20 – October 20 (both check_in and check_out inclusive)
+        const inSeason = (iso: string) => {
+          const [, mm, dd] = iso.split('-').map((n) => parseInt(n, 10))
+          if (mm < 4 || mm > 10) return false
+          if (mm === 4 && dd < 20) return false
+          if (mm === 10 && dd > 20) return false
+          return true
+        }
+        if (!inSeason(data.check_in) || !inSeason(data.check_out)) {
+          return Response.json(
+            { error: 'out_of_season' },
+            { status: 400 },
+          )
+        }
+
+        // Minimum stay: 7 nights
+        const nightsCount = Math.round(
+          (new Date(data.check_out + 'T00:00:00Z').getTime() -
+            new Date(data.check_in + 'T00:00:00Z').getTime()) /
+            86400000,
+        )
+        if (nightsCount < 7) {
+          return Response.json(
+            { error: 'min_nights', minimum: 7 },
+            { status: 400 },
+          )
+        }
+
         const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
 
         // Availability check: any blocked_date or overlapping confirmed booking?
