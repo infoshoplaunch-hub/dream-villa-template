@@ -1313,6 +1313,15 @@ function AvailabilitySection() {
       : 0;
   const hasRange = Boolean(range?.from && range?.to);
 
+  const validationError = (() => {
+    if (!range?.from || !range?.to) return null;
+    if (isOutOfSeason(range.from) || isOutOfSeason(range.to)) return t.availability.errSeason;
+    if (blockedDates.some((b) => b >= range.from! && b < range.to!)) return t.availability.errBlocked;
+    if (nights < 7) return t.availability.errMinNights;
+    return null;
+  })();
+  const canSubmit = hasRange && !validationError;
+
   const highlightIcons = [UsersIcon, PoolIcon, MountainSnowIcon, UtensilsCrossedIcon, ParkingIcon, WifiIcon];
   const highlights = t.availability.highlights.map((label, i) => ({ label, icon: highlightIcons[i] }));
 
