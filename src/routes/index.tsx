@@ -48,7 +48,7 @@ const logoUrl = logoAsset.url;
 const logoDarkUrl = logoDarkAsset.url;
 import poolAsset from "@/assets/villa/villa-pool.jpg.asset.json";
 const poolImg = poolAsset.url;
-import villaExteriorDayAsset from "@/assets/villa/villa-exterior-day.jpg.asset.json";
+import villaExteriorDayAsset from "@/assets/villa/villa-sunset.jpg.asset.json";
 const villaExteriorDayImg = villaExteriorDayAsset.url;
 import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
 const villaLivingRoomImg = villaLivingRoomAsset.url;
