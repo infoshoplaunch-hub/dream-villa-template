@@ -641,7 +641,7 @@ function BookingBar() {
                 setCheckOut(d);
                 if (d) setOpenCal(null);
               }}
-              disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d)}
+              disabled={(d) => d < today || (checkIn ? d <= checkIn : false) || isBlocked(d) || isOutOfSeason(d)}
               modifiers={{ blocked: blockedDates }}
               modifiersClassNames={{ blocked: "line-through text-foreground/40" }}
               locale={dateLocale}
