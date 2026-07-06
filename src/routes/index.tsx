@@ -1267,8 +1267,12 @@ function AvailabilitySection() {
       toast.error(t.availability.errDates);
       return;
     }
+    if (isOutOfSeason(range.from) || isOutOfSeason(range.to)) {
+      toast.error(t.availability.errSeason);
+      return;
+    }
     const nights = Math.round((range.to.getTime() - range.from.getTime()) / 86400000);
-    if (nights < 3) {
+    if (nights < 7) {
       toast.error(t.availability.errMinNights);
       return;
     }
