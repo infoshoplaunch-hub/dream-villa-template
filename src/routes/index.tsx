@@ -74,6 +74,14 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-2.058c0-3.627 2.132-5.646 5.495-5.646 1.595 0 2.945.118 3.34.171v3.08h-2.29c-1.785 0-2.131.848-2.131 2.09v1.363h4.263l-.554 3.667h-3.709v7.98H9.101z" />
+    </svg>
+  );
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
