@@ -1972,11 +1972,13 @@ function ContactSection() {
       label: t.contact.phone,
       value: "+30 6940 133 837",
       href: "tel:+306940133837",
+      isPhone: true,
     },
     {
       label: t.contact.phone,
       value: "+30 6948 014 277",
       href: "tel:+306948014277",
+      isPhone: true,
     },
     {
       label: t.contact.address,
