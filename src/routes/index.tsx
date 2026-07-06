@@ -104,6 +104,7 @@ function Landing() {
       </main>
       <Footer />
       <Toaster position="top-center" />
+      <FloatingWhatsApp />
 
     </div>
   );
