@@ -546,6 +546,16 @@ function BookingBar() {
   const fmt = (d?: Date) =>
     d ? format(d, "EEE d MMM", { locale: dateLocale }) : t.bookingBar.pickDate;
 
+  const heroBreakdown = (() => {
+    if (!checkIn || !checkOut) return null;
+    if (isOutOfSeason(checkIn) || isOutOfSeason(checkOut)) return null;
+    const n = Math.round((checkOut.getTime() - checkIn.getTime()) / 86400000);
+    if (n < 7) return null;
+    if (blockedDates.some((b) => b >= checkIn && b < checkOut)) return null;
+    return computeBreakdown(checkIn, checkOut);
+  })();
+  const priceLocaleHero = lang === "el" ? "el-GR" : "en-GB";
+
   const bump = (
     setter: React.Dispatch<React.SetStateAction<number>>,
     current: number,
