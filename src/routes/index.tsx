@@ -34,6 +34,7 @@ import { el } from "date-fns/locale";
 import { toast } from "sonner";
 
 import { useI18n, translateAmenity, type Lang } from "@/lib/i18n";
+import { computeBreakdown, formatEUR } from "@/lib/pricing";
 import { Toaster } from "@/components/ui/sonner";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -1323,6 +1324,12 @@ function AvailabilitySection() {
   })();
   const canSubmit = hasRange && !validationError;
 
+  const breakdown =
+    range?.from && range?.to && !validationError
+      ? computeBreakdown(range.from, range.to)
+      : null;
+  const priceLocale = lang === "el" ? "el-GR" : "en-GB";
+
   const highlightIcons = [UsersIcon, PoolIcon, MountainSnowIcon, UtensilsCrossedIcon, ParkingIcon, WifiIcon];
   const highlights = t.availability.highlights.map((label, i) => ({ label, icon: highlightIcons[i] }));
 
@@ -1545,6 +1552,54 @@ function AvailabilitySection() {
                   </div>
                 )}
 
+                {breakdown && (
+                  <div className="mt-5 rounded-2xl border border-[#D9894A]/25 bg-[#FDF6F0] p-4 md:p-5 animate-in fade-in slide-in-from-bottom-1 duration-300">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8A3B22]/80">
+                      {t.availability.priceBreakdown}
+                    </div>
+                    <ul className="mt-3 space-y-1.5 text-sm text-foreground/85">
+                      {breakdown.groups.map((g, i) => (
+                        <li key={i} className="flex items-baseline justify-between gap-3">
+                          <span className="text-foreground/75">
+                            {g.nights} × {formatEUR(g.rate, priceLocale)}{" "}
+                            <span className="text-foreground/50">{t.availability.perNight}</span>
+                          </span>
+                          <span className="font-medium tabular-nums text-foreground">
+                            {formatEUR(g.subtotal, priceLocale)}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-3 flex items-baseline justify-between border-t border-[#D9894A]/20 pt-3 text-sm">
+                      <span className="text-foreground/70">{t.availability.subtotal}</span>
+                      <span className="font-semibold tabular-nums text-foreground">
+                        {formatEUR(breakdown.subtotal, priceLocale)}
+                      </span>
+                    </div>
+                    {breakdown.promoActive && breakdown.discount > 0 && (
+                      <div className="mt-2 flex items-baseline justify-between text-sm">
+                        <span className="text-[#8A3B22]">{t.availability.promoDiscount}</span>
+                        <span className="font-semibold tabular-nums text-[#8A3B22]">
+                          −{formatEUR(breakdown.discount, priceLocale)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="mt-3 flex items-baseline justify-between border-t border-[#D9894A]/20 pt-3">
+                      <span className="font-serif text-base text-foreground">
+                        {t.availability.finalTotal}
+                      </span>
+                      <span className="font-serif text-xl font-semibold tabular-nums text-[#C86B4A]">
+                        {formatEUR(breakdown.total, priceLocale)}
+                      </span>
+                    </div>
+                    {breakdown.promoActive && (
+                      <p className="mt-2 text-[11px] italic leading-snug text-[#8A3B22]/75">
+                        {t.availability.promoNote}
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <div className="mt-5 flex flex-col gap-3 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="inline-flex items-center gap-2 text-xs">
                     <span
@@ -1571,9 +1626,9 @@ function AvailabilitySection() {
                   </button>
                 </div>
 
-                <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-foreground/55">
-                  <Lock className="h-3 w-3" />
-                  {t.availability.noChargeYet}
+                <p className="mt-3 flex items-start justify-center gap-1.5 text-center text-xs leading-snug text-foreground/60">
+                  <Lock className="mt-0.5 h-3 w-3 shrink-0" />
+                  <span>{t.availability.paymentNotice}</span>
                 </p>
               </div>
             </div>
