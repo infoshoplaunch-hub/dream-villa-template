@@ -481,18 +481,6 @@ function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
 
-            {/* Mobile-only WhatsApp CTA */}
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="WhatsApp"
-              className="md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_-12px_rgba(37,211,102,0.7)] transition-transform active:scale-[0.97]"
-              style={{ backgroundColor: "#25D366" }}
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              WhatsApp
-            </a>
 
             {/* Mobile-only Viber CTA */}
             <a
