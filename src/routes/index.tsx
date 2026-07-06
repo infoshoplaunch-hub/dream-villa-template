@@ -2021,7 +2021,10 @@ function ContactSection() {
                 <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
                   {it.label}
                 </div>
-                <div className="mt-1 font-medium text-foreground group-hover:text-accent">
+                <div
+                  className={`mt-1 text-foreground group-hover:text-accent ${it.isPhone ? "" : "font-medium"}`}
+                  style={it.isPhone ? { fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: "clamp(16px, 2.2vw, 17px)", letterSpacing: "0.4px" } : undefined}
+                >
                   {it.value}
                 </div>
               </div>
