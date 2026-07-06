@@ -721,6 +721,26 @@ function BookingBar() {
           </button>
         </div>
       </div>
+      {heroBreakdown && (
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-t border-border/50 px-5 py-3 text-[13px] md:px-6">
+          <span className="text-foreground/60">
+            {heroBreakdown.nights} {heroBreakdown.nights === 1 ? t.bookingBar.nightSingular : t.bookingBar.nightPlural}
+            {heroBreakdown.promoActive && heroBreakdown.discount > 0 && (
+              <span className="ml-2 text-[11px] font-semibold uppercase tracking-wider text-[#C86B4A]">
+                −10%
+              </span>
+            )}
+          </span>
+          <span className="inline-flex items-baseline gap-2">
+            <span className="text-[11px] uppercase tracking-[0.12em] text-foreground/50">
+              {t.bookingBar.estimatedTotal}
+            </span>
+            <span className="font-serif text-lg font-semibold text-[#C86B4A]">
+              {formatEUR(heroBreakdown.total, priceLocaleHero)}
+            </span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }
