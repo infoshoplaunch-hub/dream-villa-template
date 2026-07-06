@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import heroAsset from "@/assets/villa-hero.jpg.asset.json";
 import { useI18n } from "@/lib/i18n";
+import { computeBreakdown, formatEUR } from "@/lib/pricing";
 
 const searchSchema = z.object({
   check_in: z.string().optional(),
