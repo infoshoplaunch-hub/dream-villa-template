@@ -194,6 +194,39 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          guest_name: string
+          id: string
+          location: string | null
+          rating: number
+          status: Database["public"]["Enums"]["review_status"]
+          updated_at: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          guest_name: string
+          id?: string
+          location?: string | null
+          rating: number
+          status?: Database["public"]["Enums"]["review_status"]
+          updated_at?: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          guest_name?: string
+          id?: string
+          location?: string | null
+          rating?: number
+          status?: Database["public"]["Enums"]["review_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
@@ -280,7 +313,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      booking_status: "pending" | "confirmed" | "cancelled"
+      booking_status: "pending" | "confirmed" | "cancelled" | "rejected"
+      review_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -409,7 +443,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      booking_status: ["pending", "confirmed", "cancelled"],
+      booking_status: ["pending", "confirmed", "cancelled", "rejected"],
+      review_status: ["pending", "approved", "rejected"],
     },
   },
 } as const
