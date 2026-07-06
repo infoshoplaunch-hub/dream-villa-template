@@ -1385,15 +1385,23 @@ function AvailabilitySection() {
             <div className="space-y-6">
               {/* Calendar card */}
               <div className="rounded-[20px] border border-border/50 bg-[#FAF7F1] p-5 shadow-[0_20px_60px_-30px_rgba(23,33,43,0.22)] md:p-8">
-                <div className="flex items-baseline justify-between gap-4">
+              <div>
                   <h3 className="font-serif text-xl text-foreground md:text-2xl">
                     {t.availability.calendarTitle}
                   </h3>
-                  <span className="text-xs font-medium text-foreground/55">
-                    {hasRange
-                      ? `${nights} ${nights === 1 ? t.availability.nightSingular : t.availability.nightPlural}`
-                      : t.availability.minNights}
-                  </span>
+                  <div className="mt-3 flex items-start gap-3 rounded-xl border border-[#D9894A]/30 bg-[#FDF6F0] p-3.5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D9894A]/25 bg-[#D9894A]/10 text-[#D9894A]">
+                      <Bed className="h-4 w-4" strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-semibold leading-snug text-[#17212B]">
+                        {t.availability.infoCardMinNights}
+                      </p>
+                      <p className="mt-0.5 text-[12px] leading-snug text-[#17212B]/60">
+                        {t.availability.infoCardSeason}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="mt-6 booking-calendar w-full">
