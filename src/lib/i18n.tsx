@@ -508,7 +508,7 @@ const en: typeof el = {
     errMinNights: "Minimum stay is 7 nights.",
     errSeason: "The villa is available from April 20 to October 20.",
     errDates: "Please select check-in and check-out dates.",
-    errBlocked: "The selected range includes unavailable dates.",
+    errBlocked: "The selected dates are not available.",
     errMaxGuests: "The villa can host up to 7 guests.",
     trust: [
       "Secure Booking",
