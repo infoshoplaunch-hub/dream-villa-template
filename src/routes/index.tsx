@@ -2184,8 +2184,25 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-border pt-6 text-xs text-muted-foreground">
-          © {year} Ekaterini VIP Villa. {t.footer.rights}
+        <div className="mt-12 border-t border-border pt-6 pb-2 text-center">
+          <div className="text-xs text-muted-foreground">
+            © {year} Ekaterini VIP Villa. {t.footer.rights}
+          </div>
+          <p
+            className="mt-6 text-[13px] md:text-[14px] font-[600] text-[#6B7280]"
+            style={{ fontFamily: '"Open Sans", sans-serif' }}
+          >
+            Design by{' '}
+            <a
+              href="https://webdynamis.gr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer text-[#D98445] transition-colors duration-200 hover:text-[#C06A2E] hover:underline"
+              style={{ fontFamily: '"Open Sans", sans-serif' }}
+            >
+              WebDynamis
+            </a>
+          </p>
         </div>
       </div>
     </footer>
