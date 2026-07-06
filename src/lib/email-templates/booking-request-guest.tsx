@@ -88,6 +88,11 @@ const Email = ({
   nights = 0,
   adults = 0,
   children: kids = 0,
+  priceGroups = [],
+  subtotal = 0,
+  discount = 0,
+  promoActive = false,
+  total = 0,
 }: Props) => {
   const t = copy[lang]
   return (
@@ -113,6 +118,27 @@ const Email = ({
             <Row label={t.adults} value={String(adults)} />
             <Row label={t.children} value={String(kids)} />
           </Section>
+
+          {priceGroups.length > 0 ? (
+            <Section style={card}>
+              <Heading as="h3" style={h3}>{t.priceTitle}</Heading>
+              {priceGroups.map((g, i) => (
+                <Row key={i} label={`${g.nights} × ${eur(g.rate)} ${t.perNight}`} value={eur(g.subtotal)} />
+              ))}
+              <Hr style={innerHr} />
+              <Row label={t.subtotal} value={eur(subtotal)} />
+              {promoActive && discount > 0 ? (
+                <Row label={t.discount} value={`−${eur(discount)}`} />
+              ) : null}
+              <Text style={totalRow}>
+                <span style={rowLabel}>{t.total}:</span>{' '}
+                <span style={totalValue}>{eur(total)}</span>
+              </Text>
+              {promoActive ? (
+                <Text style={promoFoot}>{t.promoFoot}</Text>
+              ) : null}
+            </Section>
+          ) : null}
 
           <Text style={p}>{t.contact}</Text>
           <Hr style={hr} />
