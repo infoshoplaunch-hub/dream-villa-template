@@ -554,6 +554,15 @@ function BookingBar() {
       toast.error(t.bookingBar.errDates);
       return;
     }
+    if (isOutOfSeason(checkIn) || isOutOfSeason(checkOut)) {
+      toast.error(t.bookingBar.errSeason);
+      return;
+    }
+    const nights = Math.round((checkOut.getTime() - checkIn.getTime()) / 86400000);
+    if (nights < 7) {
+      toast.error(t.bookingBar.errMinNights);
+      return;
+    }
     const hasBlocked = blockedDates.some((b) => b >= checkIn && b < checkOut);
     if (hasBlocked) {
       toast.error(t.bookingBar.errBlocked);
