@@ -53,11 +53,21 @@ import villaLivingRoomAsset from "@/assets/villa/EKATERINI-33.jpg.asset.json";
 const villaLivingRoomImg = villaLivingRoomAsset.url;
 
 const VIBER_CONTACT_LINK = "viber://chat?number=+306999999999";
+const WHATSAPP_NUMBER_DISPLAY = "+30 697 157 3490";
+const WHATSAPP_LINK = "https://wa.me/306971573490";
 
 function ViberIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
       <path d="M12.012 0C5.372 0 0 5.373 0 11.988c0 2.17.585 4.284 1.692 6.13L.276 23.723l5.748-1.898c1.7.9 3.7 1.4 5.988 1.538 6.64 0 12.012-5.373 12.012-11.988C24.024 5.373 18.652 0 12.012 0zm6.568 16.56c-.277.78-1.51 1.434-2.116 1.51-.555.075-1.085.252-3.657-.78-3.1-1.235-5.09-4.41-5.24-4.61-.15-.202-1.26-1.664-1.26-3.176 0-1.512.793-2.243 1.083-2.546.29-.302.63-.378.84-.378.21 0 .42 0 .6.013.21.013.487-.075.756.555.277.655.932 2.28 1.008 2.445.076.164.126.354.024.58-.1.227-.15.366-.3.555-.15.19-.315.403-.453.555-.15.164-.3.34-.126.656.176.315.793 1.31 1.7 2.118 1.17 1.032 2.152 1.36 2.467 1.512.315.15.504.125.69-.09.19-.214.805-1.01 1.02-1.36.214-.35.428-.29.717-.156.29.134 1.85 1.035 2.165 1.225.314.19.53.29.605.45.075.16.05.788-.226 1.57z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.79 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.42-.516 2.706-1.32.13-.4.187-.85.187-1.275 0-.517-1.36-.816-1.884-1.03zm-2.19 4.94a10.023 10.023 0 0 1-4.85-1.26l-.35-.203-3.6.94.962-3.51-.23-.36a9.98 9.98 0 0 1-1.532-5.324c0-5.51 4.484-9.993 9.995-9.993 5.512 0 9.996 4.484 9.996 9.994 0 5.51-4.485 9.995-9.996 9.995zm0-21.99C10.315.155 4.99 5.48 4.99 12.05c0 2.084.55 4.114 1.598 5.898L4.9 24.15l6.32-1.664a11.75 11.75 0 0 0 5.68 1.443c6.57 0 11.9-5.324 11.9-11.895 0-6.57-5.33-11.895-11.9-11.895z" />
     </svg>
   );
 }
@@ -94,6 +104,7 @@ function Landing() {
       </main>
       <Footer />
       <Toaster position="top-center" />
+      <FloatingWhatsApp />
 
     </div>
   );
@@ -155,6 +166,11 @@ function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", open);
+    return () => document.body.classList.remove("menu-open");
+  }, [open]);
 
   useEffect(() => {
     const sections = NAV_IDS.map((id) => document.getElementById(id)).filter(
@@ -472,10 +488,24 @@ function Hero() {
               <ViberIcon className="h-4 w-4" />
               {t.hero.viber}
             </a>
+
+            {/* Mobile-only WhatsApp CTA */}
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+              className="md:hidden inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_-12px_rgba(37,211,102,0.7)] transition-transform active:scale-[0.97]"
+              style={{ backgroundColor: "#25D366" }}
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              WhatsApp
+            </a>
           </div>
           <p className="md:hidden mt-2 text-center text-xs text-white/70">
             {t.hero.viberHelper}
           </p>
+
         </div>
       </div>
 
@@ -1992,7 +2022,38 @@ function ContactSection() {
               </div>
             </a>
           ))}
+
+          {/* WhatsApp contact card */}
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noreferrer"
+            className="group flex items-center gap-5 rounded-2xl border border-border/60 bg-background p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-20px_rgba(15,23,42,0.35)] sm:col-span-2"
+          >
+            <div
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+              style={{ backgroundColor: "#25D366" }}
+            >
+              <WhatsAppIcon className="h-5 w-5" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                WhatsApp
+              </div>
+              <div className="mt-1 font-medium text-foreground group-hover:text-accent">
+                {WHATSAPP_NUMBER_DISPLAY}
+              </div>
+            </div>
+            <span
+              className="hidden sm:inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-soft transition-transform group-hover:scale-[1.03]"
+              style={{ backgroundColor: "#25D366" }}
+            >
+              <WhatsAppIcon className="h-3.5 w-3.5" />
+              Στείλτε μήνυμα
+            </span>
+          </a>
         </div>
+
       </div>
     </section>
   );
@@ -2076,5 +2137,72 @@ function Footer() {
     </footer>
   );
 }
+
+/* ---------- Floating WhatsApp (mobile) ---------- */
+
+function FloatingWhatsApp() {
+  const [visible, setVisible] = useState(false);
+  const [formFocused, setFormFocused] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const isFormField = (el: Element | null) => {
+      if (!el) return false;
+      const tag = el.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
+      if ((el as HTMLElement).isContentEditable) return true;
+      return !!el.closest?.("#booking, #contact, form");
+    };
+    const onFocusIn = () => {
+      const el = document.activeElement;
+      if (
+        el &&
+        (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT")
+      ) {
+        setFormFocused(isFormField(el));
+      }
+    };
+    const onFocusOut = () => setFormFocused(false);
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("focusout", onFocusOut);
+    };
+  }, []);
+
+  useEffect(() => {
+    const check = () => setMenuOpen(document.body.classList.contains("menu-open"));
+    check();
+    const mo = new MutationObserver(check);
+    mo.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+
+  const hidden = !visible || menuOpen || formFocused;
+
+  return (
+    <a
+      href={WHATSAPP_LINK}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="WhatsApp"
+      className={`md:hidden fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_16px_36px_-12px_rgba(37,211,102,0.75)] transition-all duration-300 active:scale-90 ${
+        hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
+      }`}
+      style={{ backgroundColor: "#25D366" }}
+    >
+      <WhatsAppIcon className="h-7 w-7" />
+    </a>
+  );
+}
+
 
 
