@@ -159,6 +159,8 @@ const el = {
     clearDates: "Εκκαθάριση ημερομηνιών",
     selected: "Επιλεγμένες",
     unavailable: "Μη διαθέσιμες",
+    infoCardMinNights: "Ελάχιστη διαμονή: 7 διανυκτερεύσεις",
+    infoCardSeason: "Η βίλα είναι διαθέσιμη από 20 Απριλίου έως 20 Οκτωβρίου.",
     arrival: "Άφιξη",
     departure: "Αναχώρηση",
     nights: "Διανυκτερεύσεις",
