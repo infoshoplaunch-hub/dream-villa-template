@@ -3,6 +3,7 @@ import { render } from 'react-email'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
+import { computeBreakdownFromISO } from '@/lib/pricing'
 
 const SITE_NAME = 'Ekaterini VIP Villa'
 const SENDER_DOMAIN = 'notify.ekaterinivipvila.gr'
