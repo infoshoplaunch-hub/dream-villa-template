@@ -13,6 +13,8 @@ import {
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
 
+interface PriceGroup { nights: number; rate: number; subtotal: number }
+
 interface Props {
   guestName?: string
   email?: string
@@ -24,7 +26,14 @@ interface Props {
   children?: number
   message?: string
   adminUrl?: string
+  priceGroups?: PriceGroup[]
+  subtotal?: number
+  discount?: number
+  promoActive?: boolean
+  total?: number
 }
+
+const eur = (n: number) => `€${new Intl.NumberFormat('el-GR', { maximumFractionDigits: 0 }).format(n)}`
 
 const Email = ({
   guestName = '—',
