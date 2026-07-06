@@ -157,3 +157,7 @@ const msgText = { fontSize: '14px', color: '#2a2a2a', margin: 0, whiteSpace: 'pr
 const btn = { backgroundColor: '#c47a3d', color: '#ffffff', padding: '12px 28px', borderRadius: '999px', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }
 const hr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '28px 0 16px' }
 const foot = { fontSize: '12px', color: '#7a7a7a', textAlign: 'center' as const, margin: 0 }
+const innerHr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '10px 0' }
+const totalRow = { fontSize: '15px', margin: '10px 0 0', color: '#1a1a1a', fontWeight: 700 }
+const totalValue = { color: '#c47a3d', fontWeight: 700, fontSize: '16px' }
+const promoFoot = { fontSize: '12px', color: '#7a5b3a', margin: '10px 0 0', fontStyle: 'italic' as const }
