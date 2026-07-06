@@ -620,7 +620,7 @@ function BookingBar() {
   const value = "mt-0.5 text-sm font-semibold text-foreground truncate";
 
   return (
-    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl rounded-3xl border border-white/60 bg-white shadow-[0_40px_90px_-20px_rgba(15,23,42,0.75)] backdrop-blur-xl">
+    <div id="booking-bar" className="mx-auto w-[calc(100%-32px)] max-w-[420px] md:w-full md:max-w-5xl bg-white backdrop-blur-xl" style={{ borderRadius: "28px", border: "1px solid #F1F1F1", boxShadow: "0 30px 80px -30px rgba(15,23,42,0.25), 0 10px 30px -15px rgba(15,23,42,0.12)" }}>
       <div className="grid grid-cols-1 divide-y divide-border/60 md:grid-cols-[1fr_1fr_1fr_auto] md:divide-x md:divide-y-0">
         {/* Check-in */}
         <Popover open={openCal === "in"} onOpenChange={(o) => setOpenCal(o ? "in" : null)}>
