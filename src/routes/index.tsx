@@ -1512,7 +1512,7 @@ function AvailabilitySection() {
                     />
                     <span className="text-foreground/70">
                       {hasRange
-                        ? nights >= 3
+                        ? nights >= 7
                           ? t.availability.readyToBook
                           : t.availability.minNights
                         : t.availability.pickToContinue}
