@@ -439,7 +439,7 @@ function Hero() {
       {/* Bottom fade to blend into next section */}
       <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-background via-black/70 to-transparent pointer-events-none" />
 
-      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-80 pt-32 md:justify-center md:pb-56 md:pt-24">
+      <div className="container-villa relative z-10 flex min-h-[100svh] flex-col justify-end pb-[22rem] pt-32 md:justify-center md:pb-56 md:pt-24">
         <div className="max-w-4xl text-white">
           <h1
             className="hero-fade-up mt-4 md:mt-6 font-serif text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[96px] drop-shadow-[0_4px_30px_rgba(0,0,0,0.45)]"
@@ -461,7 +461,7 @@ function Hero() {
             {t.hero.subtitle}
           </p>
 
-          <div className="mt-6 md:mt-10 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
+          <div className="mt-6 md:mt-10 mb-8 md:mb-0 flex flex-col gap-3 md:flex-row md:flex-wrap md:gap-4">
             <a
               href="#booking-bar"
               className="btn-lux hero-fade-up inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 md:w-auto md:border-transparent md:bg-accent md:py-4 md:text-accent-foreground md:shadow-[0_18px_40px_-16px_rgba(214,120,50,0.75)] md:hover:bg-accent/90"
@@ -488,7 +488,7 @@ function Hero() {
 
       {/* Premium booking search bar with glassmorphism */}
       <div
-        className="absolute inset-x-0 bottom-8 z-10 md:bottom-10 hero-fade-up"
+        className="absolute inset-x-0 bottom-4 z-10 md:bottom-10 hero-fade-up"
         style={{ animationDelay: "1s" }}
       >
         <div className="container-villa">
