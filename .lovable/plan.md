@@ -1,42 +1,18 @@
-# Αυτόματα email για αιτήματα κράτησης
+## Fix: Αναγνωσιμότητα κειμένου κάτω από τη μπάρα κρατήσεων στο Hero
 
-## Τι λείπει σήμερα
+### Πρόβλημα
+Το κείμενο με τους κανόνες κράτησης (ελάχιστες διανυκτερεύσεις, διαθεσιμότητα) κάτω από τη μπάρα αναζήτησης στο Hero είναι δυσανάγνωστο λόγω χαμηλής αντίθεσης με το σκούρο φόντο. Χρησιμοποιεί `text-foreground/70` και `text-foreground/40`, τα οποία δεν έχουν επαρκή αντίθεση πάνω στη σκούρα gradient περιοχή του Hero.
 
-Η φόρμα στο `/booking` ανοίγει απλώς `mailto:` — κανένα αίτημα δεν αποθηκεύεται, κανένα email δεν φεύγει αυτόματα. Το email domain `notify.ekaterinivipvila.gr` είναι στημένο, αλλά δεν υπάρχουν templates ούτε endpoints.
+### Λύση
+Αλλαγή του χρώματος κειμένου σε λευκό με κατάλληλη opacity ώστε να ταιριάζει με τα υπόλοιπα στοιχεία του Hero.
 
-## Τι θα φτιάξω
+### Αλλαγές
+1. **src/routes/index.tsx** — Ενημέρωση των Tailwind classes στο info row κάτω από το `<BookingBar />`:
+   - `text-foreground/70` → `text-white/85` (στοιχεία με εικονίδια)
+   - `text-foreground/40` → `text-white/50` (διαχωριστικό •)
+   - Προαιρετικά: `text-accent` στα εικονίδια διατηρείται ως έχει.
 
-### 1. Email templates (React Email, EL/EN, branded)
-- `booking-request-owner` → σε εσάς (`info@katerinavipvilla.gr`)
-  - Θέμα: «Νέο αίτημα κράτησης — [όνομα], [check-in] → [check-out]»
-  - Περιεχόμενο: πλήρη στοιχεία επισκέπτη (όνομα, email, τηλέφωνο), ημερομηνίες, διανυκτερεύσεις, ενήλικες/παιδιά, μήνυμα, κουμπί προς `/admin`
-- `booking-request-guest` → στον επισκέπτη
-  - Θέμα: «Λάβαμε το αίτημα κράτησής σας — Ekaterini VIP Villa»
-  - Περιεχόμενο: ευχαριστίες, σύνοψη αιτήματος, ξεκάθαρη σημείωση ότι είναι **αίτημα** και θα επιβεβαιωθεί μέσω email ή τηλεφώνου, στοιχεία επικοινωνίας
-  - Γλώσσα (EL/EN) ανάλογα με την τρέχουσα γλώσσα του site
-
-### 2. Public server route `/api/public/booking-request` (POST)
-- Zod validation (όνομα, email, τηλέφωνο, ημερομηνίες, άτομα, μήνυμα)
-- Έλεγχος διαθεσιμότητας έναντι `blocked_dates` και υπάρχουσων `confirmed` κρατήσεων — αν κάποια ημερομηνία δεν είναι διαθέσιμη → 409 error
-- Insert στον πίνακα `bookings` με status `pending`
-- Ενεργοποίηση των 2 email μέσω της υπάρχουσας email queue
-
-### 3. Ενημέρωση της φόρμας `/booking`
-- Το submit καλεί το νέο endpoint αντί για `mailto:`
-- Loading state στο κουμπί
-- Error handling για μη διαθέσιμες ημερομηνίες («Οι ημερομηνίες δεν είναι πια διαθέσιμες»)
-- Success state όπως ήδη υπάρχει
-
-### 4. Scaffold email send infrastructure
-- Κλήση του transactional email scaffold (δημιουργεί `/lovable/email/transactional/send` route + templates registry)
-- Εγγραφή των 2 templates
-- Ο owner alerting γίνεται μέσω δεύτερης εσωτερικής κλήσης στο ίδιο endpoint με service role — δεν εκτίθεται το `send` route σε public καλέσεις χωρίς auth
-
-## Τι ΔΕΝ αλλάζει
-- Design, χρώματα, layout, branding
-- Admin panel & flow επιβεβαίωσης (παραμένει χειροκίνητο)
-- Booking widget, calendar, blocked dates λογική
-- RLS policies του `bookings`
-
-## Αποτέλεσμα
-Επισκέπτης υποβάλλει αίτημα → αποθηκεύεται ως `pending` → εσείς λαμβάνετε email στο `info@katerinavipvilla.gr` → ο επισκέπτης λαμβάνει email επιβεβαίωσης λήψης → επιβεβαιώνετε χειροκίνητα από το `/admin`.
+### Επαλήθευση
+- Το κείμενο θα είναι ευανάγνωστο στο σκούρο φόντο του Hero.
+- Η αισθητική θα παραμείνει luxury και συνεπής με το υπόλοιπο design.
+- Δεν επηρεάζεται η λειτουργικότητα κρατήσεων.

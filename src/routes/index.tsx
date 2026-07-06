@@ -486,12 +486,12 @@ function Hero() {
         <div className="container-villa">
           <BookingBar />
           <div className="mt-3 flex flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
-            <div className="flex items-center gap-2 text-xs font-medium text-foreground/70">
+            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
               <Bed className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoMinNights}</span>
             </div>
-            <span className="hidden md:inline text-foreground/40">•</span>
-            <div className="flex items-center gap-2 text-xs font-medium text-foreground/70">
+            <span className="hidden md:inline text-white/50">•</span>
+            <div className="flex items-center gap-2 text-xs font-medium text-white/85">
               <CalendarIcon className="h-4 w-4 text-accent" />
               <span>{t.bookingBar.heroInfoSeason}</span>
             </div>
