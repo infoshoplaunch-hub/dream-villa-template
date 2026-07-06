@@ -20,7 +20,6 @@ import {
   KeyRound as KeyRoundIcon,
   Zap as ZapIcon,
   BadgeCheck as BadgeCheckIcon,
-  Bed,
 } from "lucide-react";
 import { ParkingIcon, WifiIcon, PoolIcon } from "@/components/villa-icons";
 import { useIsMobile } from "@/hooks/use-mobile";
