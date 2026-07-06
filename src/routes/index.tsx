@@ -2025,37 +2025,70 @@ function ContactSection() {
               </div>
             </a>
           ))}
-
-          {/* WhatsApp contact card */}
-          <a
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noreferrer"
-            className="group flex items-center gap-5 rounded-2xl border border-border/60 bg-background p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-20px_rgba(15,23,42,0.35)] sm:col-span-2"
-          >
-            <div
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
-              style={{ backgroundColor: "#25D366" }}
-            >
-              <WhatsAppIcon className="h-5 w-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
-                WhatsApp
-              </div>
-              <div className="mt-1 font-medium text-foreground group-hover:text-accent">
-                {WHATSAPP_NUMBER_DISPLAY}
-              </div>
-            </div>
-            <span
-              className="hidden sm:inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-soft transition-transform group-hover:scale-[1.03]"
-              style={{ backgroundColor: "#25D366" }}
-            >
-              <WhatsAppIcon className="h-3.5 w-3.5" />
-              Στείλτε μήνυμα
-            </span>
-          </a>
         </div>
+
+        {/* Άμεση Επικοινωνία — instant messaging card */}
+        <div className="mx-auto mt-6 max-w-4xl rounded-2xl border border-border/60 bg-background p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.25)] md:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
+            Άμεση Επικοινωνία
+          </div>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            {/* WhatsApp */}
+            <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-[oklch(0.98_0.008_140)] p-5 sm:flex-row sm:items-center">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+                style={{ backgroundColor: "#25D366" }}
+              >
+                <WhatsAppIcon className="h-6 w-6" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                  WhatsApp
+                </div>
+                <div className="mt-1 font-medium text-foreground">
+                  {WHATSAPP_NUMBER_DISPLAY}
+                </div>
+              </div>
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-soft transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                style={{ backgroundColor: "#25D366" }}
+              >
+                <WhatsAppIcon className="h-3.5 w-3.5" />
+                Στείλτε μήνυμα
+              </a>
+            </div>
+
+            {/* Viber */}
+            <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-[oklch(0.98_0.01_290)] p-5 sm:flex-row sm:items-center">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+                style={{ backgroundColor: "#7360F2" }}
+              >
+                <ViberIcon className="h-6 w-6" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                  Viber
+                </div>
+                <div className="mt-1 font-medium text-foreground">
+                  {VIBER_NUMBER_DISPLAY}
+                </div>
+              </div>
+              <a
+                href={VIBER_CONTACT_LINK}
+                className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-soft transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                style={{ backgroundColor: "#7360F2" }}
+              >
+                <ViberIcon className="h-3.5 w-3.5" />
+                Άνοιγμα Viber
+              </a>
+            </div>
+          </div>
+        </div>
+
 
       </div>
     </section>
