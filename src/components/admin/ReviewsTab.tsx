@@ -64,7 +64,7 @@ export function ReviewsTab() {
     queryFn: async (): Promise<ReviewRow[]> => {
       const { data, error } = await supabase
         .from("reviews")
-        .select("id, guest_name, location, rating, comment, status, created_at")
+        .select("id, guest_name, location, email, country, stay_date, title, rating, comment, status, created_at")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as ReviewRow[];
