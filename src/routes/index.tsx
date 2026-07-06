@@ -373,8 +373,8 @@ function Hero() {
         style={{ background: "radial-gradient(closest-side, #EED9BA, transparent)" }}
       />
 
-      <div className="container-villa relative z-10 pt-28 pb-[26rem] md:pt-28 md:pb-64 lg:pt-32 lg:pb-72">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+      <div className="container-villa relative z-10 pt-28 pb-0 lg:pt-32 lg:pb-72">
+        <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
           {/* LEFT — Content */}
           <div className="max-w-xl">
             <div
@@ -390,7 +390,7 @@ function Hero() {
             </div>
 
             <h1
-              className="hero-fade-up mt-5 font-serif font-extrabold leading-[1.02] tracking-tight text-[44px] sm:text-[56px] md:text-[68px] lg:text-[80px]"
+              className="hero-fade-up mt-5 font-serif font-extrabold leading-[1.02] tracking-tight text-[38px] sm:text-[56px] md:text-[68px] lg:text-[80px]"
               style={{ color: "#1F2937", animationDelay: "0.15s" }}
             >
               Ekaterini <span style={{ color: "#D98A45" }}>VIP</span> Villa
@@ -411,13 +411,13 @@ function Hero() {
             </p>
 
             <div
-              className="hero-fade-up mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+              className="hero-fade-up mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
               style={{ animationDelay: "0.55s" }}
             >
               <a
                 href="#booking-bar"
                 data-magnetic
-                className="btn-lux btn-lux-primary inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_14px_34px_-14px_rgba(214,120,50,0.55)] transition-transform hover:-translate-y-0.5"
+                className="btn-lux btn-lux-primary inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_14px_34px_-14px_rgba(214,120,50,0.55)] transition-transform hover:-translate-y-0.5 sm:w-auto"
               >
                 {t.hero.cta1}
                 <ArrowRight className="h-4 w-4" />
@@ -425,11 +425,22 @@ function Hero() {
               <a
                 href="#villa"
                 data-magnetic
-                className="btn-lux btn-lux-secondary inline-flex items-center justify-center gap-2 rounded-full border border-[#1F2937]/15 bg-white px-8 py-3.5 text-sm font-semibold text-[#1F2937] shadow-[0_8px_24px_-16px_rgba(15,23,42,0.25)] transition-transform hover:-translate-y-0.5"
+                className="btn-lux btn-lux-secondary inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#1F2937]/15 bg-white px-8 py-3.5 text-sm font-semibold text-[#1F2937] shadow-[0_8px_24px_-16px_rgba(15,23,42,0.25)] transition-transform hover:-translate-y-0.5 sm:w-auto"
               >
                 {t.hero.cta2}
                 <ArrowRight className="h-4 w-4" />
               </a>
+            </div>
+          </div>
+
+          {/* Mobile villa image */}
+          <div className="hero-fade-up lg:hidden" style={{ animationDelay: "0.65s" }}>
+            <div className="relative aspect-video w-full overflow-hidden rounded-[28px] shadow-[0_24px_60px_-20px_rgba(31,41,55,0.35)]">
+              <img
+                src={heroImg}
+                alt={t.hero.imgAlt}
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
 
@@ -469,7 +480,7 @@ function Hero() {
 
       {/* Floating booking search bar */}
       <div
-        className="absolute inset-x-0 bottom-6 z-20 md:bottom-10 hero-fade-up"
+        className="relative z-20 mt-5 pb-10 lg:absolute lg:inset-x-0 lg:bottom-10 lg:mt-0 lg:pb-0 hero-fade-up"
         style={{ animationDelay: "0.75s" }}
       >
         <div className="container-villa">
