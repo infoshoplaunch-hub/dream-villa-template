@@ -57,6 +57,7 @@ const VIBER_CONTACT_LINK = "viber://chat?number=%2B306940133837";
 const VIBER_NUMBER_DISPLAY = "+30 6940 133 837";
 const WHATSAPP_NUMBER_DISPLAY = "+30 697 157 3490";
 const WHATSAPP_LINK = "https://wa.me/306971573490?text=Hello%20I%20am%20interested%20in%20booking%20Ekaterini%20VIP%20Villa.";
+const FACEBOOK_LINK = "https://www.facebook.com/share/1HurCnSYmv/?mibextid=wwXIfr";
 
 function ViberIcon({ className }: { className?: string }) {
   return (
@@ -2050,7 +2051,7 @@ function ContactSection() {
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
             Άμεση Επικοινωνία
           </div>
-          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* WhatsApp */}
             <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-[oklch(0.98_0.008_140)] p-5 sm:flex-row sm:items-center">
               <div
@@ -2110,6 +2111,40 @@ function ContactSection() {
                 style={{ backgroundColor: "#7360F2" }}
               >
                 Άνοιγμα Viber →
+              </a>
+            </div>
+
+            {/* Facebook */}
+            <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-[oklch(0.98_0.01_250)] p-5 sm:flex-row sm:items-center">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+                style={{ backgroundColor: "#1877F2" }}
+              >
+                <FacebookIcon className="h-6 w-6" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                  Facebook
+                </div>
+                <div
+                  className="mt-1 whitespace-nowrap text-foreground"
+                  style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 600, fontSize: "clamp(16px, 2.2vw, 17px)", letterSpacing: "0.4px" }}
+                >
+                  Ekaterini VIP Villa
+                </div>
+                <div className="mt-1 flex items-center gap-1.5 text-xs text-foreground/60">
+                  <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#1877F2" }} />
+                  Online
+                </div>
+              </div>
+              <a
+                href={FACEBOOK_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-soft transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                style={{ backgroundColor: "#1877F2" }}
+              >
+                Στείλτε μήνυμα →
               </a>
             </div>
           </div>
