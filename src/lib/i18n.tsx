@@ -386,6 +386,9 @@ const en: typeof el = {
     errSeason: "The villa is available from April 20 to October 20.",
     heroInfoMinNights: "Minimum stay: 7 nights",
     heroInfoSeason: "Availability: 20 April – 20 October",
+    nightSingular: "night",
+    nightPlural: "nights",
+    estimatedTotal: "Estimated total",
   },
   villa: {
     eyebrow: "The Villa",
