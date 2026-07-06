@@ -75,6 +75,8 @@ function BookingPage() {
   const ci = check_in ? parseISO(check_in) : null;
   const co = check_out ? parseISO(check_out) : null;
   const nights = ci && co ? differenceInCalendarDays(co, ci) : 0;
+  const breakdown = ci && co && nights >= 1 ? computeBreakdown(ci, co) : null;
+  const priceLocale = lang === "el" ? "el-GR" : "en-GB";
 
   const onChange = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
