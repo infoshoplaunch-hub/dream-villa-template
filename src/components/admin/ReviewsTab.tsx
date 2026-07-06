@@ -208,8 +208,11 @@ function ReviewCard({
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <div className="font-semibold text-foreground">{row.guest_name}</div>
-            {row.location && (
-              <span className="text-xs text-foreground/60">· {row.location}</span>
+            {(row.country || row.location) && (
+              <span className="text-xs text-foreground/60">· {row.country ?? row.location}</span>
+            )}
+            {row.stay_date && (
+              <span className="text-xs text-foreground/60">· {row.stay_date}</span>
             )}
             <span
               className={`inline-flex rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${meta.className}`}
@@ -217,6 +220,9 @@ function ReviewCard({
               {meta.label}
             </span>
           </div>
+          {row.email && (
+            <div className="mt-0.5 text-[11px] text-foreground/50">{row.email}</div>
+          )}
           <div className="mt-1.5 flex items-center gap-1 text-amber-500">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -230,6 +236,9 @@ function ReviewCard({
               {format(parseISO(row.created_at), "d MMM yyyy", { locale: el })}
             </span>
           </div>
+          {row.title && (
+            <p className="mt-2 text-sm font-semibold text-foreground">{row.title}</p>
+          )}
           <p className="mt-2 whitespace-pre-wrap text-sm text-foreground/80">{row.comment}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2 md:justify-end">
