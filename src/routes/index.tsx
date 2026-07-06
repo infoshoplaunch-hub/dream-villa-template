@@ -2225,18 +2225,30 @@ function FloatingWhatsApp() {
   const hidden = !visible || menuOpen || formFocused;
 
   return (
-    <a
-      href={WHATSAPP_LINK}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="WhatsApp"
-      className={`md:hidden fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_16px_36px_-12px_rgba(37,211,102,0.75)] transition-all duration-300 active:scale-90 ${
+    <div
+      className={`md:hidden fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 transition-all duration-300 ${
         hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
       }`}
-      style={{ backgroundColor: "#25D366" }}
     >
-      <WhatsAppIcon className="h-7 w-7" />
-    </a>
+      <a
+        href={WHATSAPP_LINK}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="WhatsApp"
+        className="flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_16px_36px_-12px_rgba(37,211,102,0.75)] transition-transform active:scale-90"
+        style={{ backgroundColor: "#25D366" }}
+      >
+        <WhatsAppIcon className="h-7 w-7" />
+      </a>
+      <a
+        href={VIBER_CONTACT_LINK}
+        aria-label="Viber"
+        className="flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_16px_36px_-12px_rgba(115,96,242,0.75)] transition-transform active:scale-90"
+        style={{ backgroundColor: "#7360F2" }}
+      >
+        <ViberIcon className="h-7 w-7" />
+      </a>
+    </div>
   );
 }
 
