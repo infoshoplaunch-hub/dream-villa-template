@@ -546,6 +546,16 @@ function BookingBar() {
   const fmt = (d?: Date) =>
     d ? format(d, "EEE d MMM", { locale: dateLocale }) : t.bookingBar.pickDate;
 
+  const heroBreakdown = (() => {
+    if (!checkIn || !checkOut) return null;
+    if (isOutOfSeason(checkIn) || isOutOfSeason(checkOut)) return null;
+    const n = Math.round((checkOut.getTime() - checkIn.getTime()) / 86400000);
+    if (n < 7) return null;
+    if (blockedDates.some((b) => b >= checkIn && b < checkOut)) return null;
+    return computeBreakdown(checkIn, checkOut);
+  })();
+  const priceLocaleHero = lang === "el" ? "el-GR" : "en-GB";
+
   const bump = (
     setter: React.Dispatch<React.SetStateAction<number>>,
     current: number,
@@ -711,6 +721,26 @@ function BookingBar() {
           </button>
         </div>
       </div>
+      {heroBreakdown && (
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-t border-border/50 px-5 py-3 text-[13px] md:px-6">
+          <span className="text-foreground/60">
+            {heroBreakdown.nights} {heroBreakdown.nights === 1 ? t.bookingBar.nightSingular : t.bookingBar.nightPlural}
+            {heroBreakdown.promoActive && heroBreakdown.discount > 0 && (
+              <span className="ml-2 text-[11px] font-semibold uppercase tracking-wider text-[#C86B4A]">
+                −10%
+              </span>
+            )}
+          </span>
+          <span className="inline-flex items-baseline gap-2">
+            <span className="text-[11px] uppercase tracking-[0.12em] text-foreground/50">
+              {t.bookingBar.estimatedTotal}
+            </span>
+            <span className="font-serif text-lg font-semibold text-[#C86B4A]">
+              {formatEUR(heroBreakdown.total, priceLocaleHero)}
+            </span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }

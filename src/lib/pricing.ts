@@ -59,6 +59,18 @@ export function computeBreakdown(from: Date, to: Date, now: Date = new Date()): 
   return { nights: totalNights, groups, subtotal, discount, total, promoActive };
 }
 
+export function computeBreakdownFromISO(
+  checkInISO: string,
+  checkOutISO: string,
+  now: Date = new Date(),
+): PriceBreakdown {
+  return computeBreakdown(
+    new Date(checkInISO + "T00:00:00"),
+    new Date(checkOutISO + "T00:00:00"),
+    now,
+  );
+}
+
 export function formatEUR(n: number, locale = "el-GR"): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",

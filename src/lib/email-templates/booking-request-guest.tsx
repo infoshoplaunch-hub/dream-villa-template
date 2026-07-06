@@ -12,6 +12,8 @@ import {
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
 
+interface PriceGroup { nights: number; rate: number; subtotal: number }
+
 interface Props {
   lang?: 'el' | 'en'
   guestName?: string
@@ -20,7 +22,14 @@ interface Props {
   nights?: number
   adults?: number
   children?: number
+  priceGroups?: PriceGroup[]
+  subtotal?: number
+  discount?: number
+  promoActive?: boolean
+  total?: number
 }
+
+const eur = (n: number) => `€${new Intl.NumberFormat('el-GR', { maximumFractionDigits: 0 }).format(n)}`
 
 const copy = {
   el: {
@@ -36,6 +45,12 @@ const copy = {
     nights: 'Διανυκτερεύσεις',
     adults: 'Ενήλικες',
     children: 'Παιδιά',
+    priceTitle: 'Ανάλυση τιμής',
+    perNight: 'ανά διανυκτέρευση',
+    subtotal: 'Υποσύνολο',
+    discount: 'Προωθητική έκπτωση (10%)',
+    total: 'Τελικό εκτιμώμενο σύνολο',
+    promoFoot: 'Έκπτωση 10% για κρατήσεις έως 31/12/2026.',
     contact: 'Για οτιδήποτε χρειάζεστε: info@katerinavipvilla.gr',
     signoff: 'Με εκτίμηση,\nEkaterini VIP Villa',
     heading: 'Λάβαμε το αίτημά σας',
@@ -53,6 +68,12 @@ const copy = {
     nights: 'Nights',
     adults: 'Adults',
     children: 'Children',
+    priceTitle: 'Price breakdown',
+    perNight: 'per night',
+    subtotal: 'Subtotal',
+    discount: 'Promotional discount (10%)',
+    total: 'Estimated final total',
+    promoFoot: '10% promotional discount applied for bookings made until 31/12/2026.',
     contact: 'For anything you need: info@katerinavipvilla.gr',
     signoff: 'Warm regards,\nEkaterini VIP Villa',
     heading: 'We received your request',
@@ -67,6 +88,11 @@ const Email = ({
   nights = 0,
   adults = 0,
   children: kids = 0,
+  priceGroups = [],
+  subtotal = 0,
+  discount = 0,
+  promoActive = false,
+  total = 0,
 }: Props) => {
   const t = copy[lang]
   return (
@@ -92,6 +118,27 @@ const Email = ({
             <Row label={t.adults} value={String(adults)} />
             <Row label={t.children} value={String(kids)} />
           </Section>
+
+          {priceGroups.length > 0 ? (
+            <Section style={card}>
+              <Heading as="h3" style={h3}>{t.priceTitle}</Heading>
+              {priceGroups.map((g, i) => (
+                <Row key={i} label={`${g.nights} × ${eur(g.rate)} ${t.perNight}`} value={eur(g.subtotal)} />
+              ))}
+              <Hr style={innerHr} />
+              <Row label={t.subtotal} value={eur(subtotal)} />
+              {promoActive && discount > 0 ? (
+                <Row label={t.discount} value={`−${eur(discount)}`} />
+              ) : null}
+              <Text style={totalRow}>
+                <span style={rowLabel}>{t.total}:</span>{' '}
+                <span style={totalValue}>{eur(total)}</span>
+              </Text>
+              {promoActive ? (
+                <Text style={promoFoot}>{t.promoFoot}</Text>
+              ) : null}
+            </Section>
+          ) : null}
 
           <Text style={p}>{t.contact}</Text>
           <Hr style={hr} />
@@ -141,3 +188,7 @@ const rowLabel = { color: '#6a6a6a', fontWeight: 500 }
 const rowValue = { color: '#1a1a1a', fontWeight: 600 }
 const hr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '24px 0 16px' }
 const sign = { fontSize: '13px', color: '#6a6a6a', margin: 0, whiteSpace: 'pre-line' as const }
+const innerHr = { border: 'none', borderTop: '1px solid #ece3d4', margin: '10px 0' }
+const totalRow = { fontSize: '15px', margin: '10px 0 0', color: '#1a1a1a', fontWeight: 700 }
+const totalValue = { color: '#c47a3d', fontWeight: 700, fontSize: '16px' }
+const promoFoot = { fontSize: '12px', color: '#7a5b3a', margin: '10px 0 0', fontStyle: 'italic' as const }
