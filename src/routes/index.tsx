@@ -533,9 +533,9 @@ function BookingBar() {
   const blockedQuery = useQuery({
     queryKey: ["blocked_dates_public"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("blocked_dates").select("date");
+      const { data, error } = await supabase.from("public_blocked_dates").select("date");
       if (error) throw error;
-      return (data ?? []).map((r) => parseISO(r.date));
+      return (data ?? []).filter((r): r is { date: string } => !!r.date).map((r) => parseISO(r.date));
     },
     staleTime: 60_000,
   });
@@ -1281,9 +1281,9 @@ function AvailabilitySection() {
   const blockedQuery = useQuery({
     queryKey: ["blocked_dates_public"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("blocked_dates").select("date");
+      const { data, error } = await supabase.from("public_blocked_dates").select("date");
       if (error) throw error;
-      return (data ?? []).map((r) => parseISO(r.date));
+      return (data ?? []).filter((r): r is { date: string } => !!r.date).map((r) => parseISO(r.date));
     },
     staleTime: 60_000,
   });
@@ -1733,9 +1733,8 @@ function Reviews() {
     queryKey: ["reviews_public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("reviews")
+        .from("public_reviews")
         .select("id, guest_name, location, rating, comment")
-        .eq("status", "approved")
         .order("created_at", { ascending: false })
         .limit(8);
       if (error) throw error;
@@ -1747,9 +1746,9 @@ function Reviews() {
   const useDb = approved.length > 0;
   const items = useDb
     ? approved.map((r) => ({
-        text: r.comment,
-        source: r.location ? `${r.guest_name} · ${r.location}` : r.guest_name,
-        rating: r.rating,
+        text: r.comment ?? "",
+        source: r.location ? `${r.guest_name} · ${r.location}` : (r.guest_name ?? ""),
+        rating: r.rating ?? 5,
       }))
     : t.reviews.items.map((r) => ({ text: r.text, source: r.source, rating: 5 }));
   return (

@@ -286,7 +286,54 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_blocked_dates: {
+        Row: {
+          date: string | null
+        }
+        Insert: {
+          date?: string | null
+        }
+        Update: {
+          date?: string | null
+        }
+        Relationships: []
+      }
+      public_reviews: {
+        Row: {
+          comment: string | null
+          country: string | null
+          created_at: string | null
+          guest_name: string | null
+          id: string | null
+          location: string | null
+          rating: number | null
+          stay_date: string | null
+          title: string | null
+        }
+        Insert: {
+          comment?: string | null
+          country?: string | null
+          created_at?: string | null
+          guest_name?: string | null
+          id?: string | null
+          location?: string | null
+          rating?: number | null
+          stay_date?: string | null
+          title?: string | null
+        }
+        Update: {
+          comment?: string | null
+          country?: string | null
+          created_at?: string | null
+          guest_name?: string | null
+          id?: string | null
+          location?: string | null
+          rating?: number | null
+          stay_date?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       delete_email: {
