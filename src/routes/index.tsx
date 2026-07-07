@@ -1746,9 +1746,9 @@ function Reviews() {
   const useDb = approved.length > 0;
   const items = useDb
     ? approved.map((r) => ({
-        text: r.comment,
-        source: r.location ? `${r.guest_name} · ${r.location}` : r.guest_name,
-        rating: r.rating,
+        text: r.comment ?? "",
+        source: r.location ? `${r.guest_name} · ${r.location}` : (r.guest_name ?? ""),
+        rating: r.rating ?? 5,
       }))
     : t.reviews.items.map((r) => ({ text: r.text, source: r.source, rating: 5 }));
   return (
