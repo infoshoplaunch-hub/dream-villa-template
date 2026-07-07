@@ -1733,9 +1733,8 @@ function Reviews() {
     queryKey: ["reviews_public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("reviews")
+        .from("public_reviews")
         .select("id, guest_name, location, rating, comment")
-        .eq("status", "approved")
         .order("created_at", { ascending: false })
         .limit(8);
       if (error) throw error;
