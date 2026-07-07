@@ -1281,9 +1281,9 @@ function AvailabilitySection() {
   const blockedQuery = useQuery({
     queryKey: ["blocked_dates_public"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("blocked_dates").select("date");
+      const { data, error } = await supabase.from("public_blocked_dates").select("date");
       if (error) throw error;
-      return (data ?? []).map((r) => parseISO(r.date));
+      return (data ?? []).filter((r): r is { date: string } => !!r.date).map((r) => parseISO(r.date));
     },
     staleTime: 60_000,
   });
