@@ -59,6 +59,18 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
+        // Only admins may trigger arbitrary transactional emails. Without this
+        // check, any self-registered user could send templated emails to
+        // arbitrary recipients from the site's verified sending domain.
+        const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
+          _user_id: user.id,
+          _role: 'admin',
+        })
+
+        if (roleError || !isAdmin) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
         // Parse request body
         let templateName: string
         let recipientEmail: string
