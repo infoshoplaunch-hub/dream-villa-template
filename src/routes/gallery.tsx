@@ -21,10 +21,10 @@ export const Route = createFileRoute("/gallery")({
         content: "Φωτογραφίες από τη βίλα, τους χώρους και τη θέα.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://dream-villa-template.lovable.app/gallery" },
+      { property: "og:url", content: "https://ekaterinivipvila.gr/gallery" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/gallery" }],
+    links: [{ rel: "canonical", href: "https://ekaterinivipvila.gr/gallery" }],
   }),
   component: GalleryPage,
 });
