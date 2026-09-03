@@ -86,9 +86,9 @@ function FacebookIcon({ className }: { className?: string }) {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { property: "og:url", content: "https://dream-villa-template.lovable.app/" },
+      { property: "og:url", content: "https://ekaterinivipvila.gr/" },
     ],
-    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://ekaterinivipvila.gr/" }],
   }),
   component: Landing,
 });

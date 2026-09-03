@@ -46,10 +46,10 @@ export const Route = createFileRoute("/booking")({
       { name: "description", content: "Ολοκληρώστε το αίτημα κράτησής σας στην Ekaterini VIP Villa." },
       { property: "og:title", content: "Κράτηση — Ekaterini VIP Villa" },
       { property: "og:description", content: "Ολοκληρώστε το αίτημα κράτησής σας στην Ekaterini VIP Villa." },
-      { property: "og:url", content: "https://dream-villa-template.lovable.app/booking" },
+      { property: "og:url", content: "https://ekaterinivipvila.gr/booking" },
       { name: "robots", content: "noindex" },
     ],
-    links: [{ rel: "canonical", href: "https://dream-villa-template.lovable.app/booking" }],
+    links: [{ rel: "canonical", href: "https://ekaterinivipvila.gr/booking" }],
   }),
   component: BookingPage,
 });

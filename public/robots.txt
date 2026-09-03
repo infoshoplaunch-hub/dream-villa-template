@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /auth
 
-Sitemap: https://dream-villa-template.lovable.app/sitemap.xml
+Sitemap: https://ekaterinivipvila.gr/sitemap.xml
